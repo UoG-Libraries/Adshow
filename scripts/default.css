@@ -1,0 +1,194 @@
+/*
+ *
+ * Ver: 0.1
+ * Filename: default.css
+ * Description: Basic styles for Adshow webpages
+ *
+ * Author: Paul Griffiths
+ *
+ * Created 11.07.2013
+ * Last modified: 11.07.2013
+ *
+ */
+
+* {
+	padding: 0;
+	margin: 0;
+}
+body {
+    overflow: hidden;
+	background-color: #000;
+	font-family: ariel,helvetica,sans-serif;
+}
+
+#splashImg {
+	height: 100%;
+	width: 100%;
+	z-index: 999;
+	display: none;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+#header, #content {
+	width: 100%;
+	background-repeat: no-repeat;
+	display: none;
+}
+
+#header {
+	height: 150px;
+}
+
+#content {
+	height: 618px;
+}
+
+#header p {
+	display: none;
+	width: 50%;
+	font-size: 75px;
+	font-weight: bold;
+	color: #FFF;
+	line-height: 150px;
+	margin-left: 50px;
+}
+
+.hidden {
+	display: none;
+}
+
+#textOnlyVisBlock {
+	position: absolute;
+	height: 198px;
+	width: 156px;
+	top: 150px;
+	left: 0px;
+	background-color: rgba(255, 255, 255, 0.3333);
+	z-index: 997;
+}
+
+#textOnly {
+	position: absolute;
+	height: 552px;
+	width: 975px;
+	top: 216px;
+	left: 49px;
+	background-color: rgba(255,255,255,0.3333);
+	z-index:998;
+}
+
+#textOnly p {
+	padding: 20px 0px 0px 182px;
+	font-size: 34px;
+	color: #FFF;
+}
+
+#textOnly p:first-child{
+	padding: 157px 0px 0px 182px;
+	font-size: 48px;
+	color: #F7CB76;
+	font-weight: bold;
+}
+
+#imgOnly {
+
+}
+
+#textLeftVisBlock {
+	position: absolute;
+	height: 99px;
+	width: 33px;
+	top: 0px;
+	left: 0px;
+	background-color: rgba(255, 255, 255, 0.3333);
+	z-index: 997;
+}
+
+#textLeft {
+	position: absolute;
+	height: 552px;
+	width: 584px;
+	top: 216px;
+	left: 0px;
+	background-color: rgba(255,255,255,0.3333);
+	z-index:996;
+}
+
+#textLeft p {
+	padding: 0px 17px 0px 17px;
+	margin-left: 33px;
+	font-size: 34px;
+	color: #FFF;
+}
+
+#textLeft p:first-child {
+	font-size: 40px;
+	line-height: 164px;
+	color: #F7CB76;
+	font-weight: bold;
+}
+
+#textRightVisBlock {
+	position: absolute;
+	height: 99px;
+	width: 33px;
+	top: 0px;
+	left: 52px;
+	background-color: rgba(255, 255, 255, 0.3333);
+	z-index: 998;
+}
+
+#textRight {
+	position: absolute;
+	height: 552px;
+	width: 584px;
+	top: 216px;
+	left: 440px;
+	background-color: rgba(255,255,255,0.3333);
+	z-index:996;
+}
+
+#textRight p {
+	padding: 0px 17px 0px 17px;
+	margin-left: 85px;
+	font-size: 34px;
+	color: #FFF;
+}
+
+#textRight p:first-child {
+	line-height: 164px;
+	font-size: 40px;
+	color: #F7CB76;
+	font-weight: bold;
+}
+
+#subText {
+	margin-left: 80px;
+	list-style: square;
+	color: #FFF;
+	font-size: 30px;
+}
+
+#textRight #subText {
+	margin-left: 132px;
+}
+
+#subText li{
+	margin: 20px 0px 20px 0px;
+}
+
+#imgLeft {
+	position: absolute;
+	top: 150px;
+	left: 52px;
+	z-index:998;
+}
+
+#imgRight {
+	position: absolute;
+	top: 150px;
+	left: 532px;
+	z-index:998;
+}
