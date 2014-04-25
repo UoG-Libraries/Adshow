@@ -22,6 +22,9 @@
 		case '3':
 			include 'oxstallsData.php';
 			break;
+		case '4':
+			include 'suData.php';
+			break;
 	}
 
 	echo json_encode($slideArray[$slide]);
