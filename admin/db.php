@@ -17,8 +17,8 @@ class Database {
     private $host     = "localhost";
     private $dbname   = "adshow";
 
-    private $user     = "ad5h0w_edit";
-    private $pwd      = "w1n3C0rk";
+    private $user     = "";
+    private $pwd      = "";
 
     private $link     = "";
     
