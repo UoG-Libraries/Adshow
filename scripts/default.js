@@ -1,13 +1,13 @@
 /*
  *
- * Ver: 0.1
+ * Ver: 0.2
  * Filename: default.js
  * Description: Basic jquery for Adshow webpages
  *
  * Author: Paul Griffiths
  *
  * Created 11.07.2013
- * Last modified: 11.04.2014
+ * Last modified: 10.03.2015
  *
  */
 
@@ -45,11 +45,11 @@ function initShow() {
 	});
 	// show splash image
 	$('body').append('<img id="splashImg" src="images/splashImg.jpg" />');
-	$('#splashImg').fadeIn(1, function() {
+	$('#splashImg').fadeIn(1000, function() {
 		$('#header').css('background-image','url("' + imgDir + 'templateHeader.png")').fadeIn(3000);
 		$('#content').css('background-image','url("' + imgDir + 'templateContent.png")').fadeIn(3000, function (){
 			// remove splash image and setup page defaults
-			$('#splashImg').fadeOut(1, function() {
+			$('#splashImg').fadeOut(1000, function() {
 				$('#splashImg').remove();
 				$('#title').fadeIn(2000, function() {
 					// run the slideshow
@@ -64,13 +64,18 @@ function initShow() {
 // run the slideshow
 function runShow() {
 	$.ajax({
-		url: "nextSlide.php",
+		url: "nextSlide2.php",
 		type: "POST",
 		data: {screen:screenID, slide:currSlide, playlist:currPlaylist},
 		dataType: "json",
 		success: function(data) {
+			if (data.action && data.action =='reload') {
+				$('.hidden').fadeOut(1000, function() {
+					location.reload();
+				});
+			}
 			// remove any existing content
-			$('.hidden').fadeOut(1, function() {
+			$('.hidden').fadeOut(1000, function() {
 				$(this).remove();
 			});
 			// update defaults
@@ -96,29 +101,29 @@ function showSlide(slideData) {
 			$('body').append('<img id="fullscreen" src="' + imgDir + slideData.content.img + '" class="hidden" width="100%" height="100%" />'); 
 			break;
 		case "2":
-			$('#content').append('<div id="textOnlyVisBlock" class="hidden"></div>');
-			$('#content').append('<div id="textOnly" class="hidden"><p>' + slideData.content.head + '</p>');
-			$('#textOnly').append('<p>' + slideData.content.sub + '</p>');
+			$('#content').append('<div id="textOnlyVisBlockSmall" class="hidden"></div>');
+			$('#content').append('<div id="textOnlyVisBlock" class="hidden"><p>' + slideData.content.head + '</p>');
+			$('#textOnlyVisBlock').append('<p>' + slideData.content.sub + '</p>');
 			break;
 		case "3":
-			$('#content').append('<div id="textLeft" class="hidden"><p>' + slideData.content.head + '</p><ul class="hidden" id="subText"></ul></div>');
+			$('#content').append('<div id="textLeftVisBlock" class="hidden"></div><p id="textLeft" class="hidden">' + slideData.content.head + '</p><ul class="hidden textList" id="textListLeft"></ul>');
 			$.each(slideData.content.sub, function(i, text) {
-				$('#subText').append('<li>' + text + '</li>');
+				$('#textListLeft').append('<li>' + text + '</li>');
 			});
 			$('#content').append('<div id="imgRight" class="hidden"><img src="' + imgDir + slideData.content.img + '" /></div>');
-			$('#textLeft').append('<div id="textLeftVisBlock"></div');
+			$('#content').append('<div id="textLeftVisBlockSmall" class="hidden"></div');
 			break;
 		case "4":
-			$('#content').append('<div id="textRight" class="hidden"><p>' + slideData.content.head + '</p><ul class="hidden" id="subText"></ul></div>');
+			$('#content').append('<div id="textRightVisBlock" class="hidden"></div><p id="textRight" class="hidden">' + slideData.content.head + '</p><ul class="hidden textList" id="textListRight"></ul>');
 			$.each(slideData.content.sub, function(i, item) {
-				$('#subText').append('<li>' + item + '</li>');
+				$('#textListRight').append('<li>' + item + '</li>');
 			});
 			$('#content').append('<div id="imgLeft" class="hidden"><img src="' + imgDir + slideData.content.img + '" /></div>');
-			$('#textRight').append('<div id="textRightVisBlock"></div');
+			$('#content').append('<div id="textRightVisBlockSmall" class="hidden"></div');
 			break;
 	}
 	// show new content
-	$('.hidden').fadeIn(1);
+	$('.hidden').fadeIn(1000);
 }
 
 // Get URL parameters
