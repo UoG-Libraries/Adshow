@@ -64,7 +64,7 @@ function initShow() {
 // run the slideshow
 function runShow() {
 	$.ajax({
-		url: "nextSlide2.php",
+		url: "nextSlide.php",
 		type: "POST",
 		data: {screen:screenID, slide:currSlide, playlist:currPlaylist},
 		dataType: "json",

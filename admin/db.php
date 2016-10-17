@@ -36,6 +36,7 @@ class Database {
 			$this->connect();
 		}
 		$result = mysql_query($query,$this->link);
+		$rows = array();
 		while($row = mysql_fetch_assoc($result)) {
 			$rows[] = $row;
 		}
@@ -64,19 +65,19 @@ class Database {
 
     public function getSummary() {
 
-		$query = "SELECT count(*) FROM Department";
+		$query = "SELECT count(*) FROM department";
 		$result = $this->query($query);
-		$summary["Department"] = mysql_result($result,0);		
+		$summary["Department"] = mysql_result($result,0);
 
-		$query = "SELECT count(*) FROM User";
+		$query = "SELECT count(*) FROM user";
 		$result = $this->query($query);
 		$summary["User"] = mysql_result($result,0);		
 
-		$query = "SELECT count(*) FROM Screen";
+		$query = "SELECT count(*) FROM screen";
 		$result = $this->query($query);
 		$summary["Screen"] = mysql_result($result,0);
 
-		$query = "SELECT count(*) FROM Playlist";
+		$query = "SELECT count(*) FROM playlist";
 		$result = $this->query($query);
 		$summary["Playlist"] = mysql_result($result,0);
 
@@ -84,29 +85,36 @@ class Database {
     }
 
 	public function getDepartments() {
-		$query ="SELECT * FROM Department";
+		$query ="SELECT * FROM department";
+		$rows = $this->select_query($query);
+
+		return $rows;
+	}
+
+	public function getDepartment($id){
+		$query = "SELECT * FROM department WHERE department.ID = " . $id;
 		$rows = $this->select_query($query);
 
 		return $rows;
 	}
 
     public function getScreensList() {
-		$query = "SELECT Screen.ID, Screen.location, Department.department FROM Screen, Department WHERE Screen.departmentIDfk = Department.ID";
+		$query = "SELECT screen.ID, screen.location, department.department FROM screen, department WHERE screen.departmentIDfk = department.ID";
 		$rows = $this->select_query($query);
 
 		return $rows;
     }
 
 	public function getDepartmentsAndOwner () {
-		$query ="SELECT Department.ID as ID, department, sNumber FROM Department LEFT JOIN User ON Department.ID = User.departmentIDfk;";
+		$query ="SELECT department.ID as ID, department, sNumber FROM department LEFT JOIN user ON department.ID = user.departmentIDfk;";
 		$rows = $this->select_query($query);
 
 		return $rows;
 	}
 
 	public function getPlaylists() {
-		$query = "SELECT Playlist.ID as ID, Playlist.name as name, Playlist.active as active, User.sNumber as sNumber FROM Playlist, User
-	WHERE Playlist.createdBy = User.ID";
+		$query = "SELECT playlist.ID as ID, playlist.name as name, playlist.active as active, user.sNumber as sNumber FROM playlist, user
+	WHERE playlist.createdBy = user.ID";
 		$rows = $this->select_query($query);
 
 		return $rows;
@@ -116,31 +124,31 @@ class Database {
     // setter methods
 
 	public function addScreen($location, $department) {
-		$query = "INSERT INTO Screen SET location = '$location', departmentIDfk = '$department'";
+		$query = "INSERT INTO screen SET location = '$location', departmentIDfk = '$department'";
 		$this->query($query);
 	}
 
 	public function deleteScreen($id) {
-		$query = "DELETE FROM Screen where ID = '$id'";
+		$query = "DELETE FROM screen where ID = '$id'";
 		$this->query($query);
 	}
 
 	public function addDepartment($department,$owner) {
-		$query = "INSERT INTO Department SET department = '$department'";
+		$query = "INSERT INTO department SET department = '$department'";
 		$this->query($query);
-		$query = "SELECT ID FROM Department WHERE department = '$department'";
+		$query = "SELECT ID FROM department WHERE department = '$department'";
 		$deptID = $this->query($query);
-		$query = "INSERT INTO User SET sNumber = '$owner', owner = 1, departmentIDfk = '$deptID'";
+		$query = "INSERT INTO user SET sNumber = '$owner', owner = 1, departmentIDfk = '$deptID'";
 		$this->query($query);
 	}
 
 	public function deleteDepartment($id) {
 		$this->query("BEGIN");
-		$query = "DELETE FROM User WHERE departmentIDfk = '$id'";
+		$query = "DELETE FROM user WHERE departmentIDfk = '$id'";
 		$this->query($query);
-		$query = "DELETE FROM Screen WHERE departmentIDfk = '$id'";
+		$query = "DELETE FROM screen WHERE departmentIDfk = '$id'";
 		$this->query($query);
-		$query = "DELETE FROM Department WHERE ID = '$id'";
+		$query = "DELETE FROM department WHERE ID = '$id'";
 		$this->query($query);
 		$this->query("COMMIT");
 

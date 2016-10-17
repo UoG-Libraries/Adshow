@@ -1,7 +1,3 @@
-<?php
-
-  echo '</body>' . "\n\n";
-
-  echo '</html>';
-
-?>
+</div>
+</body>
+</html>
