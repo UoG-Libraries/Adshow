@@ -15,9 +15,9 @@ if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
 $page = 'adshow/admin/addScreen.php';
 
 include 'header.php';
-
 include 'db.php';
 
+$objDB = new Database();
 $departmentList = $objDB->getDepartments();
 
 ?>

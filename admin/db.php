@@ -13,31 +13,32 @@ class Database {
 
   /* private members
    ******************/
+    private $ini;
+	private $link;
 
-    private $host     = "localhost";
-    private $dbname   = "adshow";
 
-    private $user     = "";
-    private $pwd      = "";
+    /* constructor
+    ******************/
+    function __construct()
+    {
+        $this->ini = parse_ini_file('app.ini');
+    }
 
-    private $link     = "";
-    
 
   /* private methods
    ******************/
 
     private function connect() {
-		$this->link = mysql_connect($this->host,$this->user,$this->pwd);
-		@mysql_select_db($this->dbname, $this->link);
+		$this->link = mysqli_connect($this->ini["db_host"],$this->ini["db_user"],$this->ini["db_pwd"],$this->ini["db_name"]);
     }
 
     private function select_query($query) {
 		if (!$this->link) {
 			$this->connect();
 		}
-		$result = mysql_query($query,$this->link);
+		$result = mysqli_query($this->link, $query);
 		$rows = array();
-		while($row = mysql_fetch_assoc($result)) {
+		while($row = mysqli_fetch_assoc($result)) {
 			$rows[] = $row;
 		}
 		return $rows;
@@ -47,7 +48,7 @@ class Database {
 		if (!$this->link) {
 			$this->connect();
 		}
-		return mysql_query($query,$this->link);
+		return mysqli_query($this->link, $query);
     }
 
 
@@ -56,7 +57,7 @@ class Database {
 
     public function __destruct() {
 		if ($this->link != "") {
-			mysql_close($this->link);
+			mysqli_close($this->link);
 		}
     }
 
@@ -67,19 +68,19 @@ class Database {
 
 		$query = "SELECT count(*) FROM department";
 		$result = $this->query($query);
-		$summary["Department"] = mysql_result($result,0);
+		$summary["Department"] = $result->fetch_array()[0];
 
 		$query = "SELECT count(*) FROM user";
 		$result = $this->query($query);
-		$summary["User"] = mysql_result($result,0);		
+		$summary["User"] = $result->fetch_array()[0];
 
 		$query = "SELECT count(*) FROM screen";
 		$result = $this->query($query);
-		$summary["Screen"] = mysql_result($result,0);
+		$summary["Screen"] =$result->fetch_array()[0];
 
 		$query = "SELECT count(*) FROM playlist";
 		$result = $this->query($query);
-		$summary["Playlist"] = mysql_result($result,0);
+		$summary["Playlist"] = $result->fetch_array()[0];
 
 		return $summary;
     }
@@ -118,6 +119,12 @@ class Database {
 		$rows = $this->select_query($query);
 
 		return $rows;
+    }
+
+    public function getScreen($id){
+        $query = "SELECT * FROM adshow.screen WHERE ID = " . $id;
+        $rows = $this->select_query($query);
+        return $rows;
     }
 
 
