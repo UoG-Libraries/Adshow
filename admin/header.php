@@ -18,10 +18,11 @@ $_SESSION["nav"]["callingpage"] = $page;
     <script type="text/javascript" src="scripts/default.js"></script>
     <script src="/js/jquery-1.12.4.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="scripts/default.css"/>
-
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/uog.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--Local-->
+    <link rel="stylesheet" type="text/css" href="scripts/default.css"/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -29,7 +30,6 @@ $_SESSION["nav"]["callingpage"] = $page;
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
     <title>Adshow - Admin Panel</title>
 </head>
 
@@ -92,4 +92,4 @@ $_SESSION["nav"]["callingpage"] = $page;
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-<div class="container">
+<div class="container-fluid">

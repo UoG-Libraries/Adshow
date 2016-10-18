@@ -19,7 +19,7 @@ if (isset($_GET["action"]) && $_GET["action"] == 'del') {
     exit;
 }
 ?>
-    <div id="contentcontainer" class="">
+    <div class="col-md-9">
 
         <?php
 
