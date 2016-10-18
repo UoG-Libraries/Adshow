@@ -1,54 +1,69 @@
 <?php
 
-	// GET variables
-	// action: delete, edit
-	// id: department id
+// GET variables
+// action: delete, edit
+// id: department id
 
-	$page = 'adshow/admin/departments.php';
+$page = 'adshow/admin/departments.php';
 
-	include 'header.php';
-    include 'navigation.php';
-    include 'db.php';
+include 'header.php';
+include 'db.php';
 
-    $objDB = new Database();
+$objDB = new Database();
 
-	// handle delete department request
-	if (isset($_GET["action"]) && $_GET["action"] == 'del') {
-		$objDB->deleteDepartment($_GET["id"]);
-		header("Location: departments.php");
-		exit;
-	}
-
-	echo '<div id="contentcontainer">' . "\n";
-
-	// handle edit department request
-	if (isset($_GET["action"]) && $_GET["action"] == 'edit') {
-		$departmentDetails = $objDB->getDepartment($_GET["id"]);
-	} else {
-
-		// show departments list
-		$departmentsList = $objDB->getDepartmentsAndOwner();
-
-		echo '  <h2>Departments</h2>' . "\n";
-		echo '  <table>' . "\n";
-		echo '    <tr>' . "\n";
-		echo '      <th scope="col">ID</th>' . "\n";
-		echo '      <th scope="col">Department</th>' . "\n";
-		echo '      <th scope="col">Contact</th>' . "\n";
-		echo '      <th scope="col">Actions</th>' . "\n";
-		echo '    </tr>' . "\n";
-		foreach ($departmentsList as $department) {
-			echo '    <tr class="line">' . "\n";
-			echo '      <td>' . $department["ID"] . '</td>' . "\n";
-			echo '      <td>' . $department["department"] . '</td>' . "\n";
-			echo '      <td>' . $department["sNumber"] . '</td>' . "\n";
-			echo '      <td><a href="departments.php?action=edit&amp;id=' . $department["ID"] . '"><img src="images/pencil5.png" title="Edit department details" alt="Edit" /></a><a href="#"><img src="images/song.png" title="View playlists for this department" alt="Playlists" /></a><a href="departments.php?action=del&amp;id=' . $department["ID"] . '"><img src="images/cancel4.png" title="Delete this department" alt="Delete" /></a></td>' . "\n";
-			echo '    </tr>' . "\n";
-		}
-		echo '  </table>' . "\n";
-	}
-	echo '</div>' . "\n";
-
-	include 'footer.php';
+// handle delete department request
+if (isset($_GET["action"]) && $_GET["action"] == 'del') {
+    $objDB->deleteDepartment($_GET["id"]);
+    header("Location: departments.php");
+    exit;
+}
 
 ?>
+    <div id="contentcontainer">
+        <?php
+        // handle edit department request
+        if (isset($_GET["action"]) && $_GET["action"] == 'edit') {
+            $departmentDetails = $objDB->getDepartment($_GET["id"]);
+        } else {
+            // show departments list
+            $departmentsList = $objDB->getDepartmentsAndOwner();
+            ?>
+            <h2>Departments</h2>
+            <table class="table table-striped">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Department</th>
+                    <th scope="col">Contact</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Playlists</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                <?php foreach ($departmentsList as $department) { ?>
+                    <tr class="line">
+                        <td> <?php echo $department["ID"] ?></td>
+                        <td> <?php echo $department["department"] ?></td>
+                        <td> <?php echo $department["sNumber"] ?></td>
+                        <td>
+                            <a href="departments.php?action=edit&amp;id='<?php echo $department[" ID"] ?>">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"
+                                      title="Edit department details"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                <span class="glyphicon glyphicon-th-list" aria-hidden="true"
+                                      title="View playlists for this department"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="departments.php?action=del&amp;id='<?php echo $department[" ID"] ?>">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"
+                                      title="Delete this department"></span>
+                            </a>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </table>
+        <?php } ?>
+    </div>
+<?php include 'footer.php'; ?>

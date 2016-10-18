@@ -1,5 +1,6 @@
 <?php
-
+ini_set('display_errors', 1);
+error_reporting(E_ALL ^ E_NOTICE);
 include 'loginHandler.php';
 
 if (!isset($_SESSION["auth"])) {
@@ -18,8 +19,8 @@ $_SESSION["nav"]["callingpage"] = $page;
     <script type="text/javascript" src="scripts/default.js"></script>
     <script src="/js/jquery-1.12.4.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <link href="/css/uog.css" rel="stylesheet">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/uog.css" rel="stylesheet">
 
     <!--Local-->
 <!--    <link rel="stylesheet" type="text/css" href="scripts/default.css"/>-->

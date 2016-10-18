@@ -21,13 +21,8 @@ if (isset($_GET["action"]) && $_GET["action"] == 'del') {
 
 <?php
 
-// handle edit screen request
-if (isset($_GET["action"]) && $_GET["action"] == 'edit') {
-    // $screenDtetails = $objDB->getScreen($_GET["id"]);
-} else {
-
-    $screensList = $objDB->getScreensList();
-    ?>
+$screensList = $objDB->getScreensList();
+?>
     <h2>Screens</h2>
     <table class="table table-striped">
         <tr>
@@ -44,7 +39,7 @@ if (isset($_GET["action"]) && $_GET["action"] == 'edit') {
                 <td><?php echo $screen["department"] ?></td>
                 <td><?php echo $screen["location"] ?></td>
                 <td class="col-md-1">
-                    <a href="screens.php?action=edit&amp;id='<?php echo $screen["ID"] ?>'">
+                    <a href="editScreen.php?id=<?php echo $screen["ID"] ?>">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"
                                       title="Edit screen details"></span>
                     </a>
@@ -56,7 +51,7 @@ if (isset($_GET["action"]) && $_GET["action"] == 'edit') {
                     </a>
                 </td>
                 <td class="col-md-1">
-                    <a href="screens.php?action=del&amp;id='<?php echo $screen["ID"] ?>'">
+                    <a href="screens.php?action=del&amp;id=<?php echo $screen["ID"] ?>">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"
                                       title="Delete this screen"></span>
                     </a>
@@ -64,7 +59,7 @@ if (isset($_GET["action"]) && $_GET["action"] == 'edit') {
             </tr>
         <?php } ?>
     </table>
-<?php }
+<?php
 include 'footer.php';
 
 ?>

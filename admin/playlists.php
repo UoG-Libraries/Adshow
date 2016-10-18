@@ -1,18 +1,17 @@
 <?php
 
-	// GET variables
-	// action: delete, edit, update
-	// id: screen id
+// GET variables
+// action: delete, edit, update
+// id: screen id
 
-	$page = 'adshow/admin/playlists.php';
+$page = 'adshow/admin/playlists.php';
 
-	include 'header.php';
-    include 'navigation.php';
-    include 'db.php';
+include 'header.php';
+include 'db.php';
 
-    $objDB = new Database();
+$objDB = new Database();
 
-	// handle delete playlist request
+// handle delete playlist request
 /*
 	if ($_GET["action"] == 'del') {
 		$objDB->deleteScreen($_GET["id"]);
@@ -20,42 +19,48 @@
 		exit;
 	}
 */
+?>
+    <div id="contentcontainer">
+<?php
+// handle edit playlist request
+if ($_GET["action"] == 'edit') {
+    // TODO
+} else {
+    // show playlists
+    $playlists = $objDB->getPlaylists();
+    ?>
 
-	echo '<div id="contentcontainer">' . "\n";
+    <h2>Playlists</h2>
+    <table class="table table-striped">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Active</th>
+            <th scope="col">Created by</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+        </tr>
 
-	// handle edit playlist request
-	if ($_GET["action"] == 'edit') {
-		// TODO
-	} else {
-
-		// show playlists
-		$playlists = $objDB->getPlaylists();
-
-		echo '  <h2>Playlists</h2>' . "\n";
-		echo '  <table>' . "\n";
-		echo '    <tr>' . "\n";
-		echo '      <th scope="col">ID</th>' . "\n";
-		echo '      <th scope="col">Name</th>' . "\n";
-		echo '      <th scope="col">Active</th>' . "\n";
-		echo '      <th scope="col">Created by</th>' . "\n";
-		echo '    </tr>' . "\n";
-		foreach ($playlists as $playlist) {
-			echo '    <tr class="line">' . "\n";
-			echo '      <td>' . $playlist["ID"] . '</td>' . "\n";
-			echo '      <td>' . $playlist["name"] . '</td>' . "\n";
-			if ($playlist["active"]) {
-				echo '      <td>Yes</td>' . "\n";
-			} else {
-				echo '      <td>No</td>' . "\n";
-			}
-			echo '      <td>' . $playlist["sNumber"] . '</td>' . "\n";
-			echo '      <td><a href="playlists.php?action=edit&amp;id=' . $playlist["ID"] . '"><img src="images/pencil5.png" title="Edit playlist" alt="Edit" /></a><a href="playlists.php?action=del&amp;id=' . $playlist["ID"] . '"><img src="images/cancel4.png" title="Delete this playlist" alt="Delete" /></a></td>' . "\n";
-			echo '    </tr>' . "\n";
-		}
-		echo '  </table>' . "\n";
-	}
-	echo '</div>' . "\n";
-
-	include 'footer.php';
-
+        <?php foreach ($playlists as $playlist) { ?>
+            <tr class="line">
+                <td><?php echo $playlist["ID"] ?></td>
+                <td><?php echo $playlist["name"] ?></td>
+                <td><?php echo $playlist["active"] ? "Yes" : "No" ?></td>
+                <td><?php echo $playlist["sNumber"] ?></td>
+                <td>
+                    <a href="playlists.php?action=edit&amp;id='<?php $playlist["ID"] ?>'">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Edit playlist"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="playlists.php?action=del&amp;id='<?php $playlist["ID"] ?>'">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true" title="Delete this playlist"></span>
+                    </a>
+                </td>
+            </tr>
+        <?php } ?>
+    </table>
+    </div>
+<?php }
+include 'footer.php';
 ?>

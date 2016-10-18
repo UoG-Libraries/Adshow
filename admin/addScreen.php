@@ -18,7 +18,6 @@ include 'header.php';
 
 include 'db.php';
 
-$objDB = new Database();
 $departmentList = $objDB->getDepartments();
 
 ?>
@@ -29,7 +28,7 @@ $departmentList = $objDB->getDepartments();
         <div class="form-group">
             <label for="department" class="col-sm-2 control-label">Department</label>
             <div class="col-sm-10">
-                <select name="department" id="department" class="form-control"/>
+                <select name="department" id="department" class="form-control">
                 <?php
                 foreach ($departmentList as $department) {
                     if ($department["department"] != "Global") {
@@ -46,7 +45,7 @@ $departmentList = $objDB->getDepartments();
                 <input type="text" name="location" id="location" class="form-control"/>
             </div>
         </div>
-        <div id="buttons">
+        <div>
             <input type="reset" value="Cancel" class="btn btn-primary">
             <input type="submit" value="Add" class="btn btn-primary">
         </div>
@@ -55,5 +54,4 @@ $departmentList = $objDB->getDepartments();
 <?php
 
 include 'footer.php';
-?>
 ?>
