@@ -15,6 +15,7 @@ $_SESSION["nav"]["callingpage"] = $page;
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script type="text/javascript" src="scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="scripts/default.js"></script>
     <script src="/js/jquery-1.12.4.min.js"></script>

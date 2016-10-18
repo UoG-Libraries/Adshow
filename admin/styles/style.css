@@ -1,3 +1,79 @@
 body{
     background: white;
 }
+.nav-controller{
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    #navigation {
+        padding-top: 70px;
+        margin-top: -69px;
+        height: 100%;
+        position: fixed;
+        z-index: 100;
+        width: 80%;
+        left: -65%;
+    }
+
+    .nav-content{
+        z-index: 90;
+        padding-top: 70px;
+        margin-top: -70px;
+        background: white;
+        height: 102%;
+        border-left: lightgray;
+        border-style: double;
+        border-width: 0 1px 0 0;
+        overflow: scroll;
+    }
+    .nav-controller{
+        display: block;
+    }
+
+    .nav-controller span{
+        z-index: 80;
+        border: solid 1px lightgray;
+        padding: 15px 7px;
+        margin-left: -1px;
+        background: white;
+    }
+
+    #navigation.show-nav{
+        animation: moveOut ease-in-out 1s;
+        animation-iteration-count: 1;
+        transform-origin: 50% 50%;
+        animation-fill-mode:forwards; /*when the spec is finished*/
+    }
+    #navigation.hide-nav{
+        animation: moveIn ease-in-out 1s;
+        animation-iteration-count: 1;
+        transform-origin: 50% 50%;
+        animation-fill-mode:forwards; /*when the spec is finished*/
+        /*left: -65%;*/
+    }
+
+}
+
+
+@-webkit-keyframes moveIn {
+    0% { left: 0;}
+    100% {left: -65%;}
+}
+
+/* Standard syntax */
+@keyframes moveIn {
+    0% { left: 0;}
+    100% {left: -65%;}
+}
+
+@-webkit-keyframes moveOut {
+    0% {left: -65%;}
+    100% { left: 0;}
+}
+
+/* Standard syntax */
+@keyframes moveOut {
+    0% {left: -65%;}
+    100% { left: 0;}
+}

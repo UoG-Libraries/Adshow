@@ -161,76 +161,82 @@ class Database {
 
 	}
 
-/*
-    public function getFiledQuestions() {
-      $query = "SELECT questions.* FROM questions,types WHERE questions.typeIDfk=types.id AND types.name!='New' AND types.name!='Testing' ORDER BY date DESC";
-      $rows = $this->select_query($query);
-      return $rows;
+    public function editScreen($location, $department, $id)
+    {
+        $query = "UPDATE screen SET location = '" . $location . "', departmentIDfk =" . $department . " WHERE ID= " . $id;
+        $this->query($query);
     }
 
-    public function getTestingQuestions() {
-      $query = "SELECT questions.* FROM questions,types WHERE questions.typeIDfk=types.id AND types.name='Testing' ORDER BY date DESC";
-      $rows = $this->select_query($query);
-      return $rows;
-    }
+    /*
+        public function getFiledQuestions() {
+          $query = "SELECT questions.* FROM questions,types WHERE questions.typeIDfk=types.id AND types.name!='New' AND types.name!='Testing' ORDER BY date DESC";
+          $rows = $this->select_query($query);
+          return $rows;
+        }
 
-    public function getSubjects() {
-      $query = "SELECT * FROM subjects,email WHERE subjects.emailIDfk=email.id ORDER BY subject";
-      $rows = $this->select_query($query);
-      return $rows;
-    }
+        public function getTestingQuestions() {
+          $query = "SELECT questions.* FROM questions,types WHERE questions.typeIDfk=types.id AND types.name='Testing' ORDER BY date DESC";
+          $rows = $this->select_query($query);
+          return $rows;
+        }
 
-    public function getTypes() {
-      $query = "SELECT * FROM types ORDER BY name";
-      $rows = $this->select_query($query);
-      foreach ($rows as $row) {
-        $types[$row["id"]] = $row["name"];
-      }
-      return $types;
-    }
+        public function getSubjects() {
+          $query = "SELECT * FROM subjects,email WHERE subjects.emailIDfk=email.id ORDER BY subject";
+          $rows = $this->select_query($query);
+          return $rows;
+        }
 
-    public function getTypeSummary() {
-      $query = "SELECT types.name, count(question) as number FROM questions,types WHERE questions.typeIDfk=types.id GROUP BY types.name";
-      $rows = $this->select_query($query);
-      foreach ($rows as $row) {
-        $summary[$row["name"]] = $row["number"];
-      }
-      return $summary;
-    }
+        public function getTypes() {
+          $query = "SELECT * FROM types ORDER BY name";
+          $rows = $this->select_query($query);
+          foreach ($rows as $row) {
+            $types[$row["id"]] = $row["name"];
+          }
+          return $types;
+        }
 
-    public function getEmailList() {
-      $query = "SELECT * FROM email";
-      $rows = $this->select_query($query);
-      return $rows;
-    }
+        public function getTypeSummary() {
+          $query = "SELECT types.name, count(question) as number FROM questions,types WHERE questions.typeIDfk=types.id GROUP BY types.name";
+          $rows = $this->select_query($query);
+          foreach ($rows as $row) {
+            $summary[$row["name"]] = $row["number"];
+          }
+          return $summary;
+        }
 
-    public function getAutocomplete($box,$value) {
-      if ($box == 'cat1') {
-        $box = 'category1';
-      }
-      $value .= '%';
-      $query = "SELECT name FROM $box WHERE name LIKE '$value'";
-      $rows = $this->select_query($query);
-      foreach($rows as $entry) {
-        $entries[] = $entry["name"];
-      }
-      return $entries;
-      //return $query;
-    }
+        public function getEmailList() {
+          $query = "SELECT * FROM email";
+          $rows = $this->select_query($query);
+          return $rows;
+        }
 
-    // setter methods
-    public function catagorise($field,$questionID,$value) {
-      switch ($field) {
-        case 'type' : $query = "UPDATE questions SET typeIDfk = $value WHERE id = $questionID";
-                      break;
-        case 'cat1' : $query = "UPDATE questions SET cat1IDfk = $value WHERE id = $questionID";
-                      break;
-        case 'cat2' :
-                      break;
-      }
-      return $this->query($query);
-    }
-*/
+        public function getAutocomplete($box,$value) {
+          if ($box == 'cat1') {
+            $box = 'category1';
+          }
+          $value .= '%';
+          $query = "SELECT name FROM $box WHERE name LIKE '$value'";
+          $rows = $this->select_query($query);
+          foreach($rows as $entry) {
+            $entries[] = $entry["name"];
+          }
+          return $entries;
+          //return $query;
+        }
+
+        // setter methods
+        public function catagorise($field,$questionID,$value) {
+          switch ($field) {
+            case 'type' : $query = "UPDATE questions SET typeIDfk = $value WHERE id = $questionID";
+                          break;
+            case 'cat1' : $query = "UPDATE questions SET cat1IDfk = $value WHERE id = $questionID";
+                          break;
+            case 'cat2' :
+                          break;
+          }
+          return $this->query($query);
+        }
+    */
 
 }
 

@@ -32,7 +32,7 @@ $screen = $objDB->getScreen($id)[0];
 ?>
     <div>
         <h2>Add screen</h2>
-        <form class="form-horizontal" action="addScreen.php" method="post" enctype="application/x-www-form-urlencoded">
+        <form class="form-horizontal" action="editScreen.php" method="post" enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="formSent" value="yes"/>
             <input type="hidden" name="id" value="<?php echo $id; ?>">
             <div class="form-group">
@@ -64,7 +64,7 @@ $screen = $objDB->getScreen($id)[0];
             </div>
             <div>
                 <a href="screens.php" class="btn btn-primary">Cancel</a>
-                <input type="submit" value="Add" class="btn btn-primary">
+                <input type="submit" value="Save" class="btn btn-primary">
             </div>
         </form>
     </div>

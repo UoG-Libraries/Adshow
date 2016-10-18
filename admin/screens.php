@@ -4,11 +4,7 @@
 // action: delete, edit, update
 // id: screen id
 
-$page = 'adshow/admin/screens.php';
-
-include 'header.php';
 include 'db.php';
-
 $objDB = new Database();
 
 // handle delete screen request
@@ -17,6 +13,11 @@ if (isset($_GET["action"]) && $_GET["action"] == 'del') {
     header("Location: screens.php");
     exit;
 }
+
+$page = 'adshow/admin/screens.php';
+
+include 'header.php';
+
 ?>
 
 <?php
