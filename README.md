@@ -10,5 +10,5 @@ The education sector is traditionally about co-operating, sharing knowledge and 
 ## What
 We run the system on a LAMP stack but if you want something else feel free to experiment and hack.
 
-##
+## How
 Raise and issue and talk about your idea, fork the project to work on the code and submit a pull request.
