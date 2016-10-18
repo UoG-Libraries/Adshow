@@ -3,8 +3,6 @@ include 'header.php';
 
 $page = 'adshow/admin/index.php';
 
-
-include 'navigation.php';
 include 'db.php';
 
 $objDB = new Database();
