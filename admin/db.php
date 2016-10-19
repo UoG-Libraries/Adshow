@@ -130,8 +130,8 @@ class Database {
 
     // setter methods
 
-	public function addScreen($location, $department) {
-		$query = "INSERT INTO screen SET location = '$location', departmentIDfk = '$department'";
+	public function addScreen($location, $department, $orientation) {
+		$query = "INSERT INTO screen SET location = '$location', departmentIDfk = '$department' , orientation = '$orientation'";
 		$this->query($query);
 	}
 
@@ -161,9 +161,9 @@ class Database {
 
 	}
 
-    public function editScreen($location, $department, $id)
+    public function editScreen($location, $department, $orientation, $id)
     {
-        $query = "UPDATE screen SET location = '" . $location . "', departmentIDfk =" . $department . " WHERE ID= " . $id;
+        $query = "UPDATE screen SET location = '" . $location . "', departmentIDfk =" . $department . ", orientation = '$orientation' WHERE ID= " . $id;
         $this->query($query);
     }
 

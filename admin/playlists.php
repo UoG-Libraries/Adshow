@@ -37,8 +37,8 @@ if ($_GET["action"] == 'edit') {
             <th scope="col">Name</th>
             <th scope="col">Active</th>
             <th scope="col">Created by</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
 
         <?php foreach ($playlists as $playlist) { ?>

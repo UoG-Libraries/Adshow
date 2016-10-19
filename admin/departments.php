@@ -34,9 +34,9 @@ if (isset($_GET["action"]) && $_GET["action"] == 'del') {
                     <th scope="col">ID</th>
                     <th scope="col">Department</th>
                     <th scope="col">Contact</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Playlists</th>
-                    <th scope="col">Delete</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
                 <?php foreach ($departmentsList as $department) { ?>
                     <tr class="line">
