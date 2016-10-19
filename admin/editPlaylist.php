@@ -1,33 +1,44 @@
 <?php
+/**
+ * User: Raphael Jenni
+ * Date: 19/10/2016
+ */
+include 'db.php';
+$objDB = new Database();
 
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
 
-    include 'db.php';
 
-    $objDB = new Database();
-    $objDB->addPlaylist($_POST["createdBy"],$_POST["name"], $_POST["active"]);
-    header('Location: playlists.php');
+    //$objDB->addPlaylist($_POST["department"]);
+    print_r($_POST);
+    //header('Location: playlists.php');
     exit;
 
 }
 
-$page = 'adshow/admin/addPLaylist.php';
+$page = 'adshow/admin/editPlaylist.php';
+
+$id = $_GET["id"];
+$playlist = $objDB->getPlaylist($id)[0];
 
 include 'header.php';
 
-print_r($_SESSION);
+
 ?>
     <div>
-        <h2>Add playlist</h2>
+        <h2>Edit playlist</h2>
         <form class="form-horizontal" action="addPlaylist.php" method="post"
               enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="formSent" value="yes"/>
-            <input type="hidden" name="createdBy" value="<?php echo $_SESSION["sNumber"] ?>"/>
+            <input type="hidden" name="id" value="<?php echo $playlist["id"] ?>"/>
+
+            <input type="hidden" name="createdBy" value="<?php echo $_SESSION["details"]["id"] ?>"/>
 
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">Name</label>
                 <div class="col-sm-10">
-                    <input type="text" name="name" id="name" class="form-control"/>
+                    <input type="text" name="name" id="name" class="form-control"
+                           value="<?php echo $playlist["name"] ?>"/>
                 </div>
             </div>
 
@@ -35,8 +46,8 @@ print_r($_SESSION);
                 <label for="active" class="col-sm-2 control-label">Active</label>
                 <div class="col-sm-10">
                     <select name="active" id="active" class="form-control">
-                        <option value="0" selected="selected">No</option>
-                        <option value="1">Yes</option>
+                        <option value="0" <?php echo $playlist["active"] == '0' ? 'selected' : '' ?>>No</option>
+                        <option value="1" <?php echo $playlist["active"] == '1' ? 'selected' : '' ?>>Yes</option>
                     </select>
                 </div>
             </div>

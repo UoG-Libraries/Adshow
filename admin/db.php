@@ -9,12 +9,13 @@
  * description:   class to handle database connection and interaction.
  */
 
-class Database {
+class Database
+{
 
-  /* private members
-   ******************/
+    /* private members
+     ******************/
     private $ini;
-	private $link;
+    private $link;
 
 
     /* constructor
@@ -25,103 +26,123 @@ class Database {
     }
 
 
-  /* private methods
-   ******************/
+    /* private methods
+     ******************/
 
-    private function connect() {
-		$this->link = mysqli_connect($this->ini["db_host"],$this->ini["db_user"],$this->ini["db_pwd"],$this->ini["db_name"]);
+    public function __destruct()
+    {
+        if ($this->link != "") {
+            mysqli_close($this->link);
+        }
     }
 
-    private function select_query($query) {
-		if (!$this->link) {
-			$this->connect();
-		}
-		$result = mysqli_query($this->link, $query);
-		$rows = array();
-		while($row = mysqli_fetch_assoc($result)) {
-			$rows[] = $row;
-		}
-		return $rows;
+    public function getSummary()
+    {
+
+        $query = "SELECT count(*) FROM department";
+        $result = $this->query($query);
+        $summary["Department"] = $result->fetch_array()[0];
+
+        $query = "SELECT count(*) FROM user";
+        $result = $this->query($query);
+        $summary["User"] = $result->fetch_array()[0];
+
+        $query = "SELECT count(*) FROM screen";
+        $result = $this->query($query);
+        $summary["Screen"] = $result->fetch_array()[0];
+
+        $query = "SELECT count(*) FROM playlist";
+        $result = $this->query($query);
+        $summary["Playlist"] = $result->fetch_array()[0];
+
+        return $summary;
     }
 
-    private function query($query) {
-		if (!$this->link) {
-			$this->connect();
-		}
-		return mysqli_query($this->link, $query);
+    private function query($query)
+    {
+        if (!$this->link) {
+            $this->connect();
+        }
+        return mysqli_query($this->link, $query);
     }
 
 
-  /* public methods
-   *****************/
+    /* public methods
+     *****************/
 
-    public function __destruct() {
-		if ($this->link != "") {
-			mysqli_close($this->link);
-		}
+    private function connect()
+    {
+        $this->link = mysqli_connect($this->ini["db_host"], $this->ini["db_user"], $this->ini["db_pwd"], $this->ini["db_name"]);
     }
 
 
     // getter methods
 
-    public function getSummary() {
+    public function getDepartments()
+    {
+        $query = "SELECT * FROM department";
+        $rows = $this->select_query($query);
 
-		$query = "SELECT count(*) FROM department";
-		$result = $this->query($query);
-		$summary["Department"] = $result->fetch_array()[0];
-
-		$query = "SELECT count(*) FROM user";
-		$result = $this->query($query);
-		$summary["User"] = $result->fetch_array()[0];
-
-		$query = "SELECT count(*) FROM screen";
-		$result = $this->query($query);
-		$summary["Screen"] =$result->fetch_array()[0];
-
-		$query = "SELECT count(*) FROM playlist";
-		$result = $this->query($query);
-		$summary["Playlist"] = $result->fetch_array()[0];
-
-		return $summary;
+        return $rows;
     }
 
-	public function getDepartments() {
-		$query ="SELECT * FROM department";
-		$rows = $this->select_query($query);
-
-		return $rows;
-	}
-
-	public function getDepartment($id){
-		$query = "SELECT * FROM department WHERE department.ID = " . $id;
-		$rows = $this->select_query($query);
-
-		return $rows;
-	}
-
-    public function getScreensList() {
-		$query = "SELECT screen.ID, screen.location, department.department FROM screen, department WHERE screen.departmentIDfk = department.ID";
-		$rows = $this->select_query($query);
-
-		return $rows;
+    private function select_query($query)
+    {
+        if (!$this->link) {
+            $this->connect();
+        }
+        $result = mysqli_query($this->link, $query);
+        $rows = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+        return $rows;
     }
 
-	public function getDepartmentsAndOwner () {
-		$query ="SELECT department.ID as ID, department, sNumber FROM department LEFT JOIN user ON department.ID = user.departmentIDfk;";
-		$rows = $this->select_query($query);
+    public function getDepartment($id)
+    {
+        $query = "SELECT * FROM department WHERE department.ID = " . $id;
+        $rows = $this->select_query($query);
 
-		return $rows;
-	}
-
-	public function getPlaylists() {
-		$query = "SELECT playlist.ID as ID, playlist.name as name, playlist.active as active, user.sNumber as sNumber FROM playlist, user
-	WHERE playlist.createdBy = user.ID";
-		$rows = $this->select_query($query);
-
-		return $rows;
+        return $rows;
     }
 
-    public function getScreen($id){
+    public function getScreensList()
+    {
+        $query = "SELECT screen.ID, screen.location, department.department FROM screen, department WHERE screen.departmentIDfk = department.ID";
+        $rows = $this->select_query($query);
+
+        return $rows;
+    }
+
+    public function getDepartmentsAndOwner()
+    {
+        $query = "SELECT department.ID AS ID, department, sNumber FROM department LEFT JOIN user ON department.ID = user.departmentIDfk;";
+        $rows = $this->select_query($query);
+
+        return $rows;
+    }
+
+    public function getPlaylist($id)
+    {
+        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, department.department AS department FROM playlist, department
+	WHERE playlist.departmentIDfk = department.ID AND playlist.ID = " . $id;
+        $rows = $this->select_query($query);
+
+        return $rows;
+    }
+
+    public function getPlaylists()
+    {
+        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, department.department AS department FROM playlist, department
+	WHERE playlist.departmentIDfk = department.ID";
+        $rows = $this->select_query($query);
+
+        return $rows;
+    }
+
+    public function getScreen($id)
+    {
         $query = "SELECT * FROM adshow.screen WHERE ID = " . $id;
         $rows = $this->select_query($query);
         return $rows;
@@ -130,42 +151,56 @@ class Database {
 
     // setter methods
 
-	public function addScreen($location, $department, $orientation) {
-		$query = "INSERT INTO screen SET location = '$location', departmentIDfk = '$department' , orientation = '$orientation'";
-		$this->query($query);
-	}
+    public function addScreen($location, $department, $orientation)
+    {
+        $query = "INSERT INTO screen SET location = '$location', departmentIDfk = '$department' , orientation = '$orientation'";
+        $this->query($query);
+    }
 
-	public function deleteScreen($id) {
-		$query = "DELETE FROM screen where ID = '$id'";
-		$this->query($query);
-	}
+    public function addPlaylist($createdBy, $name, $active)
+    {
+        $createdBy = 1;
+        $query = "INSERT INTO playlist(ID, name, active, createdBy) VALUE (NULL, '" . $name . "', " . $active . " , " . $createdBy . ")";
+        $this->query($query);
+        print_r($query);
+    }
 
-	public function addDepartment($department,$owner) {
-		$query = "INSERT INTO department SET department = '$department'";
-		$this->query($query);
-		$query = "SELECT ID FROM department WHERE department = '$department'";
-		$deptID = $this->query($query);
-		$query = "INSERT INTO user SET sNumber = '$owner', owner = 1, departmentIDfk = '$deptID'";
-		$this->query($query);
-	}
+    public function deleteScreen($id)
+    {
+        $query = "DELETE FROM screen where ID = '$id'";
+        $this->query($query);
+    }
 
-	public function deleteDepartment($id) {
-		$this->query("BEGIN");
-		$query = "DELETE FROM user WHERE departmentIDfk = '$id'";
-		$this->query($query);
-		$query = "DELETE FROM screen WHERE departmentIDfk = '$id'";
-		$this->query($query);
-		$query = "DELETE FROM department WHERE ID = '$id'";
-		$this->query($query);
-		$this->query("COMMIT");
+    public function addDepartment($department, $owner)
+    {
+        $query = "INSERT INTO department SET department = '$department'";
+        $this->query($query);
+        $query = "SELECT ID FROM department WHERE department = '$department'";
+        $deptID = $this->query($query);
+        $query = "INSERT INTO user SET sNumber = '$owner', owner = 1, departmentIDfk = '$deptID'";
+        $this->query($query);
+    }
 
-	}
+
+    public function deleteDepartment($id)
+    {
+        $this->query("BEGIN");
+        $query = "DELETE FROM user WHERE departmentIDfk = '$id'";
+        $this->query($query);
+        $query = "DELETE FROM screen WHERE departmentIDfk = '$id'";
+        $this->query($query);
+        $query = "DELETE FROM department WHERE ID = '$id'";
+        $this->query($query);
+        $this->query("COMMIT");
+
+    }
 
     public function editScreen($location, $department, $orientation, $id)
     {
         $query = "UPDATE screen SET location = '" . $location . "', departmentIDfk =" . $department . ", orientation = '$orientation' WHERE ID= " . $id;
         $this->query($query);
     }
+
 
     /*
         public function getFiledQuestions() {
