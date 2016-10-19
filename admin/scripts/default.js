@@ -1,18 +1,22 @@
 $(document).ready(function () {
 
-    $(window).load(function () {
-        $("body").removeClass("preload");
-    });
-
-    var box = $('#navigation');
+    /*Navigation initialization*/
+    var navigation = $('#navigation');
     var navShown = false;
-    $('#button').on('click', function () {
+    $('#nav-controller').on('click', function () {
         if (navShown) {
-            box.toggleClass('hide-nav');
+            navigation.removeClass('show-nav');
+            navigation.addClass('hide-nav');
             navShown = false;
         } else {
-            box.toggleClass('show-nav');
+            navigation.removeClass('hide-nav');
+            navigation.addClass('show-nav');
             navShown = true;
         }
     });
+
+    /*Bootstrap Popover initialization*/
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
 });

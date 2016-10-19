@@ -24,6 +24,6 @@
         </ul>
     </div>
     <div class="nav-controller">
-        <span class="glyphicon glyphicon-menu-hamburger" id="button" aria-hidden="true"></span>
+        <span class="glyphicon glyphicon-menu-hamburger" id="nav-controller" aria-hidden="true"></span>
     </div>
 </div>

@@ -6,6 +6,7 @@ body{
 }
 
 @media (max-width: 1024px) {
+
     #navigation {
         padding-top: 70px;
         margin-top: -69px;
@@ -16,9 +17,13 @@ body{
         left: -65%;
     }
 
+    .nav{
+        padding-bottom: 25px;
+    }
+
     .nav-content{
         z-index: 90;
-        padding-top: 70px;
+        padding-top: 25px;
         margin-top: -70px;
         background: white;
         height: 102%;
@@ -51,6 +56,10 @@ body{
         transform-origin: 50% 50%;
         animation-fill-mode:forwards; /*when the spec is finished*/
         /*left: -65%;*/
+    }
+
+    .list-group{
+        margin-bottom: 0;
     }
 
 }
