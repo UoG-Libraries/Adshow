@@ -16,7 +16,7 @@
                     playlist</a></li>
             <li><strong><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Editors &amp; Departments</strong></li>
             <li <?php echo ($location == "") ? "class='active'" : '' ?>><a href="#">Show editors</a></li>
-            <li <?php echo ($location == "") ? "class='active'" : '' ?>><a href="#">Add editor</a></li>
+            <li <?php echo ($location == "addEditor.php") ? "class='active'" : '' ?>><a href="addEditor.php">Add editor</a></li>
             <li <?php echo ($location == "departments.php") ? "class='active'" : '' ?>><a href="departments.php">Show
                     departments</a></li>
             <li <?php echo ($location == "addDepartment.php") ? "class='active'" : '' ?>><a href="addDepartment.php">Add
