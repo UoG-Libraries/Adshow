@@ -9,10 +9,8 @@ $objDB = new Database();
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
 
 
-    //$objDB->addPlaylist($_POST["department"]);
-    print_r($_POST);
-    //header('Location: playlists.php');
-    exit;
+    $objDB->editPlaylist($_POST["id"],$_POST["name"], $_POST["active"]);
+    header('Location: playlists.php');
 
 }
 
@@ -27,12 +25,10 @@ include 'header.php';
 ?>
     <div>
         <h2>Edit playlist</h2>
-        <form class="form-horizontal" action="addPlaylist.php" method="post"
+        <form class="form-horizontal" action="editPlaylist.php" method="post"
               enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="formSent" value="yes"/>
-            <input type="hidden" name="id" value="<?php echo $playlist["id"] ?>"/>
-
-            <input type="hidden" name="createdBy" value="<?php echo $_SESSION["details"]["id"] ?>"/>
+            <input type="hidden" name="id" value="<?php echo $playlist["ID"] ?>"/>
 
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">Name</label>
@@ -53,8 +49,8 @@ include 'header.php';
             </div>
 
             <div>
-                <input type="reset" value="Cancel" class="btn btn-primary">
-                <input type="submit" value="Add" class="btn btn-primary">
+                <a href="playlists.php" class="btn btn-primary">Cancel</a>
+                <input type="submit" value="Save" class="btn btn-primary">
             </div>
 
         </form>

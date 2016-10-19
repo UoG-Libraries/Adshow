@@ -5,7 +5,7 @@ if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
     include 'db.php';
 
     $objDB = new Database();
-    $objDB->addPlaylist($_POST["createdBy"],$_POST["name"], $_POST["active"]);
+    $objDB->addPlaylist($_POST["department"],$_POST["name"], $_POST["active"]);
     header('Location: playlists.php');
     exit;
 
@@ -15,14 +15,13 @@ $page = 'adshow/admin/addPLaylist.php';
 
 include 'header.php';
 
-print_r($_SESSION);
 ?>
     <div>
         <h2>Add playlist</h2>
         <form class="form-horizontal" action="addPlaylist.php" method="post"
               enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="formSent" value="yes"/>
-            <input type="hidden" name="createdBy" value="<?php echo $_SESSION["sNumber"] ?>"/>
+            <input type="hidden" name="department" value="<?php echo $_SESSION["department"] ?>"/>
 
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">Name</label>

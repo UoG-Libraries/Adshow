@@ -201,6 +201,12 @@ class Database
         $this->query($query);
     }
 
+    public function editPlaylist($id, $name, $active)
+    {
+        $query = "UPDATE playlist SET name = '" . $name . "', active =" . $active . " WHERE ID = " . $id;
+        $this->query($query);
+    }
+
 
     /*
         public function getFiledQuestions() {
