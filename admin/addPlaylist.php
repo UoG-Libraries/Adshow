@@ -58,7 +58,6 @@ include 'header.php';
                 <input type="reset" value="Cancel" class="btn btn-primary">
                 <input type="submit" value="Add" class="btn btn-primary">
             </div>
-
         </form>
     </div>
 <?php include 'footer.php'; ?>

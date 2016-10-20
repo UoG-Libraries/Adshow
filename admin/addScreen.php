@@ -9,13 +9,14 @@ if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
 
 $departmentList = $objDB->getDepartments();
 include 'header.php';
+include_once "user.php";
 
 ?>
     <div>
         <h2>Add screen</h2>
         <form class="form-horizontal" action="addScreen.php" method="post" enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="formSent" value="yes"/>
-            <?php if ("user" !== "superadmin") { ?>
+            <?php if (User::getCurrentUser() !== Permission::Superadmin) { ?>
                 <div class="form-group">
                     <label for="department" class="col-sm-2 control-label">Department</label>
                     <div class="col-sm-10">
