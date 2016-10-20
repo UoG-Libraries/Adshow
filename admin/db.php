@@ -174,6 +174,11 @@ class Database
 	    
 	    return $result;
     }
+    
+    public function getUsers() {
+	    $query = "SELECT * FROM adshow.user";
+	    return $this->select_query($query);
+    }
 
 
     // setter methods
