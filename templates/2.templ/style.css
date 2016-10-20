@@ -1,0 +1,42 @@
+.template {
+	overflow: hidden;
+}
+
+.template * {
+	font-family: sans-serif;
+}
+
+.template h1 {
+	font-weight: lighter;
+	font-family: "Helvetica Neue", "SFUI", sans-serif;
+	font-size: 110px;
+	margin-top: 0;
+	line-height: 200px;
+}
+
+.template #header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: calc(100% - 40px);
+	height: 200px;
+	background-color: aliceblue;
+	padding: 0px 20px;
+}
+
+.template #content {
+	padding-top: 220px;
+	padding-left: 50px;
+}
+
+.template #content #text {
+	font-size: 30px;
+}
+
+.template #imageWrapper {
+	margin-right: 20px;
+	position: absolute;
+	right: 0px;
+	top: 240px;
+	border: 1px solid lightgray;
+}
