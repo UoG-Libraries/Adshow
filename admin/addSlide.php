@@ -33,7 +33,7 @@ include "header.php";
         </form>
     </div>
 </div>
-<div class="row template-selector">
+<div class="row template-selector horizontal-scrolling" id="horizontal-scrolling">
     <div class="templates"></div>
     <div class="templates"></div>
     <div class="templates"></div>

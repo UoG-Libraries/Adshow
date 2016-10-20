@@ -10,7 +10,7 @@ body {
     margin: 25px 0;
 }
 
-.template-selector {
+.horizontal-scrolling {
     overflow-x: scroll;
     white-space: nowrap;
 }
