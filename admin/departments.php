@@ -1,25 +1,16 @@
 <?php
-
-// GET variables
-// action: delete, edit
-// id: department id
-
-$page = 'adshow/admin/departments.php';
-
-include 'header.php';
 include 'db.php';
-
 $objDB = new Database();
 
 // handle delete department request
 if (isset($_GET["action"]) && $_GET["action"] == 'del') {
     $objDB->deleteDepartment($_GET["id"]);
     header("Location: departments.php");
-    exit;
 }
 
+include 'header.php';
 ?>
-    <div id="contentcontainer">
+    <div>
         <?php
         // handle edit department request
         if (isset($_GET["action"]) && $_GET["action"] == 'edit') {

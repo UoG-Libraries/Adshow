@@ -4,30 +4,20 @@
  * Date: 18/10/2016
  */
 
+include 'db.php';
+$objDB = new Database();
 
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
-
-    include 'db.php';
-
-    $objDB = new Database();
     $objDB->editScreen($_POST["location"], $_POST["department"], $_POST['orientation'], $_POST["id"]);
-
     header('Location: screens.php');
-    exit;
-
 }
 
-$page = 'adshow/admin/addScreen.php';
-include 'header.php';
-include 'db.php';
-
-
-$objDB = new Database();
 $departmentList = $objDB->getDepartments();
 
 $id = $_GET["id"];
 $screen = $objDB->getScreen($id)[0];
 
+include 'header.php';
 
 ?>
     <div>
@@ -65,10 +55,12 @@ $screen = $objDB->getScreen($id)[0];
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <label class="radio-inline">
-                        <input type="radio" name="orientation" id="inlineRadio1" value="0" <?php echo $screen["orientation"] == '0' ? 'CHECKED' : '' ?>> Landscape
+                        <input type="radio" name="orientation" id="inlineRadio1"
+                               value="0" <?php echo $screen["orientation"] == '0' ? 'CHECKED' : '' ?>> Landscape
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="orientation" id="inlineRadio2" value="1" <?php echo $screen["orientation"] == '1' ? 'CHECKED' : '' ?>> Portrait
+                        <input type="radio" name="orientation" id="inlineRadio2"
+                               value="1" <?php echo $screen["orientation"] == '1' ? 'CHECKED' : '' ?>> Portrait
                     </label>
                 </div>
             </div>

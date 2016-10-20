@@ -1,12 +1,9 @@
 <?php
-include 'header.php';
-
-$page = 'adshow/admin/index.php';
-
 include 'db.php';
-
 $objDB = new Database();
 $summary = $objDB->getSummary();
+
+include 'header.php';
 ?>
 
 <div>

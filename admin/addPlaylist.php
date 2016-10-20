@@ -1,35 +1,49 @@
 <?php
+include 'db.php';
+$objDB = new Database();
 
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
-
-    include 'db.php';
-
-    $objDB = new Database();
-    //$objDB->addPlaylist($_POST["department"]);
-    print_r($_POST);
-    //header('Location: playlists.php');
+    $objDB->addPlaylist($_POST["department"], $_POST["name"], $_POST["active"]);
+    header('Location: playlists.php');
     exit;
 
 }
 
-$page = 'adshow/admin/addDepartment.php';
+$departmentList = $objDB->getDepartments();
 
+include_once 'user.php';
 include 'header.php';
+
 ?>
     <div>
         <h2>Add playlist</h2>
         <form class="form-horizontal" action="addPlaylist.php" method="post"
               enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="formSent" value="yes"/>
-            <input type="hidden" name="createdBy" value="<?php echo $_SESSION["details"]["id"] ?>"/>
-
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">Name</label>
                 <div class="col-sm-10">
                     <input type="text" name="name" id="name" class="form-control"/>
                 </div>
             </div>
-
+            <?php if (User::getCurrentUser()->permission == Permission::Superadmin) { ?>
+                <div class="form-group">
+                    <label for="department" class="col-sm-2 control-label">Department</label>
+                    <div class="col-sm-10">
+                        <select name="department" id="department" class="form-control">
+                            <?php
+                            foreach ($departmentList as $department) {
+                                if ($department["department"] != "Global") {
+                                    echo '      <option value="' . $department["ID"] . '">' . $department["department"] . '</option>' . "\n";
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+            <?php } else { ?>
+                <input type="hidden" name="department" value="<?php echo $_SESSION["department"] ?>"/>
+            <?php } ?>
             <div class="form-group">
                 <label for="active" class="col-sm-2 control-label">Active</label>
                 <div class="col-sm-10">

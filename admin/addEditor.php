@@ -8,7 +8,7 @@ include_once 'header.php';
 include_once 'user.php';
 
 var_dump($_SESSION);
-print_r(User::getCurrentUser());
+print_r(User::getCurrentUser()->permission);
 ?>
     <div>
 	    <script type="text/javascript">

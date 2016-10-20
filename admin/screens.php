@@ -1,9 +1,4 @@
 <?php
-
-// GET variables
-// action: delete, edit, update
-// id: screen id
-
 include 'db.php';
 $objDB = new Database();
 
@@ -14,15 +9,9 @@ if (isset($_GET["action"]) && $_GET["action"] == 'del') {
     exit;
 }
 
-$page = 'adshow/admin/screens.php';
+$screensList = $objDB->getScreensList();
 
 include 'header.php';
-
-?>
-
-<?php
-
-$screensList = $objDB->getScreensList();
 ?>
 <h2>Screens</h2>
 <table class="table table-striped">

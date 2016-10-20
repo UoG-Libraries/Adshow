@@ -1,23 +1,19 @@
 <?php
-
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
 
     include 'db.php';
-
     $objDB = new Database();
+
     $objDB->addDepartment($_POST["department"], $_POST["owner"]);
 
     header('Location: departments.php');
-    exit;
-
 }
 
-$page = 'adshow/admin/addDepartment.php';
 
 include 'header.php';
 
 ?>
-    <div id="contentcontainer">
+    <div>
         <h2>Add department</h2>
         <form class="form-horizontal" action="addDepartment.php" method="post"
               enctype="application/x-www-form-urlencoded">

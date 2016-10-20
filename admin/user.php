@@ -8,7 +8,13 @@
 	 * description:   class that represents a user.
 	 */
 	 
-	 include_once 'db.php';
+	include_once 'db.php';
+	
+	class Permission {
+		const Editor = 0;
+		const Admin = 1;
+		const Superadmin = 2;
+	}
 	
 	class User {
 		public $name;
@@ -36,7 +42,7 @@
 		    	$this->name = $_SESSION['name'];
 		    	$this->fullName = $_SESSION['fullname'];
 		    	$this->department = $_SESSION['dept'];
-		    	$this->permission = $db->getUser($this->sNumber);  /// @todo Find a better way
+		    	$this->permission = $db->getUser($this->sNumber)[0]["permission"];  /// @todo Find a better way
 	    	}
     	}
 		
