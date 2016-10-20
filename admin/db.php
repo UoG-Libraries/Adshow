@@ -178,6 +178,11 @@ class Database
 	    $query = "SELECT * FROM adshow.user";
 	    return $this->select_query($query);
     }
+    
+    public function getUsersWithDeptName() {
+	    $query = "SELECT user.ID, user.sNumber, user.owner, department.department, user.permission FROM user JOIN department WHERE user.departmentIDfk=department.ID";
+	    return $this->select_query($query);
+    }
 
 
     // setter methods

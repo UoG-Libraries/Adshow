@@ -224,6 +224,7 @@ pip-log.txt
 ###############
 *.iml
 ._*
+.DS_Store
 
 ###############
 ## Project

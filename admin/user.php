@@ -14,6 +14,20 @@
 		const Editor = 0;
 		const Admin = 1;
 		const Superadmin = 2;
+		
+		public static function getStr($permission) {
+			switch ($permission) {
+				case 0:
+					return "Editor";
+				break;
+				case 1:
+					return "Administrator";
+				break;
+				case 2:
+					return "Super-Administrator";
+				break;
+			}
+		}
 	}
 	
 	/**
@@ -30,6 +44,22 @@
 		public $db; // For reuse
 		
 		public static $currentUser;
+		
+		public static function getUserWithID($id) {
+			$user = new User();
+			$user->db = new Database();
+			$dbUser = $user->db->getUser($id);
+			
+			if (empty($dbUser)) {
+				return NULL;
+			} else {
+				$dbUser = $dbUser[0];
+				$user->sNumber = $dbUser['sNumber'];
+				$user->department = $db->getDepartment($user['departmentIDfk']);
+			}
+			
+			return $user;
+		}
 		
 		public static function getCurrentUser() {
     	    if (null === static::$currentUser) {
