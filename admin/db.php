@@ -51,19 +51,21 @@ class Database {
 		return mysqli_query($this->link, $query);
     }
     
-    public function prepared_query($query, $values) {
+    public function prepared_query($query, $type, $value) {
 	    if (!$this->link) {
 			$this->connect();
 		}
-		
+
 		if ($statement = mysqli_prepare($this->link, $query)) {
-			foreach ($values as $value) {
-				mysqli_stmt_bind_param($statement, $value[0], $value[1]);
-			}
+			mysqli_stmt_bind_param($statement, $type, $v);
+			$v = $value;
+			echo $v;
 			
 			mysqli_stmt_execute($statement);
 			mysqli_stmt_bind_result($statement, $result);
 			mysqli_stmt_fetch($statement);
+			//return mysqli_stmt_error($statement);
+			mysqli_stmt_close($statement);
 			
 			return $result;
 		} else {
@@ -149,9 +151,7 @@ class Database {
     
     public function getUser($sNumber) {
 	    $query = "SELECT * FROM adshow.user WHERE `sNumber`=?";
-	    $result = $this->prepared_query($query, array(
-		    "s" => $sNumber
-	    ));
+	    $result = $this->prepared_query($query, "s", $sNumber);
 	    
 	    return $result;
     }
