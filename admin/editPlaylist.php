@@ -7,7 +7,7 @@ include 'db.php';
 $objDB = new Database();
 
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
-    $objDB->editPlaylist($_POST["id"],$_POST["name"], $_POST["active"]);
+    $objDB->editPlaylist($_POST["id"], $_POST["name"], $_POST["active"]);
     header('Location: playlists.php');
 
 }
@@ -49,7 +49,16 @@ include 'header.php';
                 <a href="playlists.php" class="btn btn-primary">Cancel</a>
                 <input type="submit" value="Save" class="btn btn-primary">
             </div>
-
+            <div class="h-space"></div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Slides</h3>
+                </div>
+                <div class="panel-body">
+                    <div>There are no slides yet.</div>
+                    <a class="btn btn-default" href="addSlide.php?playlistID="<?php echo $id ?>>Add slide</a>
+                </div>
+            </div>
         </form>
     </div>
 <?php include 'footer.php'; ?>

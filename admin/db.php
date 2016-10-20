@@ -102,7 +102,6 @@ class Database
     {
         $query = "SELECT * FROM department";
         $rows = $this->select_query($query);
-
         return $rows;
     }
 
