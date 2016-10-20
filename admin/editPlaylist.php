@@ -7,14 +7,11 @@ include 'db.php';
 $objDB = new Database();
 
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
-
-
     $objDB->editPlaylist($_POST["id"],$_POST["name"], $_POST["active"]);
     header('Location: playlists.php');
 
 }
 
-$page = 'adshow/admin/editPlaylist.php';
 
 $id = $_GET["id"];
 $playlist = $objDB->getPlaylist($id)[0];

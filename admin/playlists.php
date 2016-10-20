@@ -1,16 +1,8 @@
 <?php
-
-// GET variables
-// action: delete, edit, update
-// id: screen id
-
-$page = 'adshow/admin/playlists.php';
-
-include 'header.php';
 include 'db.php';
-
 $objDB = new Database();
 
+include 'header.php';
 ?>
     <div>
         <?php
