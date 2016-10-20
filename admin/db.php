@@ -219,8 +219,6 @@ class Database
         $query = "DELETE FROM department WHERE ID = '$id'";
         $this->query($query);
         $this->query("COMMIT");
-        
-        $user = User::getCurrentUser();
     }
 
     public function editScreen($location, $department, $orientation, $id)
