@@ -21,13 +21,14 @@ $(document).ready(function () {
     });
 
     /*Verical scorlling*/
-    $(function() {
+    $(function () {
         function scrollHorizontally(e) {
             e = window.event || e;
             var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-            document.getElementById('horizontal-scrolling').scrollLeft -= (delta*40); // Multiplied by 40
+            document.getElementById('horizontal-scrolling').scrollLeft -= (delta * 40); // Multiplied by 40
             e.preventDefault();
         }
+
         if (document.getElementById('horizontal-scrolling').addEventListener) {
             // IE9, Chrome, Safari, Opera
             document.getElementById('horizontal-scrolling').addEventListener("mousewheel", scrollHorizontally, false);
@@ -38,4 +39,14 @@ $(document).ready(function () {
             document.getElementById('horizontal-scrolling').attachEvent("onmousewheel", scrollHorizontally);
         }
     });
+
+    /*File uplad button*/
+    document.getElementById("uploadBtn").onchange = function () {
+        document.getElementById("uploadFile").value = this.value;
+    };
 });
+
+function addCss(fileName) {
+    var link = '<link rel="stylesheet" type="text/css" href="' + fileName + '">'
+    $('head').append(link)
+}

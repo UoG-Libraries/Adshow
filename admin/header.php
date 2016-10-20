@@ -24,6 +24,9 @@ $_SESSION["nav"]["callingpage"] = $page;
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/uog.css" rel="stylesheet">
 
+
+    <script type="text/javascript" src="scripts/custom-file-input.js"></script>
+
     <!--Local-->
     <script type="text/javascript" src="scripts/default.js"></script>
 <!--    <link rel="stylesheet" type="text/css" href="scripts/default.css"/>-->
