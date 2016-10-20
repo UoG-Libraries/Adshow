@@ -1,17 +1,33 @@
 <?php
-
-error_reporting(E_ALL);
-
-$page = 'adshow/admin/addEditor.php';
-
-include_once 'header.php';
-include_once 'user.php';
-
-var_dump($_SESSION);
-print_r(User::getCurrentUser()->permission);
+	error_reporting(E_ALL);
+	
+	$page = 'adshow/admin/addEditor.php';
+	
+	include_once 'header.php';
+	include_once 'user.php';
+	
+	$user = User::getCurrentUser();
+	$errorMsg = "";
+	
+	$sNumb = '';
+	if (isset($_POST['permission']) && isset($_POST['dept']) && isset($_POST['sNumb'])) {
+		$permission	= $_POST['permission'];
+		$dept		= $_POST['dept'];
+		$sNumb 		= $_POST['sNumb'];
+		
+		// just add a string to errorMsg and it will be displayed. If it's empty, the transaction will be executed
+		if (empty($sNumb)) {
+			$errorMsg = "S-Number mustn't be empty";
+		} else if (!preg_match('/^s[0-9]{7}$/', $sNumb)) {
+			$errorMsg = 'Invalid S-Number';
+		} else {
+			print_r($user->db->addUser($sNumb, 0, $dept, $permission));
+		}
+	}
 ?>
     <div>
 	    <script type="text/javascript">
+		    <?php if ($user->hasAdminPrivileges()) { ?>
 		    (function() {
 			    window.addEventListener("load", function() {
 				    document.querySelector("#permissionSelector").addEventListener("change", function(e) {
@@ -23,28 +39,79 @@ print_r(User::getCurrentUser()->permission);
 					});
 			    });
 		    })();
+		    <?php } ?>
 		</script>
         <h2>Add editor</h2>
         <form class="form-horizontal" action="<?php echo($_SERVER['PHP_SELF']); ?>" method="post" enctype="application/x-www-form-urlencoded">
-            <input type="hidden" name="createdBy" value="<?php echo $_SESSION["details"]["id"] ?>"/>
-
+	        <?php
+	    	    if (!empty($errorMsg)) {
+			        ?>
+			        	<div class="form-group">
+				        	<div class="col-sm-2"></div>
+				        	<div class="col-sm-10">
+					        	<span class="error"><?php echo $errorMsg; ?></span>
+				        	</div>
+			        	</div>
+			        <?php
+	    	    }
+	    	?>
             <div class="form-group">
-                <label for="name" class="col-sm-2 control-label">Name</label>
+                <label for="sNumb" class="col-sm-2 control-label">S-Number</label>
                 <div class="col-sm-10">
-                    <input type="text" name="name" id="name" class="form-control"/>
+                    <input type="text" name="sNumb" id="sNumb" class="form-control" value="<?php echo $sNumb; ?>" />
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="active" class="col-sm-2 control-label">Permission</label>
-                <div class="col-sm-10">
-                    <select name="permission" id="permissionSelector" class="form-control">
-                        <option value="0" selected="selected">Editor</option>
-                        <option value="1">Administrator</option>
-                        <option value="2">Super Administrator</option>
-                    </select>
-                </div>
-            </div>
+            <?php
+	            if ($user->hasAdminPrivileges()) {
+		            ?>
+		            	<div class="form-group">
+            			    <label for="active" class="col-sm-2 control-label">Permission</label>
+            			    <div class="col-sm-10">
+            			        <select name="permission" id="permissionSelector" class="form-control">
+            			            <option value="0" selected="selected">Editor</option>
+            			            <option value="1">Administrator</option>
+            			            
+            			            <?php
+	        			            	
+	        			            	if ($user->isSuperadmin()) {
+		    			                	echo '<option value="2">Super Administrator</option>';
+	        			            	}
+	        			            ?>
+            			        </select>
+            			    </div>
+            			</div>
+		            <?php
+			            
+			        if ($user->isSuperadmin()) {		        		
+		        		?>
+		        			<div class="form-group">
+            				    <label for="active" class="col-sm-2 control-label">Department</label>
+            				    <div class="col-sm-10">
+            				        <select name="dept" class="form-control">
+            				            <?php
+											$depts = $user->db->getDepartments();
+											print_r($depts);
+	            				        	foreach ($depts as $dept) {
+												echo '<option value="'.$dept['ID'].'">'.$dept['department'].'</option>';
+		        							}    
+	            				        ?>
+            				        </select>
+            				    </div>
+            				</div>
+		        		<?php
+			        } else {
+				        ?>
+				        	<input type='hidden' name='dept' value="<?php echo $user->department['ID']; ?>" />
+				        <?php
+			        }
+	            } else {
+		            ?>
+		            	<input type="hidden" name="permission" value="0" />
+		            	<input type='hidden' name='dept' value="<?php echo $user->department['ID']; ?>" />
+		            <?php
+	            }
+	        ?>
 
             <div>
                 <input type="reset" value="Cancel" class="btn btn-primary">

@@ -191,6 +191,12 @@ class Database
         $this->query($query);
         print_r($query);
     }
+    
+    public function addUser($sNumber, $isOwner, $deptIDfk, $permission) {
+        $query = "INSERT INTO user (sNumber, owner, departmentIDfk, permission) VALUES ('$sNumber', $isOwner, $deptIDfk, $permission)";
+        $this->query($query);
+        return mysqli_errno($this->link) === TRUE;
+    }
 
     public function deleteScreen($id)
     {

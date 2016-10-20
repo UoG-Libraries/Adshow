@@ -65,6 +65,11 @@ body{
 }
 
 
+span.error {
+	color: red;
+	font-weight: bold;
+}
+
 @-webkit-keyframes moveIn {
     0% { left: 0;}
     100% {left: -65%;}

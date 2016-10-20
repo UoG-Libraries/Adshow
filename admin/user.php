@@ -16,12 +16,18 @@
 		const Superadmin = 2;
 	}
 	
+	/**
+		@class User
+		@brief Represents a user
+		@usage Call User::getCurrentUser(). This returns a user singleton. Never use new User(), because it will fail	
+	*/
 	class User {
 		public $name;
 		public $fullName;
 		public $sNumber;
 		public $department;
 		public $permission;
+		public $db; // For reuse
 		
 		public static $currentUser;
 		
@@ -36,14 +42,33 @@
     	
     	private function initCurrentUser() {
 	    	if (isset($_SESSION['auth']) && $_SESSION['auth'] == "true") {
-		    	$db = new Database();
-		    	
+		    	$this->db = new Database();
+		    			    	
 		    	$this->sNumber = $_SESSION['sNumber'];
 		    	$this->name = $_SESSION['name'];
 		    	$this->fullName = $_SESSION['fullname'];
-		    	$this->department = $_SESSION['dept'];
-		    	$this->permission = $db->getUser($this->sNumber)[0]["permission"];  /// @todo Find a better way
+		    	
+		    	$userResult = $this->db->getUser($this->sNumber);
+		    	$this->department = $this->db->getDepartment($userResult[0]['departmentIDfk'])[0];
+		    	$this->permission = $userResult[0]["permission"];  /// @todo Find a better way
 	    	}
+    	}
+    	
+    	public function isSuperadmin() {
+	    	return $this->permission == Permission::Superadmin;
+    	}
+    	
+    	public function isAdmin() {
+	    	return $this->permission == Permission::Admin;
+    	}
+    	
+    	public function isEditor() {
+	    	return $this->permission == Permission::Editor;
+    	}
+    	
+    	/// Returns whether the user is some kind of admin (admin or superadmin)
+    	public function hasAdminPrivileges() {
+	    	return $this->isAdmin() || $this->isSuperadmin();
     	}
 		
 		public function __construct() {
