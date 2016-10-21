@@ -168,6 +168,10 @@ class Database
     }
     
     public function getUser($sNumber) {
+	    if (!preg_match('/^s[0-9]{7}$/', strtolower($sNumber))) {
+		    throw new Exception("Invalid S-Number");
+	    }
+	    
 	    $query = "SELECT * FROM adshow.user WHERE `sNumber`=\"$sNumber\"";
 	    $result = $this->select_query($query);
 	    
@@ -179,8 +183,13 @@ class Database
 	    return $this->select_query($query);
     }
     
-    public function getUsersWithDeptName() {
-	    $query = "SELECT user.ID, user.sNumber, user.firstname, user.lastname, user.owner, department.department, user.permission FROM user JOIN department WHERE user.departmentIDfk=department.ID";
+    public function getUsersWithDeptName($filterByDeptID = null) {
+	    $addition = '';
+	    if (is_numeric($filterByDeptID)) {
+		    $addition = " AND user.departmentIDfk=$filterByDeptID";
+	    }
+	    
+	    $query = "SELECT user.ID, user.sNumber, user.firstname, user.lastname, user.owner, department.department, user.permission FROM user JOIN department WHERE user.departmentIDfk=department.ID$addition";
 	    return $this->select_query($query);
     }
 
@@ -206,14 +215,17 @@ class Database
     
     public function addUser($sNumber, $isOwner, $deptIDfk, $permission, $firstname, $lastname) {
         $query = "INSERT INTO user (sNumber, owner, departmentIDfk, permission, firstname, lastname) VALUES ('$sNumber', $isOwner, $deptIDfk, $permission, '$firstname', '$lastname')";
-        $this->query($query);
-        return mysqli_errno($this->link) === TRUE;
+        return $this->query($query) === TRUE;
     }
 
     public function deleteScreen($id)
     {
         $query = "DELETE FROM screen where ID = '$id'";
         $this->query($query);
+    }
+    
+    public function deleteUser($sNumb) {
+	    return $this->query("DELETE FROM user WHERE `sNumber`='$sNumb'");
     }
 
     public function addDepartment($department, $owner)

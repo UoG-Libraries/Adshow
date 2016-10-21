@@ -51,13 +51,13 @@
 		public static $currentUser;
 		
 		public static function getNameOfUserWithSNumber($sNumb) {
-			return (new Ldap())->getName($sNumb);
+			return (new Ldap())->getName(strtolower($sNumb));
 		}
 		
 		public static function getUserWithSNumber($sNumb) {
 			$user = new User();
 			$user->db = new Database();
-			$dbUser = $user->db->getUser($sNumb);
+			$dbUser = $user->db->getUser(strtolower($sNumb));
 
 			if (empty($dbUser)) {
 				return NULL;
@@ -107,6 +107,8 @@
     	public function updatePermission($newPermission) {
 	    	if (!is_numeric($newPermission) || $newPermission < 0 || $newPermission > 2) {
 		    	throw new Exception("Invalid permission");
+	    	} else if ($newPermission == $this->permission) {
+		    	return;
 	    	}
 	    	
 	    	$this->permission = $newPermission;
@@ -116,6 +118,8 @@
     	public function updateDepartment($newDepartmentIDfk) {
 	    	if (!is_numeric($newDepartmentIDfk)) {
 		    	throw new Exception("Invalid department ID");
+	    	} else if ($this->department['ID'] == $newDepartmentIDfk) {
+		    	return;
 	    	}
 	    	
 	    	$department = $this->db->getDepartment($newDepartmentIDfk)[0];
@@ -161,6 +165,10 @@
 	    	
 	    	$query = "UPDATE user SET $valueString WHERE id=".$this->ID;
 	    	return $this->db->execSQL($query) === TRUE;
+    	}
+    	
+    	public function deleteUser() {
+	    	return $this->db->deleteUser($this->sNumber) === TRUE;
     	}
     	
     	public function isSuperadmin() {

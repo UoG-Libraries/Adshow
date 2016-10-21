@@ -8,6 +8,7 @@
 	
 	$user = User::getCurrentUser();
 	$errorMsg = "";
+	$successMsg = "";
 	
 	$sNumb = '';
 	if (isset($_POST['permission']) && isset($_POST['dept']) && isset($_POST['sNumb'])) {
@@ -22,7 +23,11 @@
 			$errorMsg = 'Invalid S-Number';
 		} else {
 			$name = User::getNameOfUserWithSNumber($sNumb);
-			print_r($user->db->addUser($sNumb, 0, $dept, $permission, $name['firstname'], $name['lastname']));
+			if ($user->db->addUser($sNumb, 0, $dept, $permission, $name['firstname'], $name['lastname'])) {
+				$successMsg = 'Successfully added user';
+			} else {
+				$errorMsg = "Couldn't add user";
+			}
 		}
 	}
 ?>
@@ -45,12 +50,13 @@
         <h2>Add editor</h2>
         <form class="form-horizontal" action="<?php echo($_SERVER['PHP_SELF']); ?>" method="post" enctype="application/x-www-form-urlencoded">
 	        <?php
-	    	    if (!empty($errorMsg)) {
+	    	    if (!empty($errorMsg) || !empty($successMsg)) {
 			        ?>
 			        	<div class="form-group">
 				        	<div class="col-sm-2"></div>
 				        	<div class="col-sm-10">
 					        	<span class="error"><?php echo $errorMsg; ?></span>
+					        	<span class="success"><?php echo $successMsg; ?></span>
 				        	</div>
 			        	</div>
 			        <?php
