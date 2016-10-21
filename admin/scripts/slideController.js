@@ -45,6 +45,7 @@ function selectTemplate(baseDir, dir) {
     }
     vm.activeElement = $("#" + dir);
     vm.activeElement.addClass("active-template");
+    $("#templateName").val(dir);
 }
 
 
