@@ -111,6 +111,10 @@ span.error {
     font-weight: bold;
 }
 
+.spacer { /* Name is ridiculous, I know... */
+	display: inline-block;
+}
+
 @-webkit-keyframes moveIn {
     0% {
         left: 0;

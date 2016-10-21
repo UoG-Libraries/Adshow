@@ -180,10 +180,13 @@ class Database
     }
     
     public function getUsersWithDeptName() {
-	    $query = "SELECT user.ID, user.sNumber, user.owner, department.department, user.permission FROM user JOIN department WHERE user.departmentIDfk=department.ID";
+	    $query = "SELECT user.ID, user.sNumber, user.firstname, user.lastname, user.owner, department.department, user.permission FROM user JOIN department WHERE user.departmentIDfk=department.ID";
 	    return $this->select_query($query);
     }
 
+	public function execSQL($sql) {
+		return $this->query($sql);
+	}
 
     // setter methods
 
@@ -201,8 +204,8 @@ class Database
         print_r($query);
     }
     
-    public function addUser($sNumber, $isOwner, $deptIDfk, $permission) {
-        $query = "INSERT INTO user (sNumber, owner, departmentIDfk, permission) VALUES ('$sNumber', $isOwner, $deptIDfk, $permission)";
+    public function addUser($sNumber, $isOwner, $deptIDfk, $permission, $firstname, $lastname) {
+        $query = "INSERT INTO user (sNumber, owner, departmentIDfk, permission, firstname, lastname) VALUES ('$sNumber', $isOwner, $deptIDfk, $permission, '$firstname', '$lastname')";
         $this->query($query);
         return mysqli_errno($this->link) === TRUE;
     }
