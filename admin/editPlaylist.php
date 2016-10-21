@@ -56,7 +56,7 @@ include 'header.php';
                 </div>
                 <div class="panel-body">
                     <div>There are no slides yet.</div>
-                    <a class="btn btn-default" href="addSlide.php?playlistID="<?php echo $id ?>>Add slide</a>
+                    <a class="btn btn-default" href="addSlide.php?playlistID=<?php echo $id ?>">Add slide</a>
                 </div>
             </div>
         </form>
