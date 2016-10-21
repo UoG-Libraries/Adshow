@@ -17,8 +17,13 @@ $_SESSION["nav"]["callingpage"] = $page;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>Adshow - Admin Panel</title>
-    <script type="text/javascript" src="scripts/jquery-1.10.2.min.js"></script>
-    <script src="/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="scripts/showdown-master/dist/showdown.min.js"></script>
+<!--    <script type="text/javascript" src="scripts/jquery-1.10.2.min.js"></script>-->
+<!--    <script src="/js/jquery-1.12.4.min.js"></script>-->
+    <script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
     <script src="/js/bootstrap.min.js"></script>
 
     <link href="/css/bootstrap.min.css" rel="stylesheet">

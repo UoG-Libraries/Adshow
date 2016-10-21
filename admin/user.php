@@ -5,7 +5,7 @@
 	 * created:       19.10.2016
 	 * last modified: 
 	 *
-	 * description:   class that represents a user.
+	 * description:   class vm represents a user.
 	 */
 	 
 	include_once 'db.php';

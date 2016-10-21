@@ -15,26 +15,35 @@ while (false !== ($filename = readdir($dh))) {
 
 include "header.php";
 ?>
-<script>addCss('<?php echo $baseDir . "2.templ/style.css"?>')</script>
+<script src="scripts/slideController.js"></script>
 <div class="row">
     <div class="col-md-5 preview">
-        <div>
-            <?php include $baseDir . "2.templ/template.html" ?>
-        </div>
+        <div id="template-div"></div>
     </div>
     <div class="col-md-offset-1 col-md-6">
-        <form>
+        <form class="template-editor">
             <div class="row">
                 <button type="submit" class="btn btn-primary pull-right">Save</button>
             </div>
             <div class="row">
                 <div class="form-group">
-                    <label for="title">Title</label>
-                    <input type="text" class="form-control" name="title" id="title" placeholder="Title">
+                    <label for="inputTitle">Title</label>
+                    <input type="text"
+                           class="form-control"
+                           name="title"
+                           id="inputTitle"
+                           placeholder="Title"
+                           oninput="vm.updatePreview()">
                 </div>
                 <div class="form-group">
-                    <label for="text">Text</label>
-                    <textarea rows="5" class="form-control" name="text" id="text" placeholder="Text"></textarea>
+                    <label for="inputText">Text</label>
+                    <textarea
+                        rows="5"
+                        class="form-control"
+                        name="text"
+                        id="inputText"
+                        placeholder="Text"
+                        oninput="vm.updatePreview()"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="showTime">Show time</label>
@@ -55,8 +64,10 @@ include "header.php";
     </div>
 </div>
 <div class="row template-selector horizontal-scrolling" id="horizontal-scrolling">
-    <?php foreach ($templateDirs as $tempDir) {
-        $thumbnail = $baseDir . $tempDir . "/thumbnail.png" ?>
-        <img src="<?php echo $thumbnail ?>" class="templates img-thumbnail">
+    <?php foreach ($templateDirs as $tempDir) {?>
+        <img src="<?php echo $baseDir . $tempDir . "/thumbnail.png" ?>"
+             class="templates img-thumbnail"
+             id="<?php echo $tempDir ?>"
+             onclick="selectTemplate('<?php echo $baseDir ?>', '<?php echo $tempDir ?>')">
     <?php } ?>
 </div>

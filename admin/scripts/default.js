@@ -45,8 +45,3 @@ $(document).ready(function () {
         document.getElementById("uploadFile").value = this.value;
     };
 });
-
-function addCss(fileName) {
-    var link = '<link rel="stylesheet" type="text/css" href="' + fileName + '">'
-    $('head').append(link)
-}
