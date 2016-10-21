@@ -4,7 +4,7 @@
 	}
 	
 	include_once 'user.php';
-	
+		
 	// NORMAL EDIT FORM
 	$requiredValues = array('sNumb', 'dept', 'permission');
 	$complete = TRUE;
@@ -38,7 +38,7 @@
 			include_once 'footer.php';
 		}
 	}
-	
+		
 	// DELETE FORM
 	if (isset($_POST['delete'])) {
 		$sNumb = $_POST['delete'];
@@ -64,13 +64,14 @@
 		include '404.php';
 		die();
 	}
-	
+		
 	// PRESENT EDIT MASK
+	include_once 'header.php';
+	
 	$userSNumb = $_GET['sNumb'];
 	$user = User::getUserWithSNumber($userSNumb);
+	$currentUser = User::getCurrentUser();
 	$depts = $user->db->getDepartments();
-	
-	include_once 'header.php';
 ?>
 	<script type="text/javascript">
 		(function() {
@@ -133,6 +134,10 @@
 							$availablePermissions = $reflection->getConstants();
 							
 							foreach ($availablePermissions as $desc => $val) {
+								if ($currentUser->permission != Permission::Superadmin && $val == Permission::Superadmin) {
+									continue;
+								}
+								
 								$selectedAddition = $user->permission == $val ? ' selected' : '';
 								echo "<option value=\"$val\"$selectedAddition>$desc</option>";
 							}
