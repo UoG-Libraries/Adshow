@@ -8,6 +8,7 @@
  *
  * description:   class to handle database connection and interaction.
  */
+error_reporting(E_ALL ^ E_NOTICE);
 
 class Database
 {
@@ -38,7 +39,7 @@ class Database
 
     public function getSummary()
     {
-	    $query = "SELECT count(*) FROM department";
+        $query = "SELECT count(*) FROM department";
         $result = $this->query($query);
         $summary["Department"] = $result->fetch_array()[0];
 
@@ -57,42 +58,44 @@ class Database
         return $summary;
     }
 
-    private function query($query) {
-		if (!$this->link) {
-			$this->connect();
-		}
-		return mysqli_query($this->link, $query);
+    private function query($query)
+    {
+        if (!$this->link) {
+            $this->connect();
+        }
+        return mysqli_query($this->link, $query);
     }
-    
-    public function prepared_query($query, $type, $value) {
-	    if (!$this->link) {
-			$this->connect();
-		}
 
-		if ($statement = mysqli_prepare($this->link, $query)) {
-			mysqli_stmt_bind_param($statement, $type, $v);
-			$v = $value;
-			echo $v;
-			
-			mysqli_stmt_execute($statement);
-			mysqli_stmt_bind_result($statement, $result);
-			mysqli_stmt_fetch($statement);
-			//return mysqli_stmt_error($statement);
-			mysqli_stmt_close($statement);
-			
-			return $result;
-		} else {
-			return NULL;
-		}
+    private function connect()
+    {
+        $this->link = mysqli_connect($this->ini["db_host"], $this->ini["db_user"], $this->ini["db_pwd"], $this->ini["db_name"]);
     }
 
 
     /* public methods
      *****************/
 
-    private function connect()
+    public function prepared_query($query, $type, $value)
     {
-        $this->link = mysqli_connect($this->ini["db_host"], $this->ini["db_user"], $this->ini["db_pwd"], $this->ini["db_name"]);
+        if (!$this->link) {
+            $this->connect();
+        }
+
+        if ($statement = mysqli_prepare($this->link, $query)) {
+            mysqli_stmt_bind_param($statement, $type, $v);
+            $v = $value;
+            echo $v;
+
+            mysqli_stmt_execute($statement);
+            mysqli_stmt_bind_result($statement, $result);
+            mysqli_stmt_fetch($statement);
+            //return mysqli_stmt_error($statement);
+            mysqli_stmt_close($statement);
+
+            return $result;
+        } else {
+            return NULL;
+        }
     }
 
 
@@ -166,36 +169,40 @@ class Database
         $rows = $this->select_query($query);
         return $rows;
     }
-    
-    public function getUser($sNumber) {
-	    if (!preg_match('/^s[0-9]{7}$/', strtolower($sNumber))) {
-		    throw new Exception("Invalid S-Number");
-	    }
-	    
-	    $query = "SELECT * FROM adshow.user WHERE `sNumber`=\"$sNumber\"";
-	    $result = $this->select_query($query);
-	    
-	    return $result;
-    }
-    
-    public function getUsers() {
-	    $query = "SELECT * FROM adshow.user";
-	    return $this->select_query($query);
-    }
-    
-    public function getUsersWithDeptName($filterByDeptID = null) {
-	    $addition = '';
-	    if (is_numeric($filterByDeptID)) {
-		    $addition = " AND user.departmentIDfk=$filterByDeptID";
-	    }
-	    
-	    $query = "SELECT user.ID, user.sNumber, user.firstname, user.lastname, user.owner, department.department, user.permission FROM user JOIN department WHERE user.departmentIDfk=department.ID$addition";
-	    return $this->select_query($query);
+
+    public function getUser($sNumber)
+    {
+        if (!preg_match('/^s[0-9]{7}$/', strtolower($sNumber))) {
+            throw new Exception("Invalid S-Number");
+        }
+
+        $query = "SELECT * FROM adshow.user WHERE `sNumber`=\"$sNumber\"";
+        $result = $this->select_query($query);
+
+        return $result;
     }
 
-	public function execSQL($sql) {
-		return $this->query($sql);
-	}
+    public function getUsers()
+    {
+        $query = "SELECT * FROM adshow.user";
+        return $this->select_query($query);
+    }
+
+    public function getUsersWithDeptName($filterByDeptID = null)
+    {
+        $addition = '';
+        if (is_numeric($filterByDeptID)) {
+            $addition = " AND user.departmentIDfk=$filterByDeptID";
+        }
+
+        $query = "SELECT user.ID, user.sNumber, user.firstname, user.lastname, user.owner, department.department, user.permission FROM user JOIN department WHERE user.departmentIDfk=department.ID$addition";
+        return $this->select_query($query);
+    }
+
+    public function execSQL($sql)
+    {
+        return $this->query($sql);
+    }
 
     // setter methods
 
@@ -212,10 +219,17 @@ class Database
         $this->query($query);
         print_r($query);
     }
-    
-    public function addUser($sNumber, $isOwner, $deptIDfk, $permission, $firstname, $lastname) {
+
+    public function addUser($sNumber, $isOwner, $deptIDfk, $permission, $firstname, $lastname)
+    {
         $query = "INSERT INTO user (sNumber, owner, departmentIDfk, permission, firstname, lastname) VALUES ('$sNumber', $isOwner, $deptIDfk, $permission, '$firstname', '$lastname')";
         return $this->query($query) === TRUE;
+    }
+
+    public function addSlide($playlistID, $title, $text, $showTime, $templateName)
+    {
+        $query = "INSERT INTO slide VALUE (NULL,1,'" . $title . "','" . $text . "'," . $showTime . ", '" . $templateName . "' ," . $playlistID . ")";
+        $this->query($query);
     }
 
     public function deleteScreen($id)
@@ -223,9 +237,10 @@ class Database
         $query = "DELETE FROM screen where ID = '$id'";
         $this->query($query);
     }
-    
-    public function deleteUser($sNumb) {
-	    return $this->query("DELETE FROM user WHERE `sNumber`='$sNumb'");
+
+    public function deleteUser($sNumb)
+    {
+        return $this->query("DELETE FROM user WHERE `sNumber`='$sNumb'");
     }
 
     public function addDepartment($department, $owner)

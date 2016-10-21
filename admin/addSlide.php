@@ -3,6 +3,12 @@
  * User: Raphael Jenni
  * Date: 20/10/2016
  */
+if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
+    include "db.php";
+    $objDB = new Database();
+    $objDB->addSlide($_POST["playlistID"], $_POST["title"], $_POST["text"], $_POST["showTime"], $_POST["playlistName"]);
+    header('Location: editPlaylist.php?id=' . $_POST["playlistID"]);
+}
 
 $baseDir = "../templates/";
 $dh = opendir($baseDir);
@@ -21,9 +27,13 @@ include "header.php";
         <div id="template-div"></div>
     </div>
     <div class="col-md-offset-1 col-md-6">
-        <form class="template-editor">
+        <form class="template-editor" action="addSlide.php" method="post"
+              enctype="application/x-www-form-urlencoded">
+            <input type="hidden" name="formSent" value="yes"/>
+            <input type="hidden" name="playlistID" value="<?php echo $_GET["playlistID"]; ?>"/>
+            <input type="hidden" name="templateName" id="templateName" value=""/>
             <div class="row">
-                <button type="submit" class="btn btn-primary pull-right">Save</button>
+                <input type="submit" class="btn btn-primary pull-right" value="Save"/>
             </div>
             <div class="row">
                 <div class="form-group">
@@ -64,7 +74,7 @@ include "header.php";
     </div>
 </div>
 <div class="row template-selector horizontal-scrolling" id="horizontal-scrolling">
-    <?php foreach ($templateDirs as $tempDir) {?>
+    <?php foreach ($templateDirs as $tempDir) { ?>
         <img src="<?php echo $baseDir . $tempDir . "/thumbnail.png" ?>"
              class="templates img-thumbnail"
              id="<?php echo $tempDir ?>"
