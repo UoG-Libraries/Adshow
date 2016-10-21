@@ -21,7 +21,8 @@
 		} else if (!preg_match('/^s[0-9]{7}$/', $sNumb)) {
 			$errorMsg = 'Invalid S-Number';
 		} else {
-			print_r($user->db->addUser($sNumb, 0, $dept, $permission));
+			$name = User::getNameOfUserWithSNumber($sNumb);
+			print_r($user->db->addUser($sNumb, 0, $dept, $permission, $name['firstname'], $name['lastname']));
 		}
 	}
 ?>
