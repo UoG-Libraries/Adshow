@@ -80,7 +80,6 @@
             			            <option value="1">Administrator</option>
             			            
             			            <?php
-	        			            	
 	        			            	if ($user->isSuperadmin()) {
 		    			                	echo '<option value="2">Super Administrator</option>';
 	        			            	}

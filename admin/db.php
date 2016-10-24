@@ -198,6 +198,11 @@ class Database
         $query = "SELECT user.ID, user.sNumber, user.firstname, user.lastname, user.owner, department.department, user.permission FROM user JOIN department WHERE user.departmentIDfk=department.ID$addition";
         return $this->select_query($query);
     }
+    
+    public function getPlaylistForScreen($id) {
+	    $query = "SELECT * FROM playlist WHERE ID=(SELECT playlistIDfk FROM screen WHERE ID=$id)";
+	    return $this->select_query($query);
+    }
 
     public function getSlidesFromPlaylist($playlistID)
     {
