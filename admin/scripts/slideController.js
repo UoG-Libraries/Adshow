@@ -50,5 +50,7 @@ function selectTemplate(baseDir, dir) {
 
 
 $(document).ready(function () {
-    selectTemplate("../templates/", "2-templ");
+    var templateName = $("#templateName").val();
+    console.log(templateName);
+    selectTemplate("../templates/", (templateName == "") ? "2-templ" : templateName);
 });

@@ -199,6 +199,18 @@ class Database
         return $this->select_query($query);
     }
 
+    public function getSlidesFromPlaylist($playlistID)
+    {
+        $query = "SELECT * FROM slide WHERE playlistID = " . $playlistID;
+        return $this->select_query($query);
+    }
+
+    public function getSlide($id)
+    {
+        $query = "SELECT * FROM slide WHERE ID = " . $id;
+        return $this->select_query($query);
+    }
+
     public function execSQL($sql)
     {
         return $this->query($sql);
@@ -266,6 +278,12 @@ class Database
         $this->query("COMMIT");
     }
 
+    public function deleteSlide($slideId)
+    {
+        $query = "DELETE FROM slide WHERE ID = " . $slideId;
+        $this->query($query);
+    }
+
     public function editScreen($location, $department, $orientation, $id)
     {
         $query = "UPDATE screen SET location = '" . $location . "', departmentIDfk =" . $department . ", orientation = '$orientation' WHERE ID= " . $id;
@@ -275,6 +293,13 @@ class Database
     public function editPlaylist($id, $name, $active)
     {
         $query = "UPDATE playlist SET name = '" . $name . "', active =" . $active . " WHERE ID = " . $id;
+        $this->query($query);
+    }
+
+    public function editSlide($id, $title, $text, $showTime, $templateName)
+    {
+        $query = "UPDATE slide SET active = 1, title ='" . $title . "', text ='" . $text . "', playtime = " . $showTime . ", templateName= '" . $templateName . "' WHERE id = " . $id;
+        echo $query;
         $this->query($query);
     }
 
