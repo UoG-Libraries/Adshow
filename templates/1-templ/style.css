@@ -1,0 +1,47 @@
+.template1 {
+    overflow: hidden;
+    height: 100%;
+}
+
+.template1 * {
+    font-family: sans-serif;
+}
+
+.template1 h1 {
+    font-weight: bold;
+    font-family: "Helvetica Neue", "SFUI", sans-serif;
+    font-size: 80px;
+    margin-top: 0;
+    line-height: 100px;
+}
+
+.template1 #header {
+    width: 100%;
+    height: 100px;
+    background-image: -webkit-linear-gradient(lightgreen 0%, #82d682 100%);
+}
+
+.template1 #header h1 {
+    padding: 0 20px;
+}
+
+.template1 .stripe {
+	width: 100%;
+	height: 10px;
+}
+
+.template1 #content {
+    padding-left: 50px;
+}
+
+.template1 #content #text {
+    font-size: 30px;
+}
+
+.template1 #imageWrapper {
+    margin-right: 20px;
+    position: absolute;
+    right: 0;
+    top: 240px;
+    border: 1px solid lightgray;
+}

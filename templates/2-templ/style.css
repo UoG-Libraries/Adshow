@@ -1,13 +1,13 @@
-.template {
+.template2 {
     overflow: hidden;
     height: 80vh;
 }
 
-.template * {
+.template2 * {
     font-family: sans-serif;
 }
 
-.template h1 {
+.template2 h1 {
     font-weight: lighter;
     font-family: "Helvetica Neue", "SFUI", sans-serif;
     font-size: 110px;
@@ -15,7 +15,7 @@
     line-height: 200px;
 }
 
-.template #header {
+.template2 #header {
     position: absolute;
     top: 0;
     left: 0;
@@ -24,20 +24,20 @@
     background-color: aliceblue;
 }
 
-.template #header h1 {
+.template2 #header h1 {
     padding: 0 20px;
 }
 
-.template #content {
+.template2 #content {
     padding-top: 220px;
     padding-left: 50px;
 }
 
-.template #content #text {
+.template2 #content #text {
     font-size: 30px;
 }
 
-.template #imageWrapper {
+.template2 #imageWrapper {
     margin-right: 20px;
     position: absolute;
     right: 0;

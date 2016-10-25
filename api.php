@@ -55,6 +55,7 @@
 	
 	function complete($status, $obj) {
 		$msg = "HTTP/1.1 $status " . HTTPStatusCode::getStr($status);
+		header($msg);
 		die(json_encode($obj));
 	}
 
@@ -90,12 +91,36 @@
 				complete(HTTPStatusCode::BadRequest, errObj('Screen param not valid', 'The screen ID is malformed', ErrorCodes::INVALID_ARGUMENT_TYPE));
 			}
 			
+			$globalPlaylist = $db->getGlobalPlaylist();
 			$playlist = $db->getPlaylistForScreen($screenID);
 			if ($playlist != FALSE) {
 				$localPlaylist = null;
 				if (!empty($playlist)) {
 					$localPlaylist = $playlist[0];
 				}
+				
+				if (!$globalPlaylist || empty($globalPlaylist)) {
+					$globalPlaylist = null;
+				} else {
+					$globalPlaylist = $globalPlaylist[0];
+				}
+				
+				$ret = array();
+				if ($localPlaylist) {
+					$slides = $db->getSlidesFromPlaylist($localPlaylist['ID']);
+					
+					$localPlaylist['slides'] = $slides;
+					array_push($ret, $localPlaylist);
+				}
+				
+				if ($globalPlaylist) {
+					$slides = $db->getSlidesFromPlaylist($globalPlaylist['ID']);
+					
+					$globalPlaylist['slides'] = $slides;
+					array_push($ret, $globalPlaylist);
+				}
+				
+				complete(HTTPStatusCode::Ok, $ret);
 			} else {
 				complete(HTTPStatusCode::InternalError, errObj('Can\'t retrieve playlist', 'An internal DB error occurred', ErrorCodes::UNEXPECTED_ERROR));
 			}

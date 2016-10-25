@@ -75,30 +75,6 @@ class Database
     /* public methods
      *****************/
 
-    public function prepared_query($query, $type, $value)
-    {
-        if (!$this->link) {
-            $this->connect();
-        }
-
-        if ($statement = mysqli_prepare($this->link, $query)) {
-            mysqli_stmt_bind_param($statement, $type, $v);
-            $v = $value;
-            echo $v;
-
-            mysqli_stmt_execute($statement);
-            mysqli_stmt_bind_result($statement, $result);
-            mysqli_stmt_fetch($statement);
-            //return mysqli_stmt_error($statement);
-            mysqli_stmt_close($statement);
-
-            return $result;
-        } else {
-            return NULL;
-        }
-    }
-
-
     // getter methods
 
     public function getDepartments()
@@ -201,6 +177,11 @@ class Database
     
     public function getPlaylistForScreen($id) {
 	    $query = "SELECT * FROM playlist WHERE ID=(SELECT playlistIDfk FROM screen WHERE ID=$id)";
+	    return $this->select_query($query);
+    }
+    
+    public function getGlobalPlaylist() {
+	    $query = 'SELECT * FROM playlist WHERE `global`=1';
 	    return $this->select_query($query);
     }
 
