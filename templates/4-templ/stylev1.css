@@ -55,7 +55,7 @@ body{
 
 
 
-.template4 #image {
+.template4 #imagewrapper img {
 	float: right;
 	position: absolute;
 	right: 100px;
