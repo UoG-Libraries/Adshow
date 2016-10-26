@@ -14,7 +14,7 @@ $baseDir = "../templates/";
 $dh = opendir($baseDir);
 $templateDirs = array();
 while (false !== ($filename = readdir($dh))) {
-    if ($filename != '.' && $filename != '..') {
+    if ($filename != '.' && $filename != '..' && strpos($filename, '-templ') !== false) {
         $templateDirs[] = $filename;
     }
 }

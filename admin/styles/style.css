@@ -67,8 +67,8 @@ body {
         height: 100%;
         position: fixed;
         z-index: 100;
-        width: 80%;
-        left: -65%;
+        width: 300px;
+        left: -240px;
     }
 
     .nav {
@@ -139,7 +139,7 @@ span.success {
         left: 0;
     }
     100% {
-        left: -65%;
+        left: -240px;
     }
 }
 
@@ -149,13 +149,13 @@ span.success {
         left: 0;
     }
     100% {
-        left: -65%;
+        left: -240px;
     }
 }
 
 @-webkit-keyframes moveOut {
     0% {
-        left: -65%;
+        left: -240px;
     }
     100% {
         left: 0;
@@ -165,7 +165,7 @@ span.success {
 /* Standard syntax */
 @keyframes moveOut {
     0% {
-        left: -65%;
+        left: -240px;
     }
     100% {
         left: 0;
