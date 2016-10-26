@@ -35,6 +35,10 @@ vm.updatePreview = function () {
     var preview = $(".preview #text");
     preview.empty();
     preview.append(converter.makeHtml(textValue));
+
+    var imageWrapper = $("#imageWrapper");
+    imageWrapper.empty();
+    imageWrapper.append("<img src='../upload_files/" + $("#imageURL").val() + "'/>");
 };
 
 function selectTemplate(baseDir, dir) {
@@ -48,9 +52,23 @@ function selectTemplate(baseDir, dir) {
     $("#templateName").val(dir);
 }
 
+function updateImage() {
+    var image = $("#imageURL");
+    image.val($("#uploaded_image_name").val());
+
+    vm.updatePreview();
+}
+
 
 $(document).ready(function () {
     var templateName = $("#templateName").val();
     console.log(templateName);
     selectTemplate("../templates/", (templateName == "") ? "2-templ" : templateName);
+
+    $('#submitbtn').click(function () {
+        $("#viewimage").html('');
+        $(".uploadform").ajaxForm({
+            target: '#viewimage'
+        }).submit();
+    });
 });

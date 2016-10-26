@@ -6,7 +6,7 @@
 include "db.php";
 $objDB = new Database();
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
-    $objDB->editSlide($_POST["id"], $_POST["title"], $_POST["text"], $_POST["showTime"], $_POST["templateName"]);
+    $objDB->editSlide($_POST["id"], $_POST["title"], $_POST["text"], $_POST["showTime"], $_POST["imageURL"], $_POST["templateName"]);
     header('Location: editPlaylist.php?id=' . $_POST["playlistID"]);
 }
 
@@ -35,6 +35,7 @@ include "header.php";
             <input type="hidden" name="id" value="<?php echo $id ?>"/>
             <input type="hidden" name="playlistID" value="<?php echo $slide["playlistID"] ?>"/>
             <input type="hidden" name="templateName" id="templateName" value="<?php echo $slide["templateName"] ?>"/>
+            <input type="hidden" name="imageURL" id="imageURL" value="<?php echo $slide["imageURL"] ?>"/>
             <div class="row">
                 <input type="submit" class="btn btn-primary pull-right" value="Save"/>
             </div>
@@ -46,7 +47,7 @@ include "header.php";
                            name="title"
                            id="inputTitle"
                            placeholder="Title"
-                           value="<?php echo $slide["title"]?>"
+                           value="<?php echo $slide["title"] ?>"
                            oninput="vm.updatePreview()">
                 </div>
                 <div class="form-group">
@@ -57,7 +58,7 @@ include "header.php";
                         name="text"
                         id="inputText"
                         placeholder="Text"
-                        oninput="vm.updatePreview()"><?php echo $slide["text"]?></textarea>
+                        oninput="vm.updatePreview()"><?php echo $slide["text"] ?></textarea>
                 </div>
                 <div class="form-group">
                     <label for="showTime">Show time</label>
@@ -66,20 +67,27 @@ include "header.php";
                                class="form-control"
                                name="showTime"
                                id="showTime"
-                               value="<?php echo $slide["playtime"]?>"
+                               value="<?php echo $slide["playtime"] ?>"
                                placeholder="Amount">
                         <div class="input-group-addon">seconds</div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <input id="uploadFile" placeholder="Choose File" disabled="disabled"/>
-                    <div class="fileUpload btn btn-primary row">
-                        <span>Upload image</span>
-                        <input type="file" accept="image/*" id="uploadBtn" name="file" class="upload"/>
-                    </div>
-                </div>
             </div>
         </form>
+        <div>
+            <form class="uploadform form-inline" method="post" enctype="multipart/form-data"
+                  action='upload.php'>
+                <div class="form-group">
+                    <label for="imagefile">Upload your image: </label>
+                    <div class="input-group">
+                        <input type="file" name="imagefile" id="imagefile"/>
+                    </div>
+                </div>
+                <input type="submit" value="Submit" class="btn btn-default" name="submitbtn" id="submitbtn">
+            </form>
+            <!-- The uploaded image will display here -->
+            <div id='viewimage'></div>
+        </div>
     </div>
 </div>
 <div class="row template-selector horizontal-scrolling" id="horizontal-scrolling">
