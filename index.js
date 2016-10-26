@@ -4,7 +4,11 @@ var currentPlaylistIndex = 0;
 var currentTemplateName = "";
 var transitionDuration = 1;
 
-var converter = new showdown.Converter({tables: true, headerLevelStart: 2, strikethrough: true});
+var converter = new showdown.Converter({
+	tables: true, 
+	headerLevelStart: 2, 
+	strikethrough: true
+});
 
 function loadScreen() {
 	screen = localStorage.getItem("screen");
@@ -14,7 +18,7 @@ function loadScreen() {
 		if (screen)
 			return true;
 	}
-
+	
 	return false;
 }
 
@@ -70,13 +74,113 @@ function processPlaylistResponse(response) {
 			console.error(e);
 		}
 	}
+	
+	if (playlists.length > 0) {
+		playlists.unshift(splashScreen);
+	}
+}
+
+function getPlaylistIndexWithPlaylistID(id) {
+	for (var i in playlists) {
+		var playlist = playlists[i];
+		if (playlist.id == id)
+			return i;
+	}
+	
+	return -1;
+}
+
+function getSlideIndexOfPlaylistWithSlideID(playlist, slideID) {
+	for (var i in playlist.slides) {
+		var slide = playlist.slides[i];
+		if (slide.id == slideID) 
+			return i;	
+	}
+	
+	return -1;
 }
 
 function startPresentation() {
 	loadAllTemplates(function() {
-		$("#presentation").removeChild($("#loading"));
-		presentationLoop();
+		preloadAllPlaylists(playlists, function() {
+			$("#presentation").removeChild($("#loading"));
+			presentationLoop();
+			updateLoop();
+		});
 	});
+}
+
+function updateLoop() {
+	setTimeout(function() {
+		apiCall(3, "screen", parseInt(screen.ID), function(success, response) {
+			if (success) {
+				if (response.length > 0) {
+					// DEBUGGING:
+					var playlistsAdded = 0;
+					var slidesAdded = 0;
+					var slidesChanged = 0;
+					
+					console.log(response);
+					// END DEBUGGNG
+					
+					for (var i in response) {
+						var list = response[i];
+						try {
+							var newPlaylist = new Playlist(list);
+							var index = getPlaylistIndexWithPlaylistID(newPlaylist.id);
+							if (index >= 0) {
+								var oldPlaylist = playlists[index];
+								
+								for (var j in newPlaylist.slides) {
+									var newSlide = newPlaylist.slides[j];
+									var slideIndex = getSlideIndexOfPlaylistWithSlideID(oldPlaylist, newSlide.id);
+									
+									if (slideIndex >= 0) {
+										oldPlaylist.slides[slideIndex] = newSlide;
+										slidesChanged++; // DEBUG
+									} else {
+										oldPlaylist.slides.push(newSlide);
+										slidesAdded++; // DEBUG
+									}
+								}
+							} else {
+								playlists.push(playlist);
+								
+								playlistsAdded++; // DEBUG
+							}
+						} catch (e) {
+							console.error("Can't update playlist:");
+							console.dir(e);
+						}
+					}
+					
+					// DEBUGGING:
+					var summary = "";
+					if (playlistsAdded > 0) {
+						summary += playlistsAdded + " playlist" + (playlistsAdded == 1 ? "" : "s") + " added, ";
+					} 
+					if (slidesAdded > 0) {
+						summary += slidesAdded + " slide" + (slidesAdded == 1 ? "" : "s") + " added, ";
+					}
+					if (slidesChanged > 0) {
+						summary += slidesChanged + " slide" + (slidesChanged == 1 ? "" : "s") + " changed, ";
+					}
+					if (summary.length > 0) {
+						console.info(summary.substr(0, summary.length - 2));
+					}
+					// END DEBUG
+				}
+			} else {
+				console.group("Can't update changed playlists");
+				console.error("While trying to refresh the playlists, an error occurred");
+				console.error("Error: ");
+				console.dir(response);
+				console.groupEnd();
+			}
+			
+			updateLoop();
+		}, true);
+	}, 10000)
 }
 
 function presentationLoop() {
@@ -111,8 +215,30 @@ function presentationLoop() {
 			console.groupEnd();
 		}
 		
+		if (slide.image) {
+			try {
+				var container = $("#presentation #"+id+" #image");
+				var rect = container.getBoundingClientRect();
+				if (rect.width > 0) {
+					slide.image.width = rect.width;
+				}
+				
+				if (rect.height > 0) {
+					slide.image.height = rect.height;
+				}
+				
+				container.append(slide.image);
+			} catch (e) {
+				
+			}
+		}
+		
+		if ($("#presentation").children.length >= 2) {
+			$("#presentation").children[0].setClass("slideOut");
+		}
+		
 		setTimeout(function() {
-			element.style.left = "0";
+			//element.style.left = "0";
 		
 			// remove old template stylesheet
 			if (oldTemplateName != currentTemplateName) {
@@ -121,7 +247,7 @@ function presentationLoop() {
 					if (oldOne) {
 						document.head.removeChild(oldOne);
 					}
-				}, transitionDuration * 1000);
+				}, transitionDuration * 1000 + 2);
 			}
 			
 			// after the transition
@@ -243,6 +369,7 @@ window.addEventListener("load", function() {
 	}
 });
 
+// HELPERS
 function $(sel) {
 	return document.querySelector(sel);
 }

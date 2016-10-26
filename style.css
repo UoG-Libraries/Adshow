@@ -78,12 +78,58 @@
 .slide {
 	position: absolute;
 	top: 0;
-	left: 100%;
+	/*left: 100%;*/
+	left: 0;
 	margin: 0;
 	width: 100%;
 	height: 100%;
 	background: white;
 
-	-webkit-transition: 1s left cubic-bezier(0.01, 0.01, 0.26, 0.84);
-	transition: 1s left cubic-bezier(0.01, 0.01, 0.26, 0.84);
+	/*-webkit-transition: 1s left cubic-bezier(0.01, 0.01, 0.26, 0.84);
+	transition: 1s left cubic-bezier(0.01, 0.01, 0.26, 0.84);*/
+	-webkit-animation: 1s slide;
+}
+
+.slideOut {
+	-webkit-animation: 1s slideOut;
+}
+
+@-webkit-keyframes slide {
+	0% {
+		left: 100%;
+	}
+	
+	100% {
+		left: 0;
+	}
+}
+
+@keyframes slide {
+	0% {
+		left: 100%;
+	}
+	
+	100% {
+		left: 0;
+	}
+}
+
+@-webkit-keyframes slideOut {
+	0% {
+		left: 0
+	}
+	
+	100% {
+		left: -20%;
+	}
+}
+
+@keyframes slideOut {
+	0% {
+		left: 0
+	}
+	
+	100% {
+		left: -20%;
+	}
 }

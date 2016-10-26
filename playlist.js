@@ -1,6 +1,10 @@
 (function() {
 	"use strict";
 	
+	String.prototype.empty = function empty() {
+		return this.length == 0;
+	};
+	
 	var req = function(url, dontCache, response) {
 		var request = new XMLHttpRequest();
 		request.open("GET", url + (dontCache ? ("?t=" + (new Date).getTime()) : ""), true);
@@ -44,9 +48,10 @@
 		
 		this.id = arr["ID"];
 		this.active = (arr["active"] || "0") == "1";
-		this.playtime = parseInt(arr["playtime"] || "10");
+		this.playtime = Math.max(parseInt(arr["playtime"] || "10"), 0.3);
 		this.text = arr["text"] || "";
 		this.title = arr["title"] || "";
+		this.image = null;
 		
 		var name = arr["templateName"];
 		if (!usedTemplates[name]) {
@@ -55,6 +60,20 @@
 		}
 		
 		this.template = usedTemplates[name];
+		
+		var imageURL;
+		try {
+			imageURL = arr["imageURL"];
+		} catch (_) {  }
+		
+		this.load = function load(callback) {
+			if (imageURL && !imageURL.empty()) {
+				this.image = new Image();
+				this.image.onload = callback;
+				this.image.src = imageURL;
+			} else 
+				callback();
+		};
 	};
 	
 	var playlist = function Playlist(arr) {
@@ -82,6 +101,34 @@
 				return null;
 			}
 		};
+		
+		this.preload = function preload(callback) {
+			var loadedCount = 0;
+			
+			for (var i in this.slides) {
+				var slide = this.slides[i];
+				slide.load((function(t, callback) {
+					return function() {
+						if (++loadedCount == t.slides.length) {
+							callback();
+						}
+					};
+				})(this, callback));
+			}
+		};
+	};
+	
+	var preloadAllPlaylists = function preloadAllPlaylists(playlists, callback) {
+		var loadedCount = 0;
+		
+		for (var i in playlists) {
+			var playlist = playlists[i];
+			playlist.preload(function() {
+				if (++loadedCount == playlists.length) {
+					callback();
+				}
+			});
+		}
 	};
 	
 	var loadAllTemplates = function loadAllTemplates(callback) {
@@ -103,5 +150,6 @@
 	
 	window.getUsedTemplates = getUsedTemplates;
 	window.loadAllTemplates = loadAllTemplates;
+	window.preloadAllPlaylists = preloadAllPlaylists;
 	window.Playlist = playlist;
 })();
