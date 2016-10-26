@@ -18,10 +18,14 @@ function loadScreen() {
 	return false;
 }
 
-function apiCall(callID, paramName, paramVal, response) {
+function apiCall(callID, paramName, paramVal, response, dontCache) {
 	var url = "api.php?call=" + callID;
 	if (paramName && paramVal) {
 		url += "&" + paramName + "=" + paramVal;
+	}
+	
+	if (dontCache) {
+		url += "&t=" + (new Date).getTime();
 	}
 
 	if (typeof response !== "function" && typeof paramName === "function") {
@@ -43,9 +47,10 @@ function apiCall(callID, paramName, paramVal, response) {
 	xReq.send();
 }
 
-function addCss(fileName, id) {
+function addCss(fileName, id, load) {
 	var head = document.head, link = document.createElement('link');
 
+	link.onload = load;
 	link.type = 'text/css';
 	link.rel = 'stylesheet';
 	link.href = fileName;
@@ -85,51 +90,62 @@ function presentationLoop() {
 		presentationLoop();
 		return;
 	}
+	
+	
+	var display = function() {
+		// CONTENT
+		var id = "slide_" + Math.ceil(Math.random() * 1000) + "_" + currentTemplateName;
+		var element = createElem("div").setClass("slide");
+		element.id = id;
+		element.innerHTML = slide.template.htmlContent;
+		
+		$("#presentation").append(element);
+		
+		try {
+			$("#presentation #"+id+" #text").innerHTML = converter.makeHtml(slide.text);
+			$("#presentation #"+id+" #title").innerHTML = slide.title;
+		} catch (e) {
+			console.group("Can't display slide");
+			console.error("Can't replace the content of the slide");
+			console.error(e);
+			console.groupEnd();
+		}
+		
+		setTimeout(function() {
+			element.style.left = "0";
+		
+			// remove old template stylesheet
+			if (oldTemplateName != currentTemplateName) {
+				setTimeout(function() {
+					var oldOne = document.getElementById(oldTemplateName);
+					if (oldOne) {
+						document.head.removeChild(oldOne);
+					}
+				}, transitionDuration * 1000);
+			}
+			
+			// after the transition
+			setTimeout(function() {
+				if ($("#presentation").children.length >= 2) {
+					$("#presentation").removeChild($("#presentation").children[0]);
+				}
+			}, transitionDuration * 1000);
+		
+			// LOOP
+			setTimeout(function() {
+				presentationLoop();
+			}, slide.playtime * 1000 + transitionDuration * 1000);
+		}, 2);
+	};
 
 	// STYLE
 	oldTemplateName = currentTemplateName;
 	currentTemplateName = slide.template.name;
 	if (currentTemplateName != oldTemplateName) {
-		addCss(slide.template.cssUrl, currentTemplateName);
+		addCss(slide.template.cssUrl, currentTemplateName, display);
+	} else {
+		display();
 	}
-
-
-	// CONTENT
-	var id = "slide_" + Math.ceil(Math.random() * 1000) + "_" + currentTemplateName;
-	var element = createElem("div").setClass("slide");
-	element.id = id;
-	element.innerHTML = slide.template.htmlContent;
-
-	$("#presentation").append(element);
-
-	$("#presentation #"+id+" #text").innerHTML = converter.makeHtml(slide.text);
-	$("#presentation #"+id+" #title").innerHTML = slide.title;
-
-	setTimeout(function() {
-		element.style.left = "0";
-
-		// remove old template stylesheet
-		if (oldTemplateName != currentTemplateName) {
-			setTimeout(function() {
-				var oldOne = document.getElementById(oldTemplateName);
-				if (oldOne) {
-					document.head.removeChild(oldOne);
-				}
-			}, transitionDuration * 1000);
-		}
-		
-		// after the transition
-		setTimeout(function() {
-			if ($("#presentation").children.length >= 2) {
-				$("#presentation").removeChild($("#presentation").children[0]);
-			}
-		}, transitionDuration * 1000);
-
-		// LOOP
-		setTimeout(function() {
-			presentationLoop();
-		}, slide.playtime * 1000 + transitionDuration * 1000);
-	}, 1);
 }
 
 function displayPresentationError(title, error, desc) {
@@ -223,7 +239,7 @@ window.addEventListener("load", function() {
 			} else {
 				displayPresentationError("Can't load slides.", response.error, response.desc)
 			}
-		});
+		}, true);
 	}
 });
 

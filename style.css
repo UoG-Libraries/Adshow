@@ -84,6 +84,6 @@
 	height: 100%;
 	background: white;
 
-	-webkit-transition: 1s left cubic-bezier(0.01, 0.01, 0.26, 0.84);;
-	transition: 1s left cubic-bezier(0.01, 0.01, 0.26, 0.84);;
+	-webkit-transition: 1s left cubic-bezier(0.01, 0.01, 0.26, 0.84);
+	transition: 1s left cubic-bezier(0.01, 0.01, 0.26, 0.84);
 }

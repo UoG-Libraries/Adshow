@@ -1,9 +1,9 @@
 (function() {
 	"use strict";
 	
-	var req = function(url, response) {
+	var req = function(url, dontCache, response) {
 		var request = new XMLHttpRequest();
-		request.open("GET", url, true);
+		request.open("GET", url + (dontCache ? ("?t=" + (new Date).getTime()) : ""), true);
 		request.onload = function() {
 			if (request.readyState == XMLHttpRequest.DONE) {
 				response(request.response, request.status);
@@ -19,7 +19,7 @@
 		this.htmlContent = null;
 		
 		this.load = function(callback) {
-			req(this.htmlUrl, (function(t, c) {
+			req(this.htmlUrl, true, (function(t, c) {
 				return function(response, status) {
 					if (status == 200) {
 						t.htmlContent = response;
