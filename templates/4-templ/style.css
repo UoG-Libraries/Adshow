@@ -1,4 +1,4 @@
-body{
+.template4{
 	margin: 0;
 }
 
@@ -8,14 +8,23 @@ body{
 }
 
 .template4 .header #title {
+	/*background-color: #ffe5a1;*/
 	background-image: linear-gradient(#faa61a, #ffcb05, #ffe5a1, #fff8e6, #ffffff);
+	/* position: absolute; */
 	height: 20%;
+	/* top: 8px; */
+	/* left: 0; */
+	/* right: 0; */
 }
 
 .template4 .header #head {
-	background: url('https://helpdeskapps.glos.ac.uk/forms/Content/images/header-jewel.png') repeat-x 0px 0px;
+	background-image: url(./assets/colourbarsheader.png);
+	background-repeat: repeat-x;
 	height: 8px;
 	width: 100%;
+	/* position: absolute; */
+	/* top: 0; */
+	/* left: 0; */
 }
 
 .template4 .header h1 {
@@ -28,13 +37,20 @@ body{
 .template4 .main #text {
 	margin-left: 60px;
 	margin-top: 40px;
+	/* clear: both; */
 	width: 50%;
 	height: 40%;
+	/* float: left; */
+	/* position: absolute; */
+	/* top: 15%; */
+	/* background: radial-gradient(#fff1cc, #fff8e6, #ffffff 80%); */
 }
 
 .template4 .main p {
 	font-family: Gotham Book;
 	font-size: 140%;
+	/* padding-left: 24%; */
+	/* padding-top: 10%; */
 }
 
 
@@ -44,12 +60,16 @@ body{
 	position: absolute;
 	right: 100px;
 	bottom: 60px;
+	/* padding-top: 80px; */
+	/* padding-right: 100px; */
 	height: 50%;
 	border-radius: 20px;
 }
 
 .template4 #unilogo {
+	/* margin-left: 1%; */
 	float: left;
+	/* padding-top: 34%; */
 	opacity: 0.5;
 	width: 30%;
 	position: absolute;
@@ -58,7 +78,7 @@ body{
 }
 
 .template4 footer {
-	background: url('http://moodle.glos.ac.uk/moodle/theme/image.php/uniglos/theme/1477402423/colourbars');
+	background-image: url(./assets/colourbarsfooter.png);
 	height: 18px;
 	width: 100%;
 	position: absolute;

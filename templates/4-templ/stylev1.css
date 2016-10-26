@@ -18,7 +18,8 @@ body{
 }
 
 .template4 .header #head {
-	background: url('https://helpdeskapps.glos.ac.uk/forms/Content/images/header-jewel.png') repeat-x 0px 0px;
+	background-image: url(./assets/colourbarsheader.png);
+	background-repeat: repeat-x;
 	height: 8px;
 	width: 100%;
 	/* position: absolute; */
@@ -77,7 +78,7 @@ body{
 }
 
 .template4 footer {
-	background: url('http://moodle.glos.ac.uk/moodle/theme/image.php/uniglos/theme/1477402423/colourbars');
+	background-image: url(./assets/colourbarsfooter.png);
 	height: 18px;
 	width: 100%;
 	position: absolute;
