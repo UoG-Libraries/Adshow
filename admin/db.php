@@ -184,6 +184,16 @@ class Database
 	    $query = 'SELECT * FROM playlist WHERE `global`=1';
 	    return $this->select_query($query);
     }
+    
+    public function getChangedSlidesForPlaylist($playlistID) {
+	    $query = "SELECT * FROM slide WHERE `changed`=1 AND `playlistID`=$playlistID";
+	    return $this->select_query($query);
+    }
+    
+    public function removeChangeFlagsForPlaylist($playlistID) {
+	    $query = "UPDATE slide SET `changed`=0 WHERE `changed`=1 AND `playlistID`=$playlistID";
+	    return $this->query($query);
+    }
 
     public function getSlidesFromPlaylist($playlistID)
     {

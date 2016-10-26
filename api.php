@@ -11,6 +11,7 @@
 				PARAM	MEANING
 				1		This call returns all the screens available
 				2		Load the playlist data for a screen. Send an extra GET argument called "screen" with the ID of the screen.
+				3		Ask for any changes and return the changes, if there are some.
 				
 			Every call will return a JSON object with the information requested.
 			If a call fails, an error will be returned. The error has the following structure:
@@ -125,6 +126,54 @@
 				complete(HTTPStatusCode::InternalError, errObj('Can\'t retrieve playlist', 'An internal DB error occurred', ErrorCodes::UNEXPECTED_ERROR));
 			}
 			
+			break;
+			
+		case 3:
+			if (!isset($_GET['screen'])) {
+				complete(HTTPStatusCode::BadRequest, errObj('Missing screen param', 'Missing GET param "screen" with the screen ID', ErrorCodes::LACK_OF_ARGUMENTS));
+			}
+			
+			$screenID = $_GET['screen'];
+			if (!is_numeric($screenID)) {
+				complete(HTTPStatusCode::BadRequest, errObj('Screen param not an ID', 'Screen param must be an ID integer', ErrorCodes::INVALID_ARGUMENT_TYPE));
+			} else if ($screenID < 0) {
+				complete(HTTPStatusCode::BadRequest, errObj('Screen param not valid', 'The screen ID is malformed', ErrorCodes::INVALID_ARGUMENT_TYPE));
+			}
+			
+			$globalPlaylist = $db->getGlobalPlaylist();
+			$playlist = $db->getPlaylistForScreen($screenID);
+			if ($playlist != FALSE) {
+				$localPlaylist = null;
+				if (!empty($playlist)) {
+					$localPlaylist = $playlist[0];
+				}
+				
+				if (!$globalPlaylist || empty($globalPlaylist)) {
+					$globalPlaylist = null;
+				} else {
+					$globalPlaylist = $globalPlaylist[0];
+				}
+				
+				$localChanges = $db->getChangedSlidesForPlaylist($localPlaylist['ID']);
+				$globalChanges = $db->getChangedSlidesForPlaylist($globalPlaylist['ID']);
+				
+				$ret = array();
+				if ($localChanges && !empty($localChanges)) {
+					$localPlaylist['slides'] = $localChanges;
+					array_push($ret, $localPlaylist);
+					
+					$db->removeChangeFlagsForPlaylist($localPlaylist['ID']);
+				} 
+				
+				if ($globalChanges && !empty($globalChanges)) {
+					$globalPlaylist['slides'] = $globalChanges;
+					array_push($ret, $globalPlaylist);
+					
+					$db->removeChangeFlagsForPlaylist($globalPlaylist['ID']);
+				}
+				
+				complete(HTTPStatusCode::Ok, $ret);
+			}
 			break;
 		
 		default:
