@@ -63,7 +63,11 @@
 		
 		var imageURL;
 		try {
-			imageURL = arr["imageURL"];
+			var fromServer = arr["imageURL"];
+			if (fromServer != undefined && fromServer != null) {
+				imageURL = "upload_files/" + fromServer;
+				console.log(imageURL);
+			}
 		} catch (_) {  }
 		
 		this.load = function load(callback) {

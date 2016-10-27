@@ -217,7 +217,7 @@ function presentationLoop() {
 		
 		if (slide.image) {
 			try {
-				var container = $("#presentation #"+id+" #image");
+				var container = $("#presentation #"+id+" #imageWrapper");
 				var rect = container.getBoundingClientRect();
 				if (rect.width > 0) {
 					slide.image.width = rect.width;
@@ -227,7 +227,7 @@ function presentationLoop() {
 					slide.image.height = rect.height;
 				}
 				
-				container.append(slide.image);
+				container.removeContent().append(slide.image);
 			} catch (e) {
 				
 			}
