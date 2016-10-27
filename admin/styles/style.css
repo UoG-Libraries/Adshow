@@ -59,6 +59,10 @@ body {
     border: solid 3px gray;
 }
 
+.imageUploadSection{
+    padding: 15px 0;
+}
+
 @media (max-width: 992px) {
 
     #navigation {

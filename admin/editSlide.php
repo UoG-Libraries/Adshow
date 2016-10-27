@@ -76,8 +76,8 @@ include "header.php";
                 </div>
             </div>
         </form>
-        <div>
-            <form class="uploadform form-inline" method="post" enctype="multipart/form-data"
+        <div class="row imageUploadSection">
+            <form class="uploadform " method="post" enctype="multipart/form-data"
                   action='upload.php'>
                 <div class="form-group">
                     <label for="imagefile">Upload your image: </label>
@@ -85,7 +85,7 @@ include "header.php";
                         <input type="file" name="imagefile" id="imagefile"/>
                     </div>
                 </div>
-                <input type="submit" value="Submit" class="btn btn-default" name="submitbtn" id="submitbtn">
+                <input type="submit" value="Upload" class="btn btn-default" name="submitbtn" id="submitbtn">
             </form>
             <!-- The uploaded image will display here -->
             <div id='viewimage'></div>

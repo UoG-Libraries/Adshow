@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 
 $file_formats = array("jpg", "png", "gif", "bmp"); // Set File format
 $filepath = "../upload_files/";
-if (isset($_POST['submitbtn']) && $_POST['submitbtn'] == "Submit") {
+if (isset($_POST['submitbtn']) && $_POST['submitbtn'] == "Upload") {
     $name = $_FILES['imagefile']['name'];
     $size = $_FILES['imagefile']['size'];
 
