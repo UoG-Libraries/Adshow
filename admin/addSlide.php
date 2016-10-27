@@ -6,7 +6,7 @@
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
     include "db.php";
     $objDB = new Database();
-    $objDB->addSlide($_POST["playlistID"], $_POST["title"], $_POST["text"], $_POST["showTime"], $_POST["templateName"]);
+    $objDB->addSlide($_POST["playlistID"], $_POST["title"], $_POST["text"], $_POST["showTime"], $_POST["imageURL"], $_POST["templateName"]);
     header('Location: editPlaylist.php?id=' . $_POST["playlistID"]);
 }
 
@@ -31,6 +31,7 @@ include "header.php";
               enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="formSent" value="yes"/>
             <input type="hidden" name="playlistID" value="<?php echo $_GET["playlistID"]; ?>"/>
+            <input type="hidden" name="imageURL" id="imageURL"/>
             <input type="hidden" name="templateName" id="templateName" value=""/>
             <div class="row">
                 <input type="submit" class="btn btn-primary pull-right" value="Save"/>
@@ -62,15 +63,22 @@ include "header.php";
                         <div class="input-group-addon">seconds</div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <input id="uploadFile" placeholder="Choose File" disabled="disabled"/>
-                    <div class="fileUpload btn btn-primary row">
-                        <span>Upload image</span>
-                        <input type="file" accept="image/*" id="uploadBtn" name="file" class="upload"/>
-                    </div>
-                </div>
             </div>
         </form>
+        <div>
+            <form class="uploadform form-inline" method="post" enctype="multipart/form-data"
+                  action='upload.php'>
+                <div class="form-group">
+                    <label for="imagefile">Upload your image: </label>
+                    <div class="input-group">
+                        <input type="file" name="imagefile" id="imagefile"/>
+                    </div>
+                </div>
+                <input type="submit" value="Submit" class="btn btn-default" name="submitbtn" id="submitbtn">
+            </form>
+            <!-- The uploaded image will display here -->
+            <div id='viewimage'></div>
+        </div>
     </div>
 </div>
 <div class="row template-selector horizontal-scrolling" id="horizontal-scrolling">

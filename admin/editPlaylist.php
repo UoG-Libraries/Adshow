@@ -30,7 +30,6 @@ include 'header.php';
               enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="formSent" value="yes"/>
             <input type="hidden" name="id" value="<?php echo $playlist["ID"] ?>"/>
-
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">Name</label>
                 <div class="col-sm-10">
@@ -61,7 +60,6 @@ include 'header.php';
                 <div class="panel-body">
                     <?php if (count($slides) < 1) { ?>
                         <div>There are no slides yet.</div>
-                        <a class="btn btn-default" href="addSlide.php?playlistID=<?php echo $id ?>">Add slide</a>
                     <?php } else { ?>
                         <table class="table">
                             <thead>
@@ -106,6 +104,7 @@ include 'header.php';
                             } ?>
                             </tbody>
                         </table>
+                        <a class="btn btn-default" href="addSlide.php?playlistID=<?php echo $id ?>">Add slide</a>
                     <?php } ?>
                 </div>
             </div>

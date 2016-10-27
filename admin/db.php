@@ -174,25 +174,29 @@ class Database
         $query = "SELECT user.ID, user.sNumber, user.firstname, user.lastname, user.owner, department.department, user.permission FROM user JOIN department WHERE user.departmentIDfk=department.ID$addition";
         return $this->select_query($query);
     }
-    
-    public function getPlaylistForScreen($id) {
-	    $query = "SELECT * FROM playlist WHERE ID=(SELECT playlistIDfk FROM screen WHERE ID=$id)";
-	    return $this->select_query($query);
+
+    public function getPlaylistForScreen($id)
+    {
+        $query = "SELECT * FROM playlist WHERE ID=(SELECT playlistIDfk FROM screen WHERE ID=$id)";
+        return $this->select_query($query);
     }
-    
-    public function getGlobalPlaylist() {
-	    $query = 'SELECT * FROM playlist WHERE `global`=1';
-	    return $this->select_query($query);
+
+    public function getGlobalPlaylist()
+    {
+        $query = 'SELECT * FROM playlist WHERE `global`=1';
+        return $this->select_query($query);
     }
-    
-    public function getChangedSlidesForPlaylist($playlistID) {
-	    $query = "SELECT * FROM slide WHERE `changed`=1 AND `playlistID`=$playlistID";
-	    return $this->select_query($query);
+
+    public function getChangedSlidesForPlaylist($playlistID)
+    {
+        $query = "SELECT * FROM slide WHERE `changed`=1 AND `playlistID`=$playlistID";
+        return $this->select_query($query);
     }
-    
-    public function removeChangeFlagsForPlaylist($playlistID) {
-	    $query = "UPDATE slide SET `changed`=0 WHERE `changed`=1 AND `playlistID`=$playlistID";
-	    return $this->query($query);
+
+    public function removeChangeFlagsForPlaylist($playlistID)
+    {
+        $query = "UPDATE slide SET `changed`=0 WHERE `changed`=1 AND `playlistID`=$playlistID";
+        return $this->query($query);
     }
 
     public function getSlidesFromPlaylist($playlistID)
@@ -225,7 +229,6 @@ class Database
         $createdBy = 1;
         $query = "INSERT INTO playlist(ID, name, active, createdBy) VALUE (NULL, '" . $name . "', " . $active . " , " . $createdBy . ")";
         $this->query($query);
-        print_r($query);
     }
 
     public function addUser($sNumber, $isOwner, $deptIDfk, $permission, $firstname, $lastname)
@@ -234,10 +237,11 @@ class Database
         return $this->query($query) === TRUE;
     }
 
-    public function addSlide($playlistID, $title, $text, $showTime, $templateName)
+    public function addSlide($playlistID, $title, $text, $showTime, $imageURL, $templateName)
     {
-        $query = "INSERT INTO slide VALUE (NULL,1,'" . $title . "','" . $text . "'," . $showTime . ", '" . $templateName . "' ," . $playlistID . ")";
+        $query = "INSERT INTO slide VALUE (NULL,1,'" . $title . "','" . $text . "'," . $showTime . ", '" . $templateName . "' ," . $playlistID . ", 1, '" . $imageURL . "')";
         $this->query($query);
+        $this->cleanUpImageFolder();
     }
 
     public function deleteScreen($id)
@@ -278,6 +282,7 @@ class Database
     {
         $query = "DELETE FROM slide WHERE ID = " . $slideId;
         $this->query($query);
+        $this->cleanUpImageFolder();
     }
 
     public function editScreen($location, $department, $orientation, $id)
@@ -292,11 +297,11 @@ class Database
         $this->query($query);
     }
 
-    public function editSlide($id, $title, $text, $showTime, $templateName)
+    public function editSlide($id, $title, $text, $showTime, $imageURL, $templateName)
     {
-        $query = "UPDATE slide SET active = 1, title ='" . $title . "', text ='" . $text . "', playtime = " . $showTime . ", templateName= '" . $templateName . "' WHERE id = " . $id;
-        echo $query;
+        $query = "UPDATE slide SET active = 1, title ='" . $title . "', text ='" . $text . "', playtime = " . $showTime . ",imageURL='" . $imageURL . "', templateName= '" . $templateName . "',changed=1 WHERE id = " . $id;
         $this->query($query);
+        $this->cleanUpImageFolder();
     }
 
 
@@ -371,6 +376,31 @@ class Database
         }
     */
 
+    function cleanUpImageFolder()
+    {
+        $query = "SELECT imageURL FROM slide";
+        $imageURLSource = $this->select_query($query);
+
+        $imageURLs = array();
+        foreach ($imageURLSource as $imageSource){
+            $imageURLs[] = $imageSource["imageURL"];
+        }
+
+        $baseDir = "../upload_files/";
+        $dh = opendir($baseDir);
+        $images = array();
+        while (false !== ($filename = readdir($dh))) {
+            if ($filename != '.' && $filename != '..' && (strpos($filename, 'jpg') !== false || strpos($filename, 'png') !== false)) {
+                $images[] = $filename;
+            }
+        }
+
+        foreach ($images as $image) {
+            if (!in_array($image, $imageURLs)) {
+                unlink($baseDir . $image);
+            }
+        }
+    }
 }
 
 ?>
