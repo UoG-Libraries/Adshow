@@ -82,7 +82,11 @@
 				var changed = false;
 				
 				ids.forEach(function(itm) {
-					document.getElementById(itm).addEventListener("change", function() {
+					var item = document.getElementById(itm);
+					if (!item)
+						return;
+					
+					item.addEventListener("change", function() {
 						if (!changed) {
 							changed = true;
 							$("#submitBtn").removeAttr("disabled");
@@ -111,24 +115,32 @@
                 </div>
             </div>
 
-			<div class="form-group">
-                <label for="dept" class="col-sm-2 control-label">Department</label>
-                <div class="col-sm-10">
-                    <select name="dept" id="dept">
-	                    <?php
-		                    foreach ($depts as $dept) {
-			                    $isUserDept = $dept['ID'] == $user->department['ID'];
-			                    echo '<option value="'.$dept['ID'].'"'.($isUserDept ? " selected" : "").'>'.$dept['department'].'</option>';
-		                    }
-		                ?>
-                    </select>
-                </div>
-            </div>
+			<?php
+				if ($currentUser->isSuperadmin()) {
+			?>
+				<div class="form-group">
+				    <label for="dept" class="col-sm-2 control-label">Department</label>
+				    <div class="col-sm-10">
+				        <select name="dept" id="dept" class="form-control">
+				            <?php
+				                foreach ($depts as $dept) {
+				                    $isUserDept = $dept['ID'] == $user->department['ID'];
+				                    echo '<option value="'.$dept['ID'].'"'.($isUserDept ? " selected" : "").'>'.$dept['department'].'</option>';
+				                }
+				            ?>
+				        </select>
+				    </div>
+				</div>
+            <?php
+	            } else {
+		            echo "<input type='hidden' name='dept' value='".$currentUser->getDepartmentID()."' />";
+	            }
+	        ?>
 
 			<div class="form-group">
 				<label for="permission" class="col-sm-2 control-label">Permission</label>
 				<div class="col-sm-10">
-					<select name="permission" id="permission">
+					<select name="permission" id="permission" class="form-control">
 						<?php 
 							$reflection = new ReflectionClass('Permission');
 							$availablePermissions = $reflection->getConstants();
