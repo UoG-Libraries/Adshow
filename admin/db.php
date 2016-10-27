@@ -186,15 +186,17 @@ class Database
         $query = 'SELECT * FROM playlist WHERE `global`=1';
         return $this->select_query($query);
     }
-    
-    public function getChangedSlidesForPlaylist($playlistID) {
-	    $query = "SELECT * FROM slide WHERE `changed`=1 AND `playlistID`=$playlistID";
-	    return $this->select_query($query);
+
+    public function getChangedSlidesForPlaylist($playlistID)
+    {
+        $query = "SELECT * FROM slide WHERE `changed`=1 AND `playlistID`=$playlistID";
+        return $this->select_query($query);
     }
-    
-    public function removeChangeFlagsForPlaylist($playlistID) {
-	    $query = "UPDATE slide SET `changed`=0 WHERE `changed`=1 AND `playlistID`=$playlistID";
-	    return $this->query($query);
+
+    public function removeChangeFlagsForPlaylist($playlistID)
+    {
+        $query = "UPDATE slide SET `changed`=0 WHERE `changed`=1 AND `playlistID`=$playlistID";
+        return $this->query($query);
     }
 
     public function getSlidesFromPlaylist($playlistID)
@@ -239,6 +241,7 @@ class Database
     {
         $query = "INSERT INTO slide VALUE (NULL,1,'" . $title . "','" . $text . "'," . $showTime . ", '" . $templateName . "' ," . $playlistID . ", 1, '" . $imageURL . "')";
         $this->query($query);
+        $this->cleanUpImageFolder();
     }
 
     public function deleteScreen($id)
@@ -279,6 +282,7 @@ class Database
     {
         $query = "DELETE FROM slide WHERE ID = " . $slideId;
         $this->query($query);
+        $this->cleanUpImageFolder();
     }
 
     public function editScreen($location, $department, $orientation, $id)
@@ -296,8 +300,8 @@ class Database
     public function editSlide($id, $title, $text, $showTime, $imageURL, $templateName)
     {
         $query = "UPDATE slide SET active = 1, title ='" . $title . "', text ='" . $text . "', playtime = " . $showTime . ",imageURL='" . $imageURL . "', templateName= '" . $templateName . "',changed=1 WHERE id = " . $id;
-        echo $query;
         $this->query($query);
+        $this->cleanUpImageFolder();
     }
 
 
@@ -372,6 +376,31 @@ class Database
         }
     */
 
+    function cleanUpImageFolder()
+    {
+        $query = "SELECT imageURL FROM slide";
+        $imageURLSource = $this->select_query($query);
+
+        $imageURLs = array();
+        foreach ($imageURLSource as $imageSource){
+            $imageURLs[] = $imageSource["imageURL"];
+        }
+
+        $baseDir = "../upload_files/";
+        $dh = opendir($baseDir);
+        $images = array();
+        while (false !== ($filename = readdir($dh))) {
+            if ($filename != '.' && $filename != '..' && (strpos($filename, 'jpg') !== false || strpos($filename, 'png') !== false)) {
+                $images[] = $filename;
+            }
+        }
+
+        foreach ($images as $image) {
+            if (!in_array($image, $imageURLs)) {
+                unlink($baseDir . $image);
+            }
+        }
+    }
 }
 
 ?>
