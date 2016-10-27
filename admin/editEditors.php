@@ -3,7 +3,22 @@
 		header('HTTP/1.1 404 Not Found');
 	}
 	
+	include_once 'loginHandler.php';
 	include_once 'user.php';
+	
+	$currentUser = User::getCurrentUser();
+	
+	if ($currentUser->isEditor()) {
+		// He is not permitted to view this page
+		
+		if ($_SESSION['nav']['callingpage']) {
+			 header("Location: ".$_SESSION['nav']['callingpage']);
+		} else {
+			header("Location: editors.php");
+		}
+		
+		die('No permissions.');
+	}
 		
 	// NORMAL EDIT FORM
 	$requiredValues = array('sNumb', 'dept', 'permission');
@@ -15,6 +30,18 @@
 	}
 	
 	if ($complete) {
+		$sNumb = $_POST['sNumb'];
+		$dept = $_POST['dept'];
+		$permission = $_POST['permission'];
+		
+		if (!$currentUser->isSuperadmin()) {
+			if ($dept != $currentUser->getDepartmentID()) {
+				displayError("An error occurred", "You can't change the department of this user. Missing permission");
+			} else if ($permission > Permission::Admin) {
+				displayError("An error occurred", "You can't change the permission of this user. Missing permission");
+			}
+		}
+		
 		$sNumb = $_POST['sNumb'];
 		$dept = $_POST['dept'];
 		$permission = $_POST['permission'];
@@ -59,19 +86,36 @@
 		}
 	}
 	
+	function displayError($title, $msg, $msg2 = "") {
+		include_once 'header.php';
+		echo "<div>";
+		echo "<h2>$title</h2>";
+		echo "<p>$msg</p>";
+		echo "<p>$msg2</p>";
+		echo "</div>";
+		include_once 'footer.php';
+		die();
+	}
+	
 	// ERROR CHECK
 	if (!isset($_GET['sNumb'])) {
 		include '404.php';
 		die();
 	}
+	
+	$userSNumb = $_GET['sNumb'];
+	$user = User::getUserWithSNumber($userSNumb);
+	$depts = $user->db->getDepartments();
 		
 	// PRESENT EDIT MASK
 	include_once 'header.php';
 	
-	$userSNumb = $_GET['sNumb'];
+	/*
+$userSNumb = $_GET['sNumb'];
 	$user = User::getUserWithSNumber($userSNumb);
-	$currentUser = User::getCurrentUser();
+	//$currentUser = User::getCurrentUser();
 	$depts = $user->db->getDepartments();
+*/
 ?>
 	<script type="text/javascript">
 		(function() {
@@ -184,7 +228,7 @@
 						<button type="button" class="btn btn-default" data-dismiss="modal">Abort</button>
 						<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="application/x-www-form-urlencoded" style="display:inline-block">
 							<input type="hidden" name="delete" value="<?php echo $userSNumb; ?>" />
-							<input type="submit" class="btn btn-danger" value="Delete permanently"></button>
+							<input type="submit" class="btn btn-danger" value="Delete"></button>
 						</form>
 		    		</div>
 		    	</div>

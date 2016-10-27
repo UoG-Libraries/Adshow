@@ -163,13 +163,14 @@ class Database
         $query = "SELECT * FROM adshow.user";
         return $this->select_query($query);
     }
-    
-    public function userExists($sNumber) {
-	    $query = "SELECT count(1) as count FROM user WHERE sNumber='$sNumber'";
-	    $ret = $this->select_query($query);
-	    $count = $ret[0]['count'];
-	    
-	    return $count == '1';
+
+    public function userExists($sNumber)
+    {
+        $query = "SELECT count(1) as count FROM user WHERE sNumber='$sNumber'";
+        $ret = $this->select_query($query);
+        $count = $ret[0]['count'];
+
+        return $count == '1';
     }
 
     public function getUsersWithDeptName($filterByDeptID = null)
@@ -247,9 +248,37 @@ class Database
 
     public function addSlide($playlistID, $title, $text, $showTime, $imageURL, $templateName)
     {
+        $showTime = $showTime == "" ? 5 : $showTime;
+        $imageURL = $imageURL == "" ? NULL : $imageURL;
         $query = "INSERT INTO slide VALUE (NULL,1,'" . $title . "','" . $text . "'," . $showTime . ", '" . $templateName . "' ," . $playlistID . ", 1, '" . $imageURL . "')";
         $this->query($query);
         $this->cleanUpImageFolder();
+    }
+
+    function cleanUpImageFolder()
+    {
+        $query = "SELECT imageURL FROM slide";
+        $imageURLSource = $this->select_query($query);
+
+        $imageURLs = array();
+        foreach ($imageURLSource as $imageSource) {
+            $imageURLs[] = $imageSource["imageURL"];
+        }
+
+        $baseDir = "../upload_files/";
+        $dh = opendir($baseDir);
+        $images = array();
+        while (false !== ($filename = readdir($dh))) {
+            if ($filename != '.' && $filename != '..' && (strpos($filename, 'jpg') !== false || strpos($filename, 'png') !== false)) {
+                $images[] = $filename;
+            }
+        }
+
+        foreach ($images as $image) {
+            if (!in_array($image, $imageURLs)) {
+                unlink($baseDir . $image);
+            }
+        }
     }
 
     public function deleteScreen($id)
@@ -272,7 +301,6 @@ class Database
         $query = "INSERT INTO user SET sNumber = '$owner', owner = 1, departmentIDfk = '$deptID'";
         $this->query($query);
     }
-
 
     public function deleteDepartment($id)
     {
@@ -303,13 +331,6 @@ class Database
     {
         $query = "UPDATE playlist SET name = '" . $name . "', active =" . $active . " WHERE ID = " . $id;
         $this->query($query);
-    }
-
-    public function editSlide($id, $title, $text, $showTime, $imageURL, $templateName)
-    {
-        $query = "UPDATE slide SET active = 1, title ='" . $title . "', text ='" . $text . "', playtime = " . $showTime . ",imageURL='" . $imageURL . "', templateName= '" . $templateName . "',changed=1 WHERE id = " . $id;
-        $this->query($query);
-        $this->cleanUpImageFolder();
     }
 
 
@@ -384,30 +405,14 @@ class Database
         }
     */
 
-    function cleanUpImageFolder()
+    public function editSlide($id, $title, $text, $showTime, $imageURL, $templateName)
     {
-        $query = "SELECT imageURL FROM slide";
-        $imageURLSource = $this->select_query($query);
+        $showTime = $showTime == "" ? 5 : $showTime;
+        $imageURL = $imageURL == "" ? NULL : $imageURL;
 
-        $imageURLs = array();
-        foreach ($imageURLSource as $imageSource){
-            $imageURLs[] = $imageSource["imageURL"];
-        }
-
-        $baseDir = "../upload_files/";
-        $dh = opendir($baseDir);
-        $images = array();
-        while (false !== ($filename = readdir($dh))) {
-            if ($filename != '.' && $filename != '..' && (strpos($filename, 'jpg') !== false || strpos($filename, 'png') !== false)) {
-                $images[] = $filename;
-            }
-        }
-
-        foreach ($images as $image) {
-            if (!in_array($image, $imageURLs)) {
-                unlink($baseDir . $image);
-            }
-        }
+        $query = "UPDATE slide SET active = 1, title ='" . $title . "', text ='" . $text . "', playtime = " . $showTime . ",imageURL='" . $imageURL . "', templateName= '" . $templateName . "',changed=1 WHERE id = " . $id;
+        $this->query($query);
+        $this->cleanUpImageFolder();
     }
 }
 
