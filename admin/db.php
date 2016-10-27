@@ -174,15 +174,17 @@ class Database
         $query = "SELECT user.ID, user.sNumber, user.firstname, user.lastname, user.owner, department.department, user.permission FROM user JOIN department WHERE user.departmentIDfk=department.ID$addition";
         return $this->select_query($query);
     }
-    
-    public function getPlaylistForScreen($id) {
-	    $query = "SELECT * FROM playlist WHERE ID=(SELECT playlistIDfk FROM screen WHERE ID=$id)";
-	    return $this->select_query($query);
+
+    public function getPlaylistForScreen($id)
+    {
+        $query = "SELECT * FROM playlist WHERE ID=(SELECT playlistIDfk FROM screen WHERE ID=$id)";
+        return $this->select_query($query);
     }
-    
-    public function getGlobalPlaylist() {
-	    $query = 'SELECT * FROM playlist WHERE `global`=1';
-	    return $this->select_query($query);
+
+    public function getGlobalPlaylist()
+    {
+        $query = 'SELECT * FROM playlist WHERE `global`=1';
+        return $this->select_query($query);
     }
     
     public function getChangedSlidesForPlaylist($playlistID) {
@@ -225,7 +227,6 @@ class Database
         $createdBy = 1;
         $query = "INSERT INTO playlist(ID, name, active, createdBy) VALUE (NULL, '" . $name . "', " . $active . " , " . $createdBy . ")";
         $this->query($query);
-        print_r($query);
     }
 
     public function addUser($sNumber, $isOwner, $deptIDfk, $permission, $firstname, $lastname)
@@ -234,9 +235,9 @@ class Database
         return $this->query($query) === TRUE;
     }
 
-    public function addSlide($playlistID, $title, $text, $showTime, $templateName)
+    public function addSlide($playlistID, $title, $text, $showTime, $imageURL, $templateName)
     {
-        $query = "INSERT INTO slide VALUE (NULL,1,'" . $title . "','" . $text . "'," . $showTime . ", '" . $templateName . "' ," . $playlistID . ")";
+        $query = "INSERT INTO slide VALUE (NULL,1,'" . $title . "','" . $text . "'," . $showTime . ", '" . $templateName . "' ," . $playlistID . ", 1, '" . $imageURL . "')";
         $this->query($query);
     }
 
@@ -292,9 +293,9 @@ class Database
         $this->query($query);
     }
 
-    public function editSlide($id, $title, $text, $showTime, $templateName)
+    public function editSlide($id, $title, $text, $showTime, $imageURL, $templateName)
     {
-        $query = "UPDATE slide SET active = 1, title ='" . $title . "', text ='" . $text . "', playtime = " . $showTime . ", templateName= '" . $templateName . "' WHERE id = " . $id;
+        $query = "UPDATE slide SET active = 1, title ='" . $title . "', text ='" . $text . "', playtime = " . $showTime . ",imageURL='" . $imageURL . "', templateName= '" . $templateName . "',changed=1 WHERE id = " . $id;
         echo $query;
         $this->query($query);
     }

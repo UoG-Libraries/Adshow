@@ -24,6 +24,8 @@ $_SESSION["nav"]["callingpage"] = $page;
         src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
 
     <script src="/js/bootstrap.min.js"></script>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
