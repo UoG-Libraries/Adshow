@@ -1,5 +1,6 @@
 .template6{
 	margin: 0;
+	height: 80vh;
 }
 
 .template6::after {
@@ -14,7 +15,7 @@
   background-size: cover;
 }
 
-.template6 .header h1 {
+.template6 .header title {
 	font-size: 60px;
 	font-family: Century Gothic;
 	margin: 0;
@@ -27,7 +28,7 @@
 	width: 45%;
 	position: absolute;
 	right: 0px;
-	bottom: 15%;
+	bottom: 20%;
 	height: 60%;
 	border-top-left-radius: 20px;
 	border-bottom-left-radius: 20px;
@@ -41,6 +42,6 @@
 
 .template6 #imagewrapper img {
 	margin-left: 15.5%;
-	margin-top: 10%;
+	margin-top: 15%;
 	width: 30%;
 }
