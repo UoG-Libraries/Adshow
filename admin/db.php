@@ -163,13 +163,14 @@ class Database
         $query = "SELECT * FROM adshow.user";
         return $this->select_query($query);
     }
-    
-    public function userExists($sNumber) {
-	    $query = "SELECT count(1) as count FROM user WHERE sNumber='$sNumber'";
-	    $ret = $this->select_query($query);
-	    $count = $ret[0]['count'];
-	    
-	    return $count == '1';
+
+    public function userExists($sNumber)
+    {
+        $query = "SELECT count(1) as count FROM user WHERE sNumber='$sNumber'";
+        $ret = $this->select_query($query);
+        $count = $ret[0]['count'];
+
+        return $count == '1';
     }
 
     public function getUsersWithDeptName($filterByDeptID = null)
@@ -248,6 +249,7 @@ class Database
     public function addSlide($playlistID, $title, $text, $showTime, $imageURL, $templateName)
     {
         $showTime = $showTime == "" ? 5 : $showTime;
+        $imageURL = $imageURL == "" ? NULL : $imageURL;
         $query = "INSERT INTO slide VALUE (NULL,1,'" . $title . "','" . $text . "'," . $showTime . ", '" . $templateName . "' ," . $playlistID . ", 1, '" . $imageURL . "')";
         $this->query($query);
         $this->cleanUpImageFolder();
@@ -406,6 +408,7 @@ class Database
     public function editSlide($id, $title, $text, $showTime, $imageURL, $templateName)
     {
         $showTime = $showTime == "" ? 5 : $showTime;
+        $imageURL = $imageURL == "" ? NULL : $imageURL;
 
         $query = "UPDATE slide SET active = 1, title ='" . $title . "', text ='" . $text . "', playtime = " . $showTime . ",imageURL='" . $imageURL . "', templateName= '" . $templateName . "',changed=1 WHERE id = " . $id;
         $this->query($query);
