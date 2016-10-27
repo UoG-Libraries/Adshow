@@ -88,6 +88,10 @@
 	    	return "$firstname " . ucfirst(strtolower($lastname));
     	}
     	
+    	public static function userExists($sNumber) {
+	    	return (new Database())->userExists($sNumber);
+    	}
+    	
     	private function initCurrentUser() {
 	    	if (isset($_SESSION['auth']) && $_SESSION['auth'] == "true") {
 		    	$this->db = new Database();
@@ -181,6 +185,10 @@
     	
     	public function isEditor() {
 	    	return $this->permission == Permission::Editor;
+    	}
+    	
+    	public function getDepartmentID() {
+	    	return $this->department['ID'];
     	}
     	
     	/// Returns whether the user is some kind of admin (admin or superadmin)
