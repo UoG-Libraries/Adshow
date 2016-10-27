@@ -163,6 +163,14 @@ class Database
         $query = "SELECT * FROM adshow.user";
         return $this->select_query($query);
     }
+    
+    public function userExists($sNumber) {
+	    $query = "SELECT count(1) as count FROM user WHERE sNumber='$sNumber'";
+	    $ret = $this->select_query($query);
+	    $count = $ret[0]['count'];
+	    
+	    return $count == '1';
+    }
 
     public function getUsersWithDeptName($filterByDeptID = null)
     {
