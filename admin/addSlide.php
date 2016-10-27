@@ -34,6 +34,7 @@ include "header.php";
             <input type="hidden" name="imageURL" id="imageURL"/>
             <input type="hidden" name="templateName" id="templateName" value=""/>
             <div class="row">
+                <a href="editPlaylist.php?id=<?php echo $_GET["playlistID"] ?>" class="btn btn-primary pull-right">Cancel</a>
                 <input type="submit" class="btn btn-primary pull-right" value="Save"/>
             </div>
             <div class="row">
@@ -48,6 +49,7 @@ include "header.php";
                 </div>
                 <div class="form-group">
                     <label for="inputText">Text</label>
+                    <a target="_blank" href="https://github.com/showdownjs/showdown/wiki/Showdown's-Markdown-syntax">Markdown Syntax</a>
                     <textarea
                         rows="5"
                         class="form-control"

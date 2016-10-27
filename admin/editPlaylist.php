@@ -6,9 +6,9 @@
 include 'db.php';
 $objDB = new Database();
 
-if(isset($_GET["action"]) && $_GET["action"] == "del"){
+if (isset($_GET["action"]) && $_GET["action"] == "del") {
     $objDB->deleteSlide($_GET['slideId']);
-    header('Location: editPlaylist.php?id='.$_GET['id']);
+    header('Location: editPlaylist.php?id=' . $_GET['id']);
 }
 
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
@@ -94,9 +94,9 @@ include 'header.php';
                                         </a>
                                     </td>
                                     <td>
-                                        <a href='editPlaylist.php?id=<?php echo $id?>&amp;action=del&amp;slideId=<?php echo $slide['ID'] ?>'>
+                                        <a href='editPlaylist.php?id=<?php echo $id ?>&amp;action=del&amp;slideId=<?php echo $slide['ID'] ?>'>
                                             <span class='glyphicon glyphicon-remove' aria-hidden='true'
-                                            title='Delete this screen'></span>
+                                                  title='Delete this screen'></span>
                                         </a>
                                     </td>
                                 </tr>
@@ -104,8 +104,8 @@ include 'header.php';
                             } ?>
                             </tbody>
                         </table>
-                        <a class="btn btn-default" href="addSlide.php?playlistID=<?php echo $id ?>">Add slide</a>
                     <?php } ?>
+                    <a class="btn btn-default" href="addSlide.php?playlistID=<?php echo $id ?>">Add slide</a>
                 </div>
             </div>
         </form>
