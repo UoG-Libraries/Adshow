@@ -45,14 +45,14 @@
 
 .template4 .main p {
 	font-family: Gotham Book;
-	font-size: 140%;
+	font-size: 30px;
 	/* padding-left: 24%; */
 	/* padding-top: 10%; */
 }
 
 
 
-.template4 #imagewrapper img {
+.template4 #imageWrapper img {
 	float: right;
 	position: absolute;
 	right: 100px;
