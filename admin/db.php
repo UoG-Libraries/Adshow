@@ -139,6 +139,15 @@ class Database
         return $rows;
     }
 
+    public function getPlaylistsByID($deptId)
+    {
+        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, department.department AS department FROM playlist, department
+	WHERE playlist.departmentIDfk = department.ID AND department.ID =" . $deptId;
+        $rows = $this->select_query($query);
+
+        return $rows;
+    }
+
     public function getScreen($id)
     {
         $query = "SELECT * FROM adshow.screen WHERE ID = " . $id;
@@ -254,25 +263,6 @@ class Database
         $this->query($query);
         $this->cleanUpImageFolder();
     }
-    
-    public function addDepartment($department/*, $owner*/)
-    {
-        $query = "INSERT INTO department SET department = '$department'";
-        $this->query($query);
-        $query = "SELECT ID FROM department WHERE department = '$department'";
-        $deptID = $this->select_query($query);
-        
-        if ($deptID === FALSE || sizeof($deptID) == 0) {
-	        return -1;
-        } else {
-	        $deptID = $deptID[0]['ID'];
-        }
-        
-        /*$query = "INSERT INTO user SET sNumber = '$owner', owner = 1, departmentIDfk = '$deptID'";
-        $this->query($query);*/
-        
-        return $deptID;
-    }
 
     function cleanUpImageFolder()
     {
@@ -298,6 +288,25 @@ class Database
                 unlink($baseDir . $image);
             }
         }
+    }
+
+    public function addDepartment($department/*, $owner*/)
+    {
+        $query = "INSERT INTO department SET department = '$department'";
+        $this->query($query);
+        $query = "SELECT ID FROM department WHERE department = '$department'";
+        $deptID = $this->select_query($query);
+
+        if ($deptID === FALSE || sizeof($deptID) == 0) {
+            return -1;
+        } else {
+            $deptID = $deptID[0]['ID'];
+        }
+
+        /*$query = "INSERT INTO user SET sNumber = '$owner', owner = 1, departmentIDfk = '$deptID'";
+        $this->query($query);*/
+
+        return $deptID;
     }
 
     public function deleteScreen($id)
@@ -329,10 +338,11 @@ class Database
         $this->query($query);
         $this->cleanUpImageFolder();
     }
-    
-    public function editDepartment($id, $name) {
-	    $query = "UPDATE department SET department='$name' WHERE ID=$id";
-	    return $this->query($query);
+
+    public function editDepartment($id, $name)
+    {
+        $query = "UPDATE department SET department='$name' WHERE ID=$id";
+        return $this->query($query);
     }
 
     public function editScreen($location, $department, $orientation, $id)
