@@ -1,4 +1,8 @@
-<?php $location = basename($_SERVER['REQUEST_URI']); ?>
+<?php 
+	include_once 'user.php';
+	$location = basename($_SERVER['REQUEST_URI']); 
+	$currentUser = User::getCurrentUser();
+?>
 <div class="col-md-3" id="navigation">
     <div class="nav-content col-xs-10">
         <ul class="nav nav-pills nav-stacked">
@@ -16,11 +20,23 @@
                     playlist</a></li>
             <li><strong><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Editors &amp; Departments</strong></li>
             <li <?php echo ($location == "editors.php") ? "class='active'" : '' ?>><a href="editors.php">Show editors</a></li>
-            <li <?php echo ($location == "addEditor.php") ? "class='active'" : '' ?>><a href="addEditor.php">Add editor</a></li>
-            <li <?php echo ($location == "departments.php") ? "class='active'" : '' ?>><a href="departments.php">Show
+            <?php
+	        	if ($currentUser->isSuperadmin() || $currentUser->isAdmin()) {  
+	        ?>
+	        	<li <?php echo ($location == "addEditor.php") ? "class='active'" : '' ?>><a href="addEditor.php">Add editor</a></li>
+	        <?php
+		    	}  
+		    ?>
+            <?php
+	            if ($currentUser->isSuperadmin()) {
+	        ?>
+	        	<li <?php echo ($location == "departments.php") ? "class='active'" : '' ?>><a href="departments.php">Show
                     departments</a></li>
             <li <?php echo ($location == "addDepartment.php") ? "class='active'" : '' ?>><a href="addDepartment.php">Add
                     department</a></li>
+	        <?php
+		        }
+		    ?>
         </ul>
     </div>
     <div class="nav-controller">

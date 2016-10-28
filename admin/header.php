@@ -103,7 +103,6 @@ $_SESSION["nav"]["callingpage"] = $page;
 </nav>
 <?php
 	include_once 'user.php';
-	
 	if (!User::userExists($_SESSION['sNumber'])) {
 		include_once 'notAnEditor.php';
 		include_once 'footer.php';

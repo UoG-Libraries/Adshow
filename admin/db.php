@@ -254,6 +254,25 @@ class Database
         $this->query($query);
         $this->cleanUpImageFolder();
     }
+    
+    public function addDepartment($department/*, $owner*/)
+    {
+        $query = "INSERT INTO department SET department = '$department'";
+        $this->query($query);
+        $query = "SELECT ID FROM department WHERE department = '$department'";
+        $deptID = $this->select_query($query);
+        
+        if ($deptID === FALSE || sizeof($deptID) == 0) {
+	        return -1;
+        } else {
+	        $deptID = $deptID[0]['ID'];
+        }
+        
+        /*$query = "INSERT INTO user SET sNumber = '$owner', owner = 1, departmentIDfk = '$deptID'";
+        $this->query($query);*/
+        
+        return $deptID;
+    }
 
     function cleanUpImageFolder()
     {
@@ -292,16 +311,6 @@ class Database
         return $this->query("DELETE FROM user WHERE `sNumber`='$sNumb'");
     }
 
-    public function addDepartment($department, $owner)
-    {
-        $query = "INSERT INTO department SET department = '$department'";
-        $this->query($query);
-        $query = "SELECT ID FROM department WHERE department = '$department'";
-        $deptID = $this->query($query);
-        $query = "INSERT INTO user SET sNumber = '$owner', owner = 1, departmentIDfk = '$deptID'";
-        $this->query($query);
-    }
-
     public function deleteDepartment($id)
     {
         $this->query("BEGIN");
@@ -311,7 +320,7 @@ class Database
         $this->query($query);
         $query = "DELETE FROM department WHERE ID = '$id'";
         $this->query($query);
-        $this->query("COMMIT");
+        return $this->query("COMMIT");
     }
 
     public function deleteSlide($slideId)
@@ -319,6 +328,11 @@ class Database
         $query = "DELETE FROM slide WHERE ID = " . $slideId;
         $this->query($query);
         $this->cleanUpImageFolder();
+    }
+    
+    public function editDepartment($id, $name) {
+	    $query = "UPDATE department SET department='$name' WHERE ID=$id";
+	    return $this->query($query);
     }
 
     public function editScreen($location, $department, $orientation, $id)
