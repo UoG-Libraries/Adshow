@@ -1,7 +1,16 @@
+.template6 body {
+	margin: 0;
+}
+
 .template6 {
     margin: 0;
     height: 80vh;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+.template6 #titlecontainer h1 {
+	font-size: 48;
+	text-align: center;
 }
 
 .template6::after {
@@ -16,51 +25,32 @@
     background-size: cover;
 }
 
-.template6 .header #title {
-    font-size: 70px;
-    margin: 0;
-    padding: 30px 0 0 15.5%;
-    width: 30%;
-    text-align: center;
+.template6 #imageWrapper {
+	width: 45%;
+    margin-top: 4%;
 }
 
-.template6 .main {
-    margin-left: 11%;
-}
-
-.template6 li{
-    padding: 20px 0 ;
-}
-
-.template6 .main #text {
-    float: right;
-    z-index: 5;
-    width: 41%;
+.template6 #text {
+	margin-top: 12%;
+	background-color: #FFFFFF;
+	height: 60%;
+	width: 44%;
+	float: right;
+    z-index: 1;
     padding-left: 80px;
+	padding-top: 30;
     position: absolute;
     right: 0;
     bottom: 20%;
-    height: 60%;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
-    background-color: #FFFFFF;
-    font-size: 3em;
-    overflow-y: scroll;
+    font-size: 30px;
 }
 
-.template6 .main p {
-    padding-left: 60px;
-    padding-top: 40px;
-    font-size: 25px;
+.col-md-offset-2 {
+    margin-left: 14.66666667%;
 }
 
-.template6 #imageWrapper {
-    width: 45%;
-    margin-top: 8%;
-}
-
-.template6 #imageWrapper img {
-    display: block;
-    margin: 0 auto;
-    width: 70%;
+.template6 .text ul li{
+ 	padding: 10px 0; 
 }
