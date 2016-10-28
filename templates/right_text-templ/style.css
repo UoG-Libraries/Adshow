@@ -23,6 +23,7 @@
     right: 0;
     position: absolute;
     background-size: cover;
+	z-index: -1;
 }
 
 .template6 #imageWrapper {
