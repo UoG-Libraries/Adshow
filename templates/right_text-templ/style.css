@@ -1,0 +1,66 @@
+.template6 {
+    margin: 0;
+    height: 80vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.template6::after {
+    content: "";
+    background: url("./assets/bg2.png");
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    background-size: cover;
+}
+
+.template6 .header #title {
+    font-size: 70px;
+    margin: 0;
+    padding: 30px 0 0 15.5%;
+    width: 30%;
+    text-align: center;
+}
+
+.template6 .main {
+    margin-left: 11%;
+}
+
+.template6 li{
+    padding: 20px 0 ;
+}
+
+.template6 .main #text {
+    float: right;
+    z-index: 5;
+    width: 41%;
+    padding-left: 80px;
+    position: absolute;
+    right: 0;
+    bottom: 20%;
+    height: 60%;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    background-color: #FFFFFF;
+    font-size: 3em;
+    overflow-y: scroll;
+}
+
+.template6 .main p {
+    padding-left: 60px;
+    padding-top: 40px;
+    font-size: 25px;
+}
+
+.template6 #imageWrapper {
+    width: 45%;
+    margin-top: 8%;
+}
+
+.template6 #imageWrapper img {
+    display: block;
+    margin: 0 auto;
+    width: 70%;
+}

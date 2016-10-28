@@ -63,7 +63,7 @@ function updateImage() {
 $(document).ready(function () {
     var templateName = $("#templateName").val();
     console.log(templateName);
-    selectTemplate("../templates/", (templateName == "") ? "2-templ" : templateName);
+    selectTemplate("../templates/", (templateName == "") ? "left_text-templ" : templateName);
 
     $('#submitbtn').click(function () {
         $("#viewimage").html('');

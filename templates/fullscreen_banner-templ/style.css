@@ -13,8 +13,8 @@ body{
 .template .fullscreen img{
     display: block;
     margin: 0 auto;
-    height: 100%;
-    max-width: 100%;
+    height: 100vh;
+    width: 100vw;
 }
 
 .template .banner{
