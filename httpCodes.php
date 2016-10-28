@@ -39,6 +39,7 @@
     	    case 503: $text = 'Service Unavailable'; break;
     	    case 504: $text = 'Gateway Time-out'; break;
     	    case 505: $text = 'HTTP Version not supported'; break;
+    	    case 528: $text = 'No Data Available'; break;
     	    default:
     	        throw new Exception("Unknown HTTP code");
     	    break;
