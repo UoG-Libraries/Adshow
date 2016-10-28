@@ -63,6 +63,18 @@ body {
     padding: 15px 0;
 }
 
+#template-container {
+    width: 1920px;
+    height: 1080px;
+    border: none;
+    -moz-transform: scale(0.24);
+    -moz-transform-origin: 0 0;
+    -o-transform: scale(0.24);
+    -o-transform-origin: 0 0;
+    -webkit-transform: scale(0.24);
+    -webkit-transform-origin: 0 0;
+}
+
 @media (max-width: 992px) {
 
     #navigation {

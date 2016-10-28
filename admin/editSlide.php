@@ -25,8 +25,8 @@ include "header.php";
 ?>
 <script src="scripts/slideController.js"></script>
 <div class="row">
-    <div class="col-md-5 preview">
-        <div id="template-div"></div>
+    <div class="col-md-5">
+        <iframe src="../templates/left_text-templ/template.html" id="template-container" name="template-container"></iframe>
     </div>
     <div class="col-md-offset-1 col-md-6">
         <form class="template-editor" action="editSlide.php" method="post"

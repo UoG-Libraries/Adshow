@@ -13,7 +13,7 @@ vm.addCss = function (fileName) {
 
 vm.loadHtml = function (path) {
     $.get(path, function (content) {
-        var template = $('#template-div');
+        var template = $('#template-container');
         template.empty();
         template.append(content);
     }).then(function () {
@@ -26,13 +26,18 @@ vm.updatePreview = function () {
     if (titleValue == "") {
         titleValue = "Title"
     }
-    $(".preview #title").text(titleValue);
+    $('#template-container').ready(function(){
+        console.log($('#template-container').contents());
+        $('#template-container').contents().find('h1#title').html('Hey, i`ve changed content of <body>! Yay!!!');
+    });
+
+
     var textValue = $(".template-editor #inputText").val();
     if (textValue == "") {
         textValue = "Text"
     }
 
-    var preview = $(".preview #text");
+    var preview = $("iframe #text");
     preview.empty();
     preview.append(converter.makeHtml(textValue));
 
@@ -63,7 +68,8 @@ function updateImage() {
 $(document).ready(function () {
     var templateName = $("#templateName").val();
     console.log(templateName);
-    selectTemplate("../templates/", (templateName == "") ? "left_text-templ" : templateName);
+    // selectTemplate("../templates/", (templateName == "") ? "left_text-templ" : templateName);
+    vm.updatePreview();
 
     $('#submitbtn').click(function () {
         $("#viewimage").html('');
