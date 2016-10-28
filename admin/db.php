@@ -107,7 +107,7 @@ class Database
 
     public function getScreensList()
     {
-        $query = "SELECT screen.ID, screen.location, department.department FROM screen, department WHERE screen.departmentIDfk = department.ID";
+        $query = "SELECT screen.ID, screen.location, screen.departmentIDfk as departmentID, department.department, playlist.name AS playlistName FROM (screen, department) LEFT JOIN playlist ON playlist.ID = screen.playlistIDfk WHERE screen.departmentIDfk = department.ID";
         $rows = $this->select_query($query);
 
         return $rows;
@@ -139,7 +139,7 @@ class Database
         return $rows;
     }
 
-    public function getPlaylistsByID($deptId)
+    public function getPlaylistsByDeptID($deptId)
     {
         $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, department.department AS department FROM playlist, department
 	WHERE playlist.departmentIDfk = department.ID AND department.ID =" . $deptId;
@@ -437,6 +437,12 @@ class Database
         $query = "UPDATE slide SET active = 1, title ='" . $title . "', text ='" . $text . "', playtime = " . $showTime . ",imageURL='" . $imageURL . "', templateName= '" . $templateName . "',changed=1 WHERE id = " . $id;
         $this->query($query);
         $this->cleanUpImageFolder();
+    }
+
+    public function setPlaylistForScreen($screenID, $playlistID)
+    {
+        $query = "UPDATE screen SET playlistIDfk = $playlistID WHERE ID = $screenID";
+        $this->query($query);
     }
 }
 
