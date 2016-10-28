@@ -1,4 +1,5 @@
 var screen;
+var errMsgCount = 0;
 var playlists = [];
 var currentPlaylistIndex = 0;
 var currentTemplateName = "";
@@ -206,26 +207,42 @@ function presentationLoop() {
 		$("#presentation").append(element);
 		
 		try {
-			$("#presentation #"+id+" #text").innerHTML = converter.makeHtml(slide.text);
 			$("#presentation #"+id+" #title").innerHTML = slide.title;
 		} catch (e) {
-			console.group("Can't display slide");
-			console.error("Can't replace the content of the slide");
-			console.error(e);
-			console.groupEnd();
+			if (errMsgCount < 10) {
+				console.group("Can't display slide");
+				console.error("Can't replace the title of the slide");
+				console.error(e);
+				console.groupEnd();
+			}
+			
+			errMsgCount++;
+		}
+		
+		try {
+			$("#presentation #"+id+" #text").innerHTML = converter.makeHtml(slide.text);
+		} catch (e) {
+			if (errMsgCount < 10) {
+				console.group("Can't fully display slide");
+				console.info("Can't replace the content of the slide");
+				console.log(e);
+				console.groupEnd();
+			}
+			
+			errMsgCount++;
 		}
 		
 		if (slide.image) {
 			try {
 				var container = $("#presentation #"+id+" #imageWrapper");
-				var rect = container.getBoundingClientRect();
+				/*var rect = container.getBoundingClientRect();
 				if (rect.width > 0) {
 					slide.image.width = rect.width;
 				}
 				
 				if (rect.height > 0) {
 					slide.image.height = rect.height;
-				}
+				}*/
 				
 				container.removeContent().append(slide.image);
 			} catch (e) {

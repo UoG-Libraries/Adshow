@@ -88,11 +88,18 @@
 	
 	function displayError($title, $msg, $msg2 = "") {
 		include_once 'header.php';
-		echo "<div>";
+		/*echo "<div>";
 		echo "<h2>$title</h2>";
 		echo "<p>$msg</p>";
 		echo "<p>$msg2</p>";
-		echo "</div>";
+		echo "</div>";*/
+		echo <<<'EOT'
+<div>
+	<h2>$title</h2>
+	<p>$msg</p>
+	<p>$msg2</p>
+</div>
+EOT;
 		include_once 'footer.php';
 		die();
 	}

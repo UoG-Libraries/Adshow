@@ -12,7 +12,7 @@ var splashScreen = new Playlist({
 			"playtime": "2",
 			"text": "",
 			"title": "",
-			"templateName": "splash-templ"
+			"templateName": "splash-screen"
 		}
 	]
 });
