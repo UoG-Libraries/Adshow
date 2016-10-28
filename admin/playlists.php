@@ -8,7 +8,7 @@ include 'header.php';
         <?php
         // handle edit playlist request
         // show playlists
-        $playlists = $objDB->getPlaylists();
+        $playlists = isset($_GET["dept"]) ? $objDB->getPlaylistsByDeptID($_GET["dept"]) :$objDB->getPlaylists();
         ?>
 
         <h2>Playlists</h2>

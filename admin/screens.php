@@ -19,6 +19,7 @@ include 'header.php';
         <th scope="col">Screen ID</th>
         <th scope="col">Department</th>
         <th scope="col">Location</th>
+        <th scope="col">Current Playlist</th>
         <th scope="col"></th>
         <th scope="col" class="hidden-xs"></th>
         <th scope="col" class="hidden-xs"></th>
@@ -28,6 +29,7 @@ include 'header.php';
             <td><?php echo $screen["ID"] ?></td>
             <td><?php echo $screen["department"] ?></td>
             <td><?php echo $screen["location"] ?></td>
+            <td><?php echo $screen["playlistName"] ?></td>
             <td class="col-md-1 hidden-xs">
                 <a href="editScreen.php?id=<?php echo $screen["ID"] ?>">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"
@@ -35,7 +37,7 @@ include 'header.php';
                 </a>
             </td>
             <td class="col-md-1 hidden-xs">
-                <a href="#">
+                <a href="setPlaylistForScreen.php?id=<?php echo $screen["ID"] ?>&dept=<?php echo $screen["departmentID"]?>">
                                 <span class="glyphicon glyphicon-th-list" aria-hidden="true"
                                       title="View playlists for this screen"></span>
                 </a>
@@ -62,7 +64,7 @@ include 'header.php';
                    </a>
                    </li>
                    <li class='list-group-item'>
-                       <a href='#'>
+                       <a href='setPlaylistForScreen.php?id=<?php echo $screen["ID"] ?>&dept=<?php echo $screen["departmentID"]?>'>
                                    <span class='glyphicon glyphicon-th-list' aria-hidden='true'
                                          title='View playlists for this screen'></span>
                        </a>

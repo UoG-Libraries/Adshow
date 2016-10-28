@@ -30,6 +30,7 @@
 		const BadRequest = 400;
 		const MethodNotAllowed = 405;
 		const InternalError = 500;
+		const CustomNoDataAvailable = 528;
 		
 		public static function getStr($code) {
 			return strtohttpcode($code);
@@ -44,6 +45,7 @@
 		const LACK_OF_ARGUMENTS = 5;
 		const INVALID_ARGUMENT_TYPE = 6;
 		const UNEXPECTED_ERROR = 7;
+		const NO_DATA = 8;
 	}
 	
 	function errObj($title, $desc, $code) {
@@ -93,17 +95,25 @@
 			}
 			
 			$globalPlaylist = $db->getGlobalPlaylist();
+			if (!$globalPlaylist || empty($globalPlaylist)) {
+				$globalPlaylist = null;
+			} else {
+				$globalPlaylist = $globalPlaylist[0];
+				
+				if ($globalPlaylist['active'] == '0') {
+					$globalPlaylist = NULL;
+				}
+			}
+				
 			$playlist = $db->getPlaylistForScreen($screenID);
 			if ($playlist != FALSE) {
 				$localPlaylist = null;
 				if (!empty($playlist)) {
 					$localPlaylist = $playlist[0];
-				}
-				
-				if (!$globalPlaylist || empty($globalPlaylist)) {
-					$globalPlaylist = null;
-				} else {
-					$globalPlaylist = $globalPlaylist[0];
+					
+					if ($localPlaylist['active'] == '0') {
+						$localPlaylist = NULL;
+					}
 				}
 				
 				$ret = array();
@@ -123,7 +133,18 @@
 				
 				complete(HTTPStatusCode::Ok, $ret);
 			} else {
-				complete(HTTPStatusCode::InternalError, errObj('Can\'t retrieve playlist', 'An internal DB error occurred', ErrorCodes::UNEXPECTED_ERROR));
+				if ($playlist === FALSE) {
+					complete(HTTPStatusCode::InternalError, errObj('Can\'t retrieve playlist', 'An internal DB error occurred', ErrorCodes::UNEXPECTED_ERROR));
+				} else if (empty($playlist)) {
+					if ($globalPlaylist) {
+						$slides = $db->getSlidesFromPlaylist($globalPlaylist['ID']);
+						
+						$globalPlaylist['slides'] = $slides;
+						complete(HTTPStatusCode::Ok, array($globalPlaylist));
+					} else {
+						complete(HTTPStatusCode::CustomNoDataAvailable, errObj('There\'s no playlist specified for this screen', 'Please assign an active playlist to this screen', ErrorCodes::NO_DATA));
+					}
+				}
 			}
 			
 			break;
@@ -146,12 +167,20 @@
 				$localPlaylist = null;
 				if (!empty($playlist)) {
 					$localPlaylist = $playlist[0];
+					
+					if ($localPlaylist['active'] == '0') {
+						$localPlaylist = NULL;
+					}
 				}
 				
 				if (!$globalPlaylist || empty($globalPlaylist)) {
 					$globalPlaylist = null;
 				} else {
 					$globalPlaylist = $globalPlaylist[0];
+					
+					if ($globalPlaylist['active'] == '0') {
+						$globalPlaylist = NULL;
+					}
 				}
 				
 				$localChanges = $db->getChangedSlidesForPlaylist($localPlaylist['ID']);
