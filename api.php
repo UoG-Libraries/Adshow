@@ -50,9 +50,9 @@
 	
 	function errObj($title, $desc, $code) {
 		return array(
-			"error" => $title,
-			"desc" => $desc,
-			"code" => $code
+			'error' => $title,
+			'desc' => $desc,
+			'code' => $code
 		);
 	}
 	

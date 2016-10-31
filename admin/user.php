@@ -20,13 +20,13 @@
 		public static function getStr($permission) {
 			switch ($permission) {
 				case 0:
-					return "Editor";
+					return 'Editor';
 				break;
 				case 1:
-					return "Administrator";
+					return 'Administrator';
 				break;
 				case 2:
-					return "Super-Administrator";
+					return 'Super-Administrator';
 				break;
 			}
 		}
@@ -93,7 +93,7 @@
     	}
     	
     	private function initCurrentUser() {
-	    	if (isset($_SESSION['auth']) && $_SESSION['auth'] == "true") {
+	    	if (isset($_SESSION['auth']) && $_SESSION['auth'] == 'true') {
 		    	$this->db = new Database();
 		    			    	
 		    	$this->sNumber = $_SESSION['sNumber'];
@@ -102,7 +102,7 @@
 		    	
 		    	$userResult = $this->db->getUser($this->sNumber);
 		    	$this->department = $this->db->getDepartment($userResult[0]['departmentIDfk'])[0];
-		    	$this->permission = $userResult[0]["permission"];  /// @todo Find a better way
+		    	$this->permission = $userResult[0]['permission'];  /// @todo Find a better way
 		    	$this->isOwner = $userResult[0]['owner'] == 1;
 		    	$this->ID = $userResult[0]['ID'];
 	    	}
@@ -110,34 +110,34 @@
     	
     	public function updatePermission($newPermission) {
 	    	if (!is_numeric($newPermission) || $newPermission < 0 || $newPermission > 2) {
-		    	throw new Exception("Invalid permission");
+		    	throw new Exception('Invalid permission');
 	    	} else if ($newPermission == $this->permission) {
 		    	return;
 	    	}
 	    	
 	    	$this->permission = $newPermission;
-	    	array_push($this->changes, "permission");
+	    	array_push($this->changes, 'permission');
     	}
     	
     	public function updateDepartment($newDepartmentIDfk) {
 	    	if (!is_numeric($newDepartmentIDfk)) {
-		    	throw new Exception("Invalid department ID");
+		    	throw new Exception('Invalid department ID');
 	    	} else if ($this->department['ID'] == $newDepartmentIDfk) {
 		    	return;
 	    	}
 	    	
 	    	$department = $this->db->getDepartment($newDepartmentIDfk)[0];
 	    	$this->department = $department;
-	    	array_push($this->changes, "department");
+	    	array_push($this->changes, 'department');
     	}
     	
     	public function updateIsOwner($newIsOwner) {
 	    	if (!is_bool($newIsOwner)) {
-		    	throw new Exception("Invalid isOwner");
+		    	throw new Exception('Invalid isOwner');
 	    	}
 	    	
 	    	$this->isOwner = $newIsOwner;
-	    	array_push($this->changes, "owner");
+	    	array_push($this->changes, 'owner');
     	}
     	
     	public function commitChanges() {
@@ -150,7 +150,7 @@
 	    	foreach ($this->changes as $change) {
 		    	switch ($change) {
 			    	case 'permission':
-			    		$valueString .= "permission=".$this->permission;
+			    		$valueString .= 'permission='.$this->permission;
 						break;
 			    	case 'owner':
 			    		$valueString .= 'owner='.($this->isOwner ? 1 : 0);
