@@ -63,6 +63,19 @@ body {
     padding: 15px 0;
 }
 
+#template-container {
+    width: calc(100% * 4 - 0px);
+    height: calc(100% * 4 - 0px);
+    border: solid 10px lightgray;
+    overflow: hidden;
+    -moz-transform: scale(0.24);
+    -moz-transform-origin: 0 0;
+    -o-transform: scale(0.24);
+    -o-transform-origin: 0 0;
+    -webkit-transform: scale(0.25);
+    -webkit-transform-origin: 0 0;
+}
+
 @media (max-width: 992px) {
 
     #navigation {
