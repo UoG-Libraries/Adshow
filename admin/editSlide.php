@@ -27,7 +27,7 @@ include "header.php";
 <div class="row">
     <div class="col-md-5">
         <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" src="../templates/left_text-templ/template.html"
+            <iframe class="embed-responsive-item" src=""
                     id="template-container" name="template-container"></iframe>
         </div>
 
