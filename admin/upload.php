@@ -21,7 +21,7 @@ if (isset($_POST['submitbtn']) && $_POST['submitbtn'] == "Upload") {
                 $tmp = $_FILES['imagefile']['tmp_name'];
                 if (move_uploaded_file($tmp, $filepath . $imagename)) {
                     echo '<input type="hidden" id="uploaded_image_name" value="'.$imagename . '" />';
-                    echo '<script>updateImage();</script>';
+                    echo '<script>updateImagePath();</script>';
                 } else {
                     echo "Could not move the file.";
                 }

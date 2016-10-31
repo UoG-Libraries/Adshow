@@ -26,7 +26,11 @@ include "header.php";
 <script src="scripts/slideController.js"></script>
 <div class="row">
     <div class="col-md-5">
-        <iframe src="../templates/left_text-templ/template.html" id="template-container" name="template-container"></iframe>
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="../templates/left_text-templ/template.html"
+                    id="template-container" name="template-container"></iframe>
+        </div>
+
     </div>
     <div class="col-md-offset-1 col-md-6">
         <form class="template-editor" action="editSlide.php" method="post"
@@ -53,7 +57,8 @@ include "header.php";
                 </div>
                 <div class="form-group">
                     <label for="inputText">Text</label>
-                    <a target="_blank" href="https://github.com/showdownjs/showdown/wiki/Showdown's-Markdown-syntax">Markdown Syntax</a>
+                    <a target="_blank" href="https://github.com/showdownjs/showdown/wiki/Showdown's-Markdown-syntax">Markdown
+                        Syntax</a>
                     <textarea
                         rows="5"
                         class="form-control"
