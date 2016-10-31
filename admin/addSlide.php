@@ -23,8 +23,12 @@ include "header.php";
 ?>
 <script src="scripts/slideController.js"></script>
 <div class="row">
-    <div class="col-md-5 preview">
-        <div id="template-container"></div>
+    <div class="col-md-5">
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="../templates/left_text-templ/template.html"
+                    id="template-container" name="template-container"></iframe>
+        </div>
+
     </div>
     <div class="col-md-offset-1 col-md-6">
         <form class="template-editor" action="addSlide.php" method="post"
