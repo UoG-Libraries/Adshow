@@ -19,8 +19,9 @@ include 'header.php';
 include_once "user.php";
 ?>
     <div>
-        <h2>Add screen</h2>
-        <form class="form-horizontal" action="setPlaylistForScreen.php" method="post" enctype="application/x-www-form-urlencoded">
+        <h2>Set playlist for screen</h2>
+        <form class="form-horizontal" action="setPlaylistForScreen.php" method="post"
+              enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="formSent" value="yes"/>
             <input type="hidden" name="screenID" value="<?php echo $screenID ?>"/>
             <div class="form-group">
@@ -28,10 +29,13 @@ include_once "user.php";
                 <div class="col-sm-10">
                     <select name="playlist" id="playlist" class="form-control">
                         <?php
-                        foreach ($playlists as $playlist) { ?>
-                            <option
-                                value="<?php echo $playlist["ID"] ?>" <?php echo $selectedPlaylist["ID"] == $playlist["ID"] ? "selected" : "" ?>> <?php echo $playlist["name"] ?> </option>
-                        <?php } ?>
+                        foreach ($playlists as $playlist) {
+                            if ($playlist["active"]) {
+                                ?>
+                                <option
+                                    value="<?php echo $playlist["ID"] ?>" <?php echo $selectedPlaylist["ID"] == $playlist["ID"] ? "selected" : "" ?>> <?php echo $playlist["name"] ?> </option>
+                            <?php }
+                        } ?>
                     </select>
                 </div>
             </div>

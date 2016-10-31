@@ -12,7 +12,7 @@ if (isset($_GET["action"]) && $_GET["action"] == "del") {
 }
 
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
-    $objDB->editPlaylist($_POST["id"], $_POST["name"], $_POST["active"]);
+    $objDB->editPlaylist($_POST["id"], $_POST["name"], $_POST["active"], $_POST["global"]);
     header('Location: playlists.php');
 }
 
@@ -47,6 +47,17 @@ include 'header.php';
                     </select>
                 </div>
             </div>
+            <?php if (User::getCurrentUser()->isGlobal()) { ?>
+                <div class="form-group">
+                    <label for="global" class="col-sm-2 control-label">Global</label>
+                    <div class="col-sm-10">
+                        <select name="global" id="global" class="form-control">
+                            <option value="0" <?php echo $playlist["global"] == '0' ? 'selected' : '' ?>>No</option>
+                            <option value="1" <?php echo $playlist["global"] == '1' ? 'selected' : '' ?>>Yes</option>
+                        </select>
+                    </div>
+                </div>
+            <?php } ?>
 
             <div>
                 <a href="playlists.php" class="btn btn-primary">Cancel</a>

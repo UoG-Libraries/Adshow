@@ -107,7 +107,7 @@ class Database
 
     public function getScreensList()
     {
-        $query = "SELECT screen.ID, screen.location, screen.departmentIDfk as departmentID, department.department, playlist.name AS playlistName FROM (screen, department) LEFT JOIN playlist ON playlist.ID = screen.playlistIDfk WHERE screen.departmentIDfk = department.ID";
+        $query = "SELECT screen.ID, screen.location, screen.departmentIDfk AS departmentID, department.department, playlist.name AS playlistName FROM (screen, department) LEFT JOIN playlist ON playlist.ID = screen.playlistIDfk WHERE screen.departmentIDfk = department.ID";
         $rows = $this->select_query($query);
 
         return $rows;
@@ -123,7 +123,7 @@ class Database
 
     public function getPlaylist($id)
     {
-        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, department.department AS department FROM playlist, department
+        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, playlist.global AS global, department.department AS department FROM playlist, department
 	WHERE playlist.departmentIDfk = department.ID AND playlist.ID = " . $id;
         $rows = $this->select_query($query);
 
@@ -132,7 +132,7 @@ class Database
 
     public function getPlaylists()
     {
-        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, department.department AS department FROM playlist, department
+        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, playlist.global AS global, department.department AS department FROM playlist, department
 	WHERE playlist.departmentIDfk = department.ID";
         $rows = $this->select_query($query);
 
@@ -141,7 +141,7 @@ class Database
 
     public function getPlaylistsByDeptID($deptId)
     {
-        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, department.department AS department FROM playlist, department
+        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, playlist.global AS global, department.department AS department FROM playlist, department
 	WHERE playlist.departmentIDfk = department.ID AND department.ID =" . $deptId;
         $rows = $this->select_query($query);
 
@@ -242,10 +242,9 @@ class Database
         $this->query($query);
     }
 
-    public function addPlaylist($createdBy, $name, $active)
+    public function addPlaylist($name, $active, $departmentID)
     {
-        $createdBy = 1;
-        $query = "INSERT INTO playlist(ID, name, active, createdBy) VALUE (NULL, '" . $name . "', " . $active . " , " . $createdBy . ")";
+        $query = "INSERT INTO playlist(ID, name, active, global, departmentIDfk) VALUE (NULL, '$name', $active , 0, $departmentID)";
         $this->query($query);
     }
 
@@ -351,9 +350,14 @@ class Database
         $this->query($query);
     }
 
-    public function editPlaylist($id, $name, $active)
+    public function editPlaylist($id, $name, $active, $global)
     {
-        $query = "UPDATE playlist SET name = '" . $name . "', active =" . $active . " WHERE ID = " . $id;
+        if ($global) {
+            $query = "UPDATE playlist SET global=0";
+            $this->query($query);
+        }
+
+        $query = "UPDATE playlist SET name = '$name', active = $active, global=$global WHERE ID = $id";
         $this->query($query);
     }
 

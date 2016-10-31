@@ -53,9 +53,11 @@ vm.updatePreview = function () {
         textValue = "Text"
     }
 
-    var text = innerDoc.getElementById("content");
+    var text = innerDoc.getElementById("text");
     if (text) {
-        text.innerHTML = converter.makeHtml(textValue);
+        var htmlText = converter.makeHtml(textValue);
+        htmlText = htmlText.replace("<table", "<table class='table' ");
+        text.innerHTML = htmlText;
     }
 
     iframe.className = iframe.className.replace(" hidden", "");
@@ -70,7 +72,14 @@ vm.updateImage = function () {
     var imageWrapper = innerDoc.getElementById("imageWrapper");
     var imageUrl = $("#imageURL").val();
     if (imageWrapper && imageUrl != "") {
-        imageWrapper.innerHTML = "<img src='../../upload_files/" + imageUrl + "'/>";
+        var images = imageWrapper.getElementsByTagName("img");
+        if (images.length > 0) {
+            for (var i = 0; i < images.length; i++) {
+                images[i].src = '../../upload_files/' + imageUrl;
+            }
+        } else {
+            imageWrapper.innerHTML = "<img src='../../upload_files/" + imageUrl + "'/>";
+        }
     }
 };
 

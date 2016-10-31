@@ -186,6 +186,10 @@
     	public function isEditor() {
 	    	return $this->permission == Permission::Editor;
     	}
+
+        public function isGlobal() {
+            return true; //TODO check if user is global
+        }
     	
     	public function getDepartmentID() {
 	    	return $this->department['ID'];

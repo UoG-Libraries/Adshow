@@ -3,7 +3,7 @@ include 'db.php';
 $objDB = new Database();
 
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
-    $objDB->addPlaylist($_POST["department"], $_POST["name"], $_POST["active"]);
+    $objDB->addPlaylist($_POST["name"], $_POST["active"], $_POST["department"]);
     header('Location: playlists.php');
     exit;
 
