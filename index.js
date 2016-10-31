@@ -11,6 +11,12 @@ var converter = new showdown.Converter({
 	strikethrough: true
 });
 
+var Call = {
+	GET_AVAILABLE_SCREENS: 1,
+	GET_SCREEN_DATA: 2,
+	CHECK_FOR_CHANGES: 3
+};
+
 function loadScreen() {
 	screen = localStorage.getItem("screen");
 
@@ -123,7 +129,7 @@ function startPresentation() {
 
 function updateLoop() {
 	setTimeout(function() {
-		apiCall(3, "screen", parseInt(screen.ID), function(success, response) {
+		apiCall(Call.CHECK_FOR_CHANGES, "screen", parseInt(screen.ID), function(success, response) {
 			if (success) {
 				if (response.length > 0) {
 					// DEBUGGING:
@@ -328,7 +334,7 @@ function displayPresentationError(title, error, desc) {
 
 window.addEventListener("load", function() {
 	if (!loadScreen()) {
-		apiCall(1, function(success, response) {
+		apiCall(Call.GET_AVAILABLE_SCREENS, function(success, response) {
 			if (success) {
 				var p = document.querySelector("#setup #container #loadingMessage");
 				p.removeContent();
@@ -387,13 +393,13 @@ window.addEventListener("load", function() {
 		$("#setup").style.display = "none";
 		$("#presentation").style.display = "block";
 
-		apiCall(2, "screen", parseInt(screen.ID), function(success, response) {
+		apiCall(Call.GET_SCREEN_DATA, "screen", parseInt(screen.ID), function(success, response) {
 			console.log(response);
 			if (success) {
 				processPlaylistResponse(response);
 				startPresentation();
 			} else {
-				displayPresentationError("Can't load slides.", response.error, response.desc)
+				displayPresentationError("Can't load slides.", response.error, response.desc);
 			}
 		}, true);
 	}
@@ -422,20 +428,20 @@ HTMLElement.prototype.setClass = function setClass(cls) {
 	}
 
 	return this;
-}
+};
 
 HTMLElement.prototype.append = function append(child) {
 	this.appendChild(child);
 	return this;
-}
+};
 
 HTMLElement.prototype.removeContent = function removeContent() {
 	this.innerHTML = "";
 	return this;
-}
+};
 
 HTMLElement.prototype.setAttr = function setAttr(name, value) {
 	this.setAttribute(name, value);
 	return this;
-}
+};
 
