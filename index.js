@@ -48,7 +48,17 @@ function apiCall(callID, paramName, paramVal, response, dontCache) {
 				response(xReq.status == 200, re);
 		}
 	};
-
+	
+	xReq.ontimeout = function(e) {
+		if (response)
+			response(false, {
+				error: "Timeout",
+				desc: "The request timed out",
+				code: 100
+			})
+	};
+	
+	xReq.timeout = 6000;
 	xReq.send();
 }
 
@@ -203,6 +213,7 @@ function presentationLoop() {
 		var element = createElem("div").setClass("slide");
 		element.id = id;
 		element.innerHTML = slide.template.htmlContent;
+		element.style.zIndex = "1000";
 		
 		$("#presentation").append(element);
 		
@@ -272,6 +283,8 @@ function presentationLoop() {
 				if ($("#presentation").children.length >= 2) {
 					$("#presentation").removeChild($("#presentation").children[0]);
 				}
+				
+				element.style.zIndex = "100";
 			}, transitionDuration * 1000);
 		
 			// LOOP
