@@ -151,6 +151,13 @@ span.success {
 	display: inline-block;
 }
 
+span.bigInfo {
+	font-family: sans-serif;
+	color: gray;
+	font-size: 23px;
+	font-weight: normal;
+}
+
 @-webkit-keyframes moveIn {
     0% {
         left: 0;

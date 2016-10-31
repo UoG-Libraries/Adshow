@@ -8,6 +8,12 @@
 	font-family: sans-serif;
 }
 
+.template5 * {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
 .template5 #titleWrapper {
 	margin-left: 40px;
 	margin-top: 50px;

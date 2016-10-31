@@ -11,10 +11,12 @@ if (isset($_GET["action"]) && $_GET["action"] == 'del') {
 include 'header.php';
 ?>
     <div>
+	    <h2>Departments</h2>
         <?php
         	$departmentsList = $objDB->getDepartments();
+        	
+        	if (sizeof($departmentsList) > 0) {
         ?>
-            <h2>Departments</h2>
             <table class="table table-striped">
                 <tr>
                     <th scope="col">ID</th>
@@ -23,7 +25,9 @@ include 'header.php';
                     <th scope="col"></th>
                     <th scope="col"></th>
                 </tr>
-                <?php foreach ($departmentsList as $department) { ?>
+                <?php 
+	                foreach ($departmentsList as $department) { 
+		        ?>
                     <tr class="line">
                         <td> <?php echo $department["ID"] ?></td>
                         <td> <?php echo $department["department"] ?></td>
@@ -48,5 +52,15 @@ include 'header.php';
                     </tr>
                 <?php } ?>
             </table>
+        <?php
+	        } else {
+		        ?>
+		        	<span class="bigInfo">There are no departments</span>
+		        	<br />
+		        	<br />
+		        	<a href="addDepartment.php" style="font-weight:bold">Add one</a>
+		        <?php
+	        }
+	    ?>
     </div>
 <?php include 'footer.php'; ?>

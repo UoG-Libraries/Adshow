@@ -8,6 +8,12 @@
 	font-family: sans-serif;
 }
 
+.overlayTempl * {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
 .overlayTempl #imageWrapper img {
 	width: 100%;
 }
