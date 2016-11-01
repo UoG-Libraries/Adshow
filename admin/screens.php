@@ -13,7 +13,10 @@ $screensList = $objDB->getScreensList();
 
 include 'header.php';
 ?>
-<h2>Screens</h2>
+<div class="head">
+    <h2>Screens</h2>
+    <a href="addScreen.php" class="btn btn-default">+</a>
+</div>
 <table class="table table-striped">
     <tr>
         <th scope="col">Screen ID</th>

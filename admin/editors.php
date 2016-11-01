@@ -17,7 +17,10 @@
 	}
 ?>
     <div>
-        <h2>Editors (<?php if (!empty($users)) { echo $summary; } else { echo 'No users yet'; } ?>)</h2>
+	    <div class="head">
+		    <h2>Editors (<?php if (!empty($users)) { echo $summary; } else { echo 'No users yet'; } ?>)</h2>
+		    <a href="addEditor.php" class="btn btn-default">+</a>
+	    </div>
         <?php
 	        if (!empty($users)) {
 	    ?>

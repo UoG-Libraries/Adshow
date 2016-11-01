@@ -46,6 +46,7 @@
 		public $permission;
 		public $isOwner;
 		public $db; // For reuse
+		public $canEditGlobalPlaylists;
 		private $changes = array(); // Tracking changes for MySQL Query
 		
 		public static $currentUser;
@@ -70,6 +71,7 @@
 				$user->fullName = User::formatName($dbUser['firstname'], $dbUser['lastname']);
 				$user->name = $dbUser['firstname'];
 				$user->ID = $dbUser['ID'];
+				$user->canEditGlobalPlaylists = $dbUser['global'];
 			}
 			
 			return $user;
@@ -105,6 +107,7 @@
 		    	$this->permission = $userResult[0]['permission'];  /// @todo Find a better way
 		    	$this->isOwner = $userResult[0]['owner'] == 1;
 		    	$this->ID = $userResult[0]['ID'];
+		    	$this->canEditGlobalPlaylists = $userResult[0]['global'];
 	    	}
     	}
     	
@@ -140,6 +143,15 @@
 	    	array_push($this->changes, 'owner');
     	}
     	
+    	public function updateCanEditGlobalPlaylists($newGlobalPermission) {
+	    	if (!is_bool($newGlobalPermission)) {
+		    	throw new Exception('Invalid "newGlobalPermission" parameter');
+	    	}
+	    	
+	    	$this->canEditGlobalPlaylists = $newGlobalPermission;
+	    	array_push($this->changes, 'global');
+    	}
+    	
     	public function commitChanges() {
 	    	if (empty($this->changes)) {
 		    	return;
@@ -157,6 +169,9 @@
 						break;
 			    	case 'department':
 			    		$valueString .= 'departmentIDfk='.$this->department['ID'];
+			    		break;
+			    	case 'global':
+			    		$valueString .= 'global='.($this->canEditGlobalPlaylists ? 1 : 0);
 			    		break;
 			    	default:
 			    		break;

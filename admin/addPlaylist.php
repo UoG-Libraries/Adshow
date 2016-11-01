@@ -58,7 +58,7 @@ include 'header.php';
             </div>
 
             <div>
-                <input type="reset" value="Cancel" class="btn btn-primary">
+                <a href="playlists.php" class="btn btn-primary">Cancel</a>
                 <input type="submit" value="Add" class="btn btn-primary">
             </div>
 

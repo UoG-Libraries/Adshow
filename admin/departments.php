@@ -11,7 +11,10 @@ if (isset($_GET["action"]) && $_GET["action"] == 'del') {
 include 'header.php';
 ?>
     <div>
-	    <h2>Departments</h2>
+	    <div class="head">
+		    <h2>Departments</h2>
+		    <a href="addDepartment.php" class="btn btn-default">+</a>
+	    </div>
         <?php
         	$departmentsList = $objDB->getDepartments();
         	

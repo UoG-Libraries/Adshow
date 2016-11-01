@@ -84,7 +84,7 @@ include 'header.php';
             </div>
 
             <div>
-                <input type="reset" value="Reset" class="btn btn-primary">
+                <a href="departments.php" class="btn btn-primary">Cancel</a>
                 <input type="submit" value="Add" class="btn btn-primary">
             </div>
         </form>
