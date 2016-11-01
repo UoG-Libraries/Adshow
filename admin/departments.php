@@ -11,15 +11,17 @@ if (isset($_GET["action"]) && $_GET["action"] == 'del') {
 include 'header.php';
 ?>
     <div>
-	    <div class="head">
-		    <h2>Departments</h2>
-		    <a href="addDepartment.php" class="btn btn-default">+</a>
-	    </div>
+        <div class="head">
+            <h2 class="col-md-11">Departments</h2>
+            <a href="addDepartment.php" class="btn btn-default pull-right">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+            </a>
+        </div>
         <?php
-        	$departmentsList = $objDB->getDepartments();
-        	
-        	if (sizeof($departmentsList) > 0) {
-        ?>
+        $departmentsList = $objDB->getDepartments();
+
+        if (sizeof($departmentsList) > 0) {
+            ?>
             <table class="table table-striped">
                 <tr>
                     <th scope="col">ID</th>
@@ -28,9 +30,9 @@ include 'header.php';
                     <th scope="col"></th>
                     <th scope="col"></th>
                 </tr>
-                <?php 
-	                foreach ($departmentsList as $department) { 
-		        ?>
+                <?php
+                foreach ($departmentsList as $department) {
+                    ?>
                     <tr class="line">
                         <td> <?php echo $department["ID"] ?></td>
                         <td> <?php echo $department["department"] ?></td>
@@ -55,15 +57,15 @@ include 'header.php';
                     </tr>
                 <?php } ?>
             </table>
-        <?php
-	        } else {
-		        ?>
-		        	<span class="bigInfo">There are no departments</span>
-		        	<br />
-		        	<br />
-		        	<a href="addDepartment.php" style="font-weight:bold">Add one</a>
-		        <?php
-	        }
-	    ?>
+            <?php
+        } else {
+            ?>
+            <span class="bigInfo">There are no departments</span>
+            <br/>
+            <br/>
+            <a href="addDepartment.php" style="font-weight:bold">Add one</a>
+            <?php
+        }
+        ?>
     </div>
 <?php include 'footer.php'; ?>

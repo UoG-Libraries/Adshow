@@ -69,6 +69,7 @@ body {
 
 .head h2 {
 	display: inline-block;
+    padding-left: 0;
 }
 
 .head .btn {

@@ -11,10 +11,12 @@ include 'header.php';
         $playlists = isset($_GET["dept"]) ? $objDB->getPlaylistsByDeptID($_GET["dept"]) : $objDB->getPlaylists();
         ?>
 
-		<div class="head">
-		    <h2>Playlists</h2>
-		    <a href="addPlaylist.php" class="btn btn-default">+</a>
-	    </div>
+        <div class="head">
+            <h2 class="col-md-11">Playlists</h2>
+            <a href="addPlaylist.php" class="btn btn-default pull-right">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+            </a>
+        </div>
         <table class="table table-striped">
             <tr>
                 <th scope="col"></th>
