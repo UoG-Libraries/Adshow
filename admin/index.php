@@ -27,7 +27,7 @@ include 'header.php';
         </li>
     </ul>
 
-    <h2>Current slide</h2>
+<!--    <h2>Current slide</h2>-->
 </div>
 <?php
 include 'footer.php';
