@@ -6,34 +6,34 @@
 <div class="col-md-3" id="navigation">
     <div class="nav-content col-xs-10">
         <ul class="nav nav-pills nav-stacked">
-            <li><strong><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</strong></li>
-            <li <?php echo ($location == "index.php") ? "class='active'" : '' ?>><a href="index.php">Home</a></li>
-            <li><strong><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span> Screens</strong></li>
-            <li <?php echo ($location == "screens.php") ? "class='active'" : '' ?>><a href="screens.php">Show
-                    screens</a></li>
-            <li <?php echo ($location == "addScreen.php") ? "class='active'" : '' ?>><a href="addScreen.php">Add
-                    screen</a></li>
-            <li><strong><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Playlists</strong></li>
-            <li <?php echo ($location == "playlists.php") ? "class='active'" : '' ?>><a href="playlists.php">Show
-                    playlists</a></li>
-            <li <?php echo ($location == "addPlaylist.php") ? "class='active'" : '' ?>><a href="addPlaylist.php">Add
-                    playlist</a></li>
-            <li><strong><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Editors &amp; Departments</strong></li>
-            <li <?php echo ($location == "editors.php") ? "class='active'" : '' ?>><a href="editors.php">Show editors</a></li>
-            <?php
-	        	if ($currentUser->isSuperadmin() || $currentUser->isAdmin()) {  
-	        ?>
-	        	<li <?php echo ($location == "addEditor.php") ? "class='active'" : '' ?>><a href="addEditor.php">Add editor</a></li>
-	        <?php
-		    	}  
-		    ?>
+            <li <?php echo ($location == "index.php") ? "class='active'" : '' ?>>
+            	<a href="index.php">
+            		<span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home
+            	</a>
+            </li>
+            <li <?php echo ($location == "screens.php") ? "class='active'" : '' ?>>
+            	<a href="screens.php">
+            		<span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span> Screens
+            	</a>
+            </li>
+            <li <?php echo ($location == "playlists.php") ? "class='active'" : '' ?>>
+            	<a href="playlists.php">
+	            	<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Playlists
+	            </a>
+	        </li>
+            <li <?php echo ($location == "editors.php") ? "class='active'" : '' ?>>
+            	<a href="editors.php">
+	            	<span class="glyphicon glyphicon-user" aria-hidden="true"></span> Editors
+	            </a>
+	        </li>
             <?php
 	            if ($currentUser->isSuperadmin()) {
 	        ?>
-	        	<li <?php echo ($location == "departments.php") ? "class='active'" : '' ?>><a href="departments.php">Show
-                    departments</a></li>
-            <li <?php echo ($location == "addDepartment.php") ? "class='active'" : '' ?>><a href="addDepartment.php">Add
-                    department</a></li>
+	        	<li <?php echo ($location == "departments.php") ? "class='active'" : '' ?>>
+					<a href="departments.php">
+				    	<span class="glyphicon glyphicon-record" aria-hidden="true"></span> Departments
+				    </a>
+				</li>
 	        <?php
 		        }
 		    ?>

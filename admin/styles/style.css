@@ -63,6 +63,19 @@ body {
     padding: 15px 0;
 }
 
+.head {
+	margin-bottom: 15px;
+}
+
+.head h2 {
+	display: inline-block;
+}
+
+.head .btn {
+	float: right;
+	margin-top: 20px;
+}
+
 #template-container {
     width: calc(100% * 4 - 0px);
     height: calc(100% * 4 - 0px);

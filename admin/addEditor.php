@@ -120,7 +120,7 @@
 	        ?>
 
             <div>
-                <input type="reset" value="Cancel" class="btn btn-primary">
+                <a href="editors.php" class="btn btn-primary">Cancel</a>
                 <input type="submit" value="Add" id="submitButton" class="btn btn-primary">
             </div>
 
