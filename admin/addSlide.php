@@ -4,6 +4,7 @@
  * Date: 20/10/2016
  */
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
+    echo $_POST['active'];
     include "db.php";
     $objDB = new Database();
     $objDB->addSlide(
@@ -13,7 +14,7 @@ if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
         $_POST["showTime"],
         $_POST["imageURL"],
         $_POST["templateName"],
-        $_POST['active']
+        (isset($_POST['active']) ? 1 : 0)
     );
     header('Location: editPlaylist.php?id=' . $_POST["playlistID"]);
 }
@@ -80,7 +81,7 @@ include "header.php";
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="active"> Active
+                        <input type="checkbox" name="active" checked> Active
                     </label>
                 </div>
             </div>

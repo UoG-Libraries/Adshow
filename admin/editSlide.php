@@ -13,7 +13,7 @@ if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
         $_POST['showTime'],
         $_POST['imageURL'],
         $_POST['templateName'],
-        $_POST['active']
+        (isset($_POST['active']) ? 1 : 0)
     );
     header('Location: editPlaylist.php?id=' . $_POST["playlistID"]);
 }
@@ -89,7 +89,8 @@ include "header.php";
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="active"> Active
+                        <input type="checkbox" name="active" <?php echo $slide['active'] == 1 ? 'checked' : '' ?>>
+                        Active
                     </label>
                 </div>
             </div>
