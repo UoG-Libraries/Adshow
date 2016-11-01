@@ -151,14 +151,30 @@ function updateLoop() {
 								for (var j in newPlaylist.slides) {
 									var newSlide = newPlaylist.slides[j];
 									var slideIndex = getSlideIndexOfPlaylistWithSlideID(oldPlaylist, newSlide.id);
-									
-									if (slideIndex >= 0) {
-										oldPlaylist.slides[slideIndex] = newSlide;
-										slidesChanged++; // DEBUG
-									} else {
-										oldPlaylist.slides.push(newSlide);
-										slidesAdded++; // DEBUG
-									}
+																		
+									newSlide.load(function() {
+										if (slideIndex >= 0) {
+											if (!newSlide.template.hasLoaded) {
+												newSlide.template.load(function() {
+													oldPlaylist.slides[slideIndex] = newSlide;
+													console.info("Changed a slide and loaded the new template"); // DEBUG
+												});
+											} else {
+												oldPlaylist.slides[slideIndex] = newSlide;
+												slidesChanged++; // DEBUG
+											}
+										} else {
+											if (!newSlide.template.hasLoaded) {
+												newSlide.template.load(function() {
+													oldPlaylist.slides.push(newSlide);
+													console.info("Added a slide and loaded the new template"); // DEBUG
+												});
+											} else {
+												oldPlaylist.slides.push(newSlide);
+												slidesAdded++; // DEBUG
+											}
+										}
+									});
 								}
 							} else {
 								playlists.push(playlist);
