@@ -3,10 +3,13 @@ include 'db.php';
 $objDB = new Database();
 
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
-    $objDB->addPlaylist($_POST["name"], $_POST["active"], $_POST["department"]);
-    header('Location: playlists.php');
-    exit;
-
+    $playlistID = $objDB->addPlaylist($_POST["name"], $_POST["active"], $_POST["department"]);
+    print_r($_POST);
+    if (isset($_POST['addSlide'])) {
+        header("Location: addSlide.php?playlistID=$playlistID");
+    } else {
+        header('Location: playlists.php');
+    }
 }
 
 $departmentList = $objDB->getDepartments();
@@ -42,7 +45,7 @@ include 'header.php';
                     </div>
                 </div>
             <?php } else { ?>
-                <input type="hidden" name="department" value="<?php echo User::getCurrentUser()->getDepartmentID()?>"/>
+                <input type="hidden" name="department" value="<?php echo User::getCurrentUser()->getDepartmentID() ?>"/>
             <?php } ?>
             <div class="form-group">
                 <label for="active" class="col-sm-2 control-label">Active</label>
@@ -57,6 +60,17 @@ include 'header.php';
             <div>
                 <input type="reset" value="Cancel" class="btn btn-primary">
                 <input type="submit" value="Add" class="btn btn-primary">
+            </div>
+
+            <div class="h-space"></div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Slides</h3>
+                </div>
+                <div class="panel-body">
+                    <div>There are no slides yet.</div>
+                    <input type="submit" value="Add slide" class="btn btn-default" name="addSlide">
+                </div>
             </div>
         </form>
     </div>
