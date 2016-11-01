@@ -5,7 +5,10 @@ $objDB = new Database();
 
 if (isset($_GET['action']) && $_GET['action'] == 'del') {
     $objDB->deletePlaylist($_GET['id']);
-    header('Location: playlists.php');
+}
+
+if (isset($_GET['action']) && $_GET['action'] == 'active') {
+    $objDB->setActiveStatusOfPlaylist($_GET['id'], $_GET['active'] == 0 ? 1 : 0);
 }
 
 include 'header.php';
@@ -43,11 +46,14 @@ include 'header.php';
                     </td>
                     <td><?php echo $playlist['name'] ?></td>
                     <td>
-                        <?php if ($playlist["active"] == '1') { ?>
-                            <span class="label label-success">YES</span>
-                        <?php } else { ?>
-                            <span class="label label-danger">NO</span>
-                        <?php } ?>
+                        <a href="playlists.php?action=active&id=<?php echo $playlist["ID"] ?>&active=<?php echo $playlist["active"] ?>"
+                           class="hidden-button">
+                            <?php if ($playlist["active"] == '1') { ?>
+                                <span class="label label-success">YES</span>
+                            <?php } else { ?>
+                                <span class="label label-danger">NO</span>
+                            <?php } ?>
+                        </a>
                     </td>
                     <td><?php echo $playlist['department'] ?></td>
                     <td>

@@ -16,6 +16,10 @@ if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
     header('Location: playlists.php');
 }
 
+if (isset($_GET['action']) && $_GET['action'] == 'active') {
+    $objDB->setActiveStatusOfSlide($_GET['slideId'], $_GET['active'] == 0 ? 1 : 0);
+    header('Location: editPlaylist.php?id=' . $_GET['id']);
+}
 
 $id = $_GET["id"];
 $playlist = $objDB->getPlaylist($id)[0];
@@ -92,11 +96,15 @@ include 'header.php';
                                     <td><span class="badge"><?php echo $slide["playtime"] ?></span> seconds</td>
                                     <td><?php echo $slide["templateName"] ?></td>
                                     <td>
-                                        <?php if ($slide["active"] == '1') { ?>
-                                            <span class="label label-success">YES</span>
-                                        <?php } else { ?>
-                                            <span class="label label-danger">NO</span>
-                                        <?php } ?>
+                                        <a href="editPlaylist.php?action=active&id=<?php echo $_GET["id"] ?>&slideId=<?php echo $slide["ID"] ?>&active=<?php echo $slide["active"] ?>"
+                                           class="hidden-button">
+                                            <?php if ($slide["active"] == '1') { ?>
+                                                <span class="label label-success">YES</span>
+                                            <?php } else { ?>
+                                                <span class="label label-danger">NO</span>
+                                            <?php } ?>
+                                        </a>
+                                    </td>
                                     </td>
                                     <td>
                                         <a href='editSlide.php?id=<?php echo $slide["ID"] ?>'>

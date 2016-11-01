@@ -90,6 +90,11 @@ body {
     -webkit-transform-origin: 0 0;
 }
 
+.hidden-button{
+    background: none;
+    border: none;
+}
+
 @media (max-width: 992px) {
 
     #navigation {

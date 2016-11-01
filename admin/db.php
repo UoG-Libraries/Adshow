@@ -471,6 +471,17 @@ class Database
         $this->query($query);
         return $this->query("COMMIT");
     }
+
+    public function setActiveStatusOfPlaylist($id, $active)
+    {
+        $query = "UPDATE playlist SET active = $active WHERE ID = $id";
+        $this->query($query);
+    }
+    public function setActiveStatusOfSlide($id, $active)
+    {
+        $query = "UPDATE slide SET active = $active WHERE ID = $id";
+        $this->query($query);
+    }
 }
 
 ?>
