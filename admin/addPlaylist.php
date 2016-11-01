@@ -42,7 +42,7 @@ include 'header.php';
                     </div>
                 </div>
             <?php } else { ?>
-                <input type="hidden" name="department" value="<?php echo $_SESSION["department"] ?>"/>
+                <input type="hidden" name="department" value="<?php echo User::getCurrentUser()->getDepartmentID()?>"/>
             <?php } ?>
             <div class="form-group">
                 <label for="active" class="col-sm-2 control-label">Active</label>
