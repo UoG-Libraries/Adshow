@@ -21,12 +21,14 @@
 		this.htmlUrl = "templates/?name=" + this.name;
 		this.cssUrl = "templates/" + this.name + "/style.css";
 		this.htmlContent = null;
+		this.hasLoaded = false;
 		
 		this.load = function(callback) {
 			req(this.htmlUrl, true, (function(t, c) {
 				return function(response, status) {
 					if (status == 200) {
 						t.htmlContent = response;
+						t.hasLoaded = true;
 						c();
 					} else {
 						throw new Error("Couldn't load the template HTML");
