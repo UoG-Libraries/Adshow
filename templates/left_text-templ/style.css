@@ -53,5 +53,17 @@
 	list-style-type: none;
 }
 .content ul li{
- 	padding: 10px 0; 
+ 	padding: 10px 0;
+}
+
+.template4 #text {
+	height: 55vh;
+	width: 70vh;
+}
+
+.ellipsis {
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: normal;
+  width: 200px;
 }
