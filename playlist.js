@@ -7,7 +7,7 @@
 	
 	var req = function(url, dontCache, response) {
 		var request = new XMLHttpRequest();
-		request.open("GET", url + (dontCache ? ("?t=" + (new Date).getTime()) : ""), true);
+		request.open("GET", url + (dontCache ? ((/\?/.test(url) ? "&" : "?") + "t=" + (new Date).getTime()) : ""), true);
 		request.onload = function() {
 			if (request.readyState == XMLHttpRequest.DONE) {
 				response(request.response, request.status);
@@ -18,7 +18,7 @@
 	
 	var Template = function Template(name) {
 		this.name = name;
-		this.htmlUrl = "templates/" + this.name + "/template.html";
+		this.htmlUrl = "templates/?name=" + this.name;
 		this.cssUrl = "templates/" + this.name + "/style.css";
 		this.htmlContent = null;
 		
