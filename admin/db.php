@@ -107,7 +107,7 @@ class Database
 
     public function getScreensList()
     {
-        $query = "SELECT screen.ID, screen.location, screen.departmentIDfk AS departmentID, department.department, playlist.name AS playlistName FROM (screen, department) LEFT JOIN playlist ON playlist.ID = screen.playlistIDfk WHERE screen.departmentIDfk = department.ID";
+        $query = "SELECT screen.ID, screen.location, screen.departmentIDfk AS departmentID, department.department, playlist.name AS playlistName FROM (screen, department) LEFT JOIN playlist ON playlist.ID = screen.playlistIDfk WHERE screen.departmentIDfk = department.ID ORDER BY department.department ASC, screen.location ASC";
         $rows = $this->select_query($query);
 
         return $rows;
@@ -133,7 +133,7 @@ class Database
     public function getPlaylists()
     {
         $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, playlist.global AS global, department.department AS department FROM playlist, department
-	WHERE playlist.departmentIDfk = department.ID";
+	WHERE playlist.departmentIDfk = department.ID ORDER BY department ASC, playlist.global DESC, playlist.active DESC ,playlist.name ASC ";
         $rows = $this->select_query($query);
 
         return $rows;
@@ -142,7 +142,7 @@ class Database
     public function getPlaylistsByDeptID($deptId)
     {
         $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, playlist.global AS global, department.department AS department FROM playlist, department
-	WHERE playlist.departmentIDfk = department.ID AND department.ID =" . $deptId;
+	WHERE playlist.departmentIDfk = department.ID AND department.ID = $deptId  ORDER BY department ASC, playlist.global DESC, playlist.active DESC ,playlist.name ASC" ;
         $rows = $this->select_query($query);
 
         return $rows;
@@ -189,7 +189,7 @@ class Database
             $addition = " AND user.departmentIDfk=$filterByDeptID";
         }
 
-        $query = "SELECT user.ID, user.sNumber, user.firstname, user.lastname, user.owner, department.department, user.permission FROM user JOIN department WHERE user.departmentIDfk=department.ID$addition";
+        $query = "SELECT user.ID, user.sNumber, user.firstname, user.lastname, user.owner, department.department, user.permission FROM user JOIN department WHERE user.departmentIDfk=department.ID$addition ORDER BY user.permission DESC, department.department ASC, user.firstname ASC ";
         return $this->select_query($query);
     }
 

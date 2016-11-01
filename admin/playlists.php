@@ -36,7 +36,13 @@ include 'header.php';
                         <?php } ?>
                     </td>
                     <td><?php echo $playlist['name'] ?></td>
-                    <td><?php echo $playlist['active'] ? 'Yes' : 'No' ?></td>
+                    <td>
+                        <?php if ($playlist["active"] == '1') { ?>
+                            <span class="label label-success">YES</span>
+                        <?php } else { ?>
+                            <span class="label label-danger">NO</span>
+                        <?php } ?>
+                    </td>
                     <td><?php echo $playlist['department'] ?></td>
                     <td>
                         <a href="editPlaylist.php?id=<?php echo $playlist['ID'] ?>">
