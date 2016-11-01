@@ -11,10 +11,17 @@ vm.loadCss = function () {
     var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
 
     var head = innerDoc.getElementsByTagName("head");
-    var element = document.createElement("link");
-    element.href = "style.css";
-    element.rel = "stylesheet";
-    head[0].appendChild(element)
+
+    var localStylesheet = document.createElement("link");
+    localStylesheet.href = "style.css";
+    localStylesheet.rel = "stylesheet";
+
+    var bootstrapStylesheet = document.createElement("link");
+    bootstrapStylesheet.href = "/css/bootstrap.min.css";
+    bootstrapStylesheet.rel = "stylesheet";
+
+    head[0].appendChild(localStylesheet);
+    head[0].appendChild(bootstrapStylesheet);
 };
 
 vm.loadHtml = function (base) {
@@ -86,6 +93,7 @@ vm.updateImage = function () {
 function updateImagePath() {
     var image = $("#imageURL");
     image.val($("#uploaded_image_name").val());
+    vm.updateImage();
 }
 
 
