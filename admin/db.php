@@ -142,7 +142,16 @@ class Database
     public function getPlaylistsByDeptID($deptId)
     {
         $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, playlist.global AS global, department.department AS department FROM playlist, department
-	WHERE playlist.departmentIDfk = department.ID AND department.ID = $deptId  ORDER BY department ASC, playlist.global DESC, playlist.active DESC ,playlist.name ASC" ;
+	WHERE playlist.departmentIDfk = department.ID AND department.ID = $deptId  ORDER BY department ASC, playlist.global DESC, playlist.active DESC ,playlist.name ASC";
+        $rows = $this->select_query($query);
+
+        return $rows;
+    }
+
+    public function getActivePlaylistsByDeptID($deptId)
+    {
+        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, playlist.global AS global, department.department AS department FROM playlist, department
+	WHERE playlist.departmentIDfk = department.ID AND department.ID = $deptId AND playlist.active = 1 ORDER BY department ASC, playlist.global DESC, playlist.active DESC ,playlist.name ASC";
         $rows = $this->select_query($query);
 
         return $rows;
@@ -255,11 +264,12 @@ class Database
         return $this->query($query) === TRUE;
     }
 
-    public function addSlide($playlistID, $title, $text, $showTime, $imageURL, $templateName)
+    public function addSlide($playlistID, $title, $text, $showTime, $imageURL, $templateName, $active)
     {
         $showTime = $showTime == "" ? 5 : $showTime;
-        $imageURL = $imageURL == "" ? NULL : $imageURL;
-        $query = "INSERT INTO slide VALUE (NULL,1,'" . $title . "','" . $text . "'," . $showTime . ", '" . $templateName . "' ," . $playlistID . ", 1, '" . $imageURL . "')";
+        $imageURL = str_replace(' ', '', $imageURL) == "" ? NULL : $imageURL;
+
+        $query = "INSERT INTO slide VALUE (NULL,$active,'" . $title . "','" . $text . "'," . $showTime . ", '" . $templateName . "' ," . $playlistID . ", 1, '" . $imageURL . "')";
         $this->query($query);
         $this->cleanUpImageFolder();
     }
@@ -434,12 +444,12 @@ class Database
         }
     */
 
-    public function editSlide($id, $title, $text, $showTime, $imageURL, $templateName)
+    public function editSlide($id, $title, $text, $showTime, $imageURL, $templateName, $active)
     {
         $showTime = $showTime == "" ? 5 : $showTime;
-        $imageURL = $imageURL == "" ? NULL : $imageURL;
+        $imageURL = str_replace(' ', '', $imageURL) == "" ? NULL : $imageURL;
 
-        $query = "UPDATE slide SET active = 1, title ='" . $title . "', text ='" . $text . "', playtime = " . $showTime . ",imageURL='" . $imageURL . "', templateName= '" . $templateName . "',changed=1 WHERE id = " . $id;
+        $query = "UPDATE slide SET active = $active, title ='" . $title . "', text ='" . $text . "', playtime = " . $showTime . ",imageURL='" . $imageURL . "', templateName= '" . $templateName . "',changed=1 WHERE id = " . $id;
         $this->query($query);
         $this->cleanUpImageFolder();
     }
@@ -448,6 +458,18 @@ class Database
     {
         $query = "UPDATE screen SET playlistIDfk = $playlistID WHERE ID = $screenID";
         $this->query($query);
+    }
+
+    public function deletePlaylist($ID)
+    {
+        $this->query("BEGIN");
+        $query = "UPDATE screen SET playlistIDfk = NULL WHERE playlistIDfk = $ID";
+        $this->query($query);
+        $query = "DELETE FROM slide WHERE playlistID = $ID";
+        $this->query($query);
+        $query = "DELETE FROM playlist WHERE ID = $ID";
+        $this->query($query);
+        return $this->query("COMMIT");
     }
 }
 

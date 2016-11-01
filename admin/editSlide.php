@@ -6,7 +6,15 @@
 include "db.php";
 $objDB = new Database();
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
-    $objDB->editSlide($_POST["id"], $_POST["title"], $_POST["text"], $_POST["showTime"], $_POST["imageURL"], $_POST["templateName"]);
+    $objDB->editSlide(
+        $_POST['id'],
+        $_POST['title'],
+        $_POST['text'],
+        $_POST['showTime'],
+        $_POST['imageURL'],
+        $_POST['templateName'],
+        $_POST['active']
+    );
     header('Location: editPlaylist.php?id=' . $_POST["playlistID"]);
 }
 
@@ -78,6 +86,11 @@ include "header.php";
                                placeholder="Amount">
                         <div class="input-group-addon">seconds</div>
                     </div>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="active"> Active
+                    </label>
                 </div>
             </div>
         </form>

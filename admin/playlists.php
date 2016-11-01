@@ -2,6 +2,12 @@
 include 'db.php';
 include 'user.php';
 $objDB = new Database();
+
+if (isset($_GET['action']) && $_GET['action'] == 'del') {
+    $objDB->deletePlaylist($_GET['id']);
+    header('Location: playlists.php');
+}
+
 include 'header.php';
 ?>
     <div>
