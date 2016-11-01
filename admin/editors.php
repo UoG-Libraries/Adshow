@@ -18,15 +18,16 @@
 ?>
     <div>
 	    <div class="head">
-		    <h2>Editors (<?php if (!empty($users)) { echo $summary; } else { echo 'No users yet'; } ?>)</h2>
-		    <a href="addEditor.php" class="btn btn-default">+</a>
+		    <h2 class="col-md-11">Editors (<?php if (!empty($users)) { echo $summary; } else { echo 'No users yet'; } ?>)</h2>
+		    <a href="addEditor.php" class="btn btn-default pull-right">
+				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+			</a>
 	    </div>
         <?php
 	        if (!empty($users)) {
 	    ?>
         	<table class="table table-striped">
         	    <tr>
-        	        <th scope="col">ID</th>
         	        <th scope="col">S-Number</th>
         	        <th scope="col">Name</th>
         	        <th scope="col">Department</th>
@@ -38,7 +39,6 @@
 	    	        foreach ($users as $usr) { 
 	    	    ?>
         	        <tr class="line">
-        	            <td><?php echo $usr["ID"]; ?></td>
         	            <td><?php echo $usr["sNumber"]; ?></td>
         	            <td><?php echo($usr['firstname'] . ' ' . ucfirst(strtolower($usr['lastname']))); ?></td>
         	            <td><?php echo $usr['department']; ?></td>

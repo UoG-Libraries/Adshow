@@ -4,9 +4,18 @@
  * Date: 20/10/2016
  */
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
+    echo $_POST['active'];
     include "db.php";
     $objDB = new Database();
-    $objDB->addSlide($_POST["playlistID"], $_POST["title"], $_POST["text"], $_POST["showTime"], $_POST["imageURL"], $_POST["templateName"]);
+    $objDB->addSlide(
+        $_POST["playlistID"],
+        $_POST["title"],
+        $_POST["text"],
+        $_POST["showTime"],
+        $_POST["imageURL"],
+        $_POST["templateName"],
+        (isset($_POST['active']) ? 1 : 0)
+    );
     header('Location: editPlaylist.php?id=' . $_POST["playlistID"]);
 }
 
@@ -53,7 +62,8 @@ include "header.php";
                 </div>
                 <div class="form-group">
                     <label for="inputText">Text</label>
-                    <a target="_blank" href="https://github.com/showdownjs/showdown/wiki/Showdown's-Markdown-syntax">Markdown Syntax</a>
+                    <a target="_blank" href="https://github.com/showdownjs/showdown/wiki/Showdown's-Markdown-syntax">Markdown
+                        Syntax</a>
                     <textarea
                         rows="5"
                         class="form-control"
@@ -68,6 +78,11 @@ include "header.php";
                         <input type="number" class="form-control" name="showTime" id="showTime" placeholder="Amount">
                         <div class="input-group-addon">seconds</div>
                     </div>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="active" checked> Active
+                    </label>
                 </div>
             </div>
         </form>
