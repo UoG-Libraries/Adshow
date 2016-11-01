@@ -267,9 +267,13 @@ class Database
     public function addSlide($playlistID, $title, $text, $showTime, $imageURL, $templateName, $active)
     {
         $showTime = $showTime == "" ? 5 : $showTime;
-        $imageURL = str_replace(' ', '', $imageURL) == "" ? NULL : $imageURL;
+        $imageURL = str_replace(' ', '', $imageURL) == '' ? NULL : $imageURL;
 
-        $query = "INSERT INTO slide VALUE (NULL,$active,'" . $title . "','" . $text . "'," . $showTime . ", '" . $templateName . "' ," . $playlistID . ", 1, '" . $imageURL . "')";
+        if ($imageURL == NULL) {
+            $query = "INSERT INTO slide VALUE (NULL,$active,'" . $title . "','" . $text . "'," . $showTime . ", '" . $templateName . "' ," . $playlistID . ", 1, NULL)";
+        } else {
+            $query = "INSERT INTO slide VALUE (NULL,$active,'" . $title . "','" . $text . "'," . $showTime . ", '" . $templateName . "' ," . $playlistID . ", 1, '$imageURL')";
+        }
         $this->query($query);
         $this->cleanUpImageFolder();
     }
@@ -477,6 +481,7 @@ class Database
         $query = "UPDATE playlist SET active = $active WHERE ID = $id";
         $this->query($query);
     }
+
     public function setActiveStatusOfSlide($id, $active)
     {
         $query = "UPDATE slide SET active = $active WHERE ID = $id";
