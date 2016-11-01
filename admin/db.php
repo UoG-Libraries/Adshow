@@ -246,6 +246,7 @@ class Database
     {
         $query = "INSERT INTO playlist(ID, name, active, global, departmentIDfk) VALUE (NULL, '$name', $active , 0, $departmentID)";
         $this->query($query);
+        return mysqli_insert_id($this->link);
     }
 
     public function addUser($sNumber, $isOwner, $deptIDfk, $permission, $firstname, $lastname)

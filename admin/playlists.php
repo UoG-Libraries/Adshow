@@ -11,11 +11,15 @@ include 'header.php';
         $playlists = isset($_GET["dept"]) ? $objDB->getPlaylistsByDeptID($_GET["dept"]) : $objDB->getPlaylists();
         ?>
 
-        <h2>Playlists</h2>
+        <div class="head">
+            <h2 class="col-md-11">Playlists</h2>
+            <a href="addPlaylist.php" class="btn btn-default pull-right">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+            </a>
+        </div>
         <table class="table table-striped">
             <tr>
                 <th scope="col"></th>
-                <th scope="col">ID</th>
                 <th scope="col">Name</th>
                 <th scope="col">Active</th>
                 <th scope="col">Department</th>
@@ -31,7 +35,6 @@ include 'header.php';
                             <span class="glyphicon glyphicon-globe" aria-hidden="true" title="Global"></span>
                         <?php } ?>
                     </td>
-                    <td><?php echo $playlist['ID'] ?></td>
                     <td><?php echo $playlist['name'] ?></td>
                     <td><?php echo $playlist['active'] ? 'Yes' : 'No' ?></td>
                     <td><?php echo $playlist['department'] ?></td>

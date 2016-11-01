@@ -13,10 +13,14 @@ $screensList = $objDB->getScreensList();
 
 include 'header.php';
 ?>
-<h2>Screens</h2>
+<div class="head">
+    <h2 class="col-md-11">Screens</h2>
+    <a href="addScreen.php" class="btn btn-default pull-right">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+    </a>
+</div>
 <table class="table table-striped">
     <tr>
-        <th scope="col">Screen ID</th>
         <th scope="col">Department</th>
         <th scope="col">Location</th>
         <th scope="col">Current Playlist</th>
@@ -26,7 +30,6 @@ include 'header.php';
     </tr>
     <?php foreach ($screensList as $screen) { ?>
         <tr>
-            <td><?php echo $screen["ID"] ?></td>
             <td><?php echo $screen["department"] ?></td>
             <td><?php echo $screen["location"] ?></td>
             <td><?php echo $screen["playlistName"] ?></td>

@@ -51,7 +51,7 @@ include_once "user.php";
                 </div>
             </div>
             <div>
-                <input type="reset" value="Cancel" class="btn btn-primary">
+                <a href="screens.php" class="btn btn-primary">Cancel</a>
                 <input type="submit" value="Add" class="btn btn-primary">
             </div>
         </form>
