@@ -24,7 +24,6 @@ include 'header.php';
             ?>
             <table class="table table-striped">
                 <tr>
-                    <th scope="col">ID</th>
                     <th scope="col">Department</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
@@ -34,7 +33,6 @@ include 'header.php';
                 foreach ($departmentsList as $department) {
                     ?>
                     <tr class="line">
-                        <td> <?php echo $department["ID"] ?></td>
                         <td> <?php echo $department["department"] ?></td>
                         <td>
                             <a href="editDepartment.php?id=<?php echo $department['ID'] ?>">

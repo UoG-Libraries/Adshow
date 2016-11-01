@@ -28,7 +28,6 @@
 	    ?>
         	<table class="table table-striped">
         	    <tr>
-        	        <th scope="col">ID</th>
         	        <th scope="col">S-Number</th>
         	        <th scope="col">Name</th>
         	        <th scope="col">Department</th>
@@ -40,7 +39,6 @@
 	    	        foreach ($users as $usr) { 
 	    	    ?>
         	        <tr class="line">
-        	            <td><?php echo $usr["ID"]; ?></td>
         	            <td><?php echo $usr["sNumber"]; ?></td>
         	            <td><?php echo($usr['firstname'] . ' ' . ucfirst(strtolower($usr['lastname']))); ?></td>
         	            <td><?php echo $usr['department']; ?></td>

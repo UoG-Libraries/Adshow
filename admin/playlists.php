@@ -20,7 +20,6 @@ include 'header.php';
         <table class="table table-striped">
             <tr>
                 <th scope="col"></th>
-                <th scope="col">ID</th>
                 <th scope="col">Name</th>
                 <th scope="col">Active</th>
                 <th scope="col">Department</th>
@@ -36,7 +35,6 @@ include 'header.php';
                             <span class="glyphicon glyphicon-globe" aria-hidden="true" title="Global"></span>
                         <?php } ?>
                     </td>
-                    <td><?php echo $playlist['ID'] ?></td>
                     <td><?php echo $playlist['name'] ?></td>
                     <td><?php echo $playlist['active'] ? 'Yes' : 'No' ?></td>
                     <td><?php echo $playlist['department'] ?></td>

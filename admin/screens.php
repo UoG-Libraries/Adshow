@@ -21,7 +21,6 @@ include 'header.php';
 </div>
 <table class="table table-striped">
     <tr>
-        <th scope="col">Screen ID</th>
         <th scope="col">Department</th>
         <th scope="col">Location</th>
         <th scope="col">Current Playlist</th>
@@ -31,7 +30,6 @@ include 'header.php';
     </tr>
     <?php foreach ($screensList as $screen) { ?>
         <tr>
-            <td><?php echo $screen["ID"] ?></td>
             <td><?php echo $screen["department"] ?></td>
             <td><?php echo $screen["location"] ?></td>
             <td><?php echo $screen["playlistName"] ?></td>
