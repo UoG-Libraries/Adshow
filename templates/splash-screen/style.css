@@ -16,6 +16,10 @@
 	text-align: center;
 }
 
+footer{
+	font-size: 2em;
+}
+
 .splashTempl h1 {
 	margin-top: 200px;
 	font-size: 95px;
