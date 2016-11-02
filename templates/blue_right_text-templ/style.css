@@ -1,0 +1,63 @@
+.template6 body {
+	margin: 0;
+}
+
+.template6 {
+    margin: 0;
+    height: 80vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.template6 #titlecontainer h1 {
+	font-size: 48;
+	text-align: center;
+}
+
+.template6::after {
+    content: "";
+    background: url("./assets/bg.svg");
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+	z-index: -1;
+}
+
+.template6 #imageWrapper {
+	width: 45%;
+    margin-top: 4%;
+}
+
+.template6 #text {
+	margin-top: 12%;
+	background-color: #FFFFFF;
+	height: 60%;
+	width: 44%;
+	float: right;
+    z-index: 1;
+    padding-left: 80px;
+	padding-top: 30;
+    position: absolute;
+    right: 0;
+    bottom: 20%;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    font-size: 30px;
+}
+
+.col-md-offset-2 {
+    margin-left: 14.66666667%;
+}
+
+.template6 .text ul li{
+ 	padding: 10px 0;
+}
+
+.ellipsis {
+  overflow: hidden;
+  white-space: normal;
+  width: 200px;
+  word-wrap: break-word;
+}
