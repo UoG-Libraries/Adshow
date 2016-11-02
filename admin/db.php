@@ -216,7 +216,7 @@ class Database
 
     public function getChangedSlidesForPlaylist($playlistID, $timestamps)
     {
-	    $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `changed`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\", `markdownEnabled` as \"mdEnabled\" FROM slide WHERE `playlistID`=$playlistID";
+	    $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\", `markdownEnabled` as \"mdEnabled\" FROM slide WHERE `playlistID`=$playlistID";
 	    $result = $this->select_query($query);
 	    $return = array();
 	    
@@ -251,12 +251,6 @@ class Database
         }
         
         return $return;*/
-    }
-
-    public function removeChangeFlagsForPlaylist($playlistID)
-    {
-        $query = "UPDATE slide SET `changed`=0 WHERE `changed`=1 AND `playlistID`=$playlistID";
-        return $this->query($query);
     }
 
     public function getSlidesFromPlaylist($playlistID)
