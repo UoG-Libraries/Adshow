@@ -29,18 +29,22 @@ function loadScreen() {
 	return false;
 }
 
-function apiCall(callID, paramName, paramVal, response, dontCache) {
+function apiCall(callID, params, response, dontCache) {
 	var url = "api.php?call=" + callID;
-	if (paramName && paramVal) {
-		url += "&" + paramName + "=" + paramVal;
+	if (params) {
+		for (var key in params) {
+			var val = params[key];
+			
+			url += "&" + key + "=" + val;
+		}
 	}
 	
 	if (dontCache) {
 		url += "&t=" + (new Date).getTime();
 	}
 
-	if (typeof response !== "function" && typeof paramName === "function") {
-		response = paramName;
+	if (typeof response !== "function" && typeof params === "function") {
+		response = params;
 	}
 
 	var xReq = new XMLHttpRequest();
@@ -129,7 +133,39 @@ function startPresentation() {
 
 function updateLoop() {
 	setTimeout(function() {
-		apiCall(Call.CHECK_FOR_CHANGES, "screen", parseInt(screen.ID), function(success, response) {
+		var params = {
+			screen: parseInt(screen.ID)
+		};
+		
+		var timestamps = {};
+		var leadingZero = function leadingZero(v) { 
+			return v < 10 ? "0" + v : v; 
+		};
+		
+		for (var i in playlists) {
+			if (i == 0)
+				continue; // Don't send the splash screen timestamp to the API
+				
+			var playlist = playlists[i];
+			timestamps[playlist.id] = {};
+			
+			for (var j in playlist.slides) {
+				var slide = playlist.slides[j];
+				var time = slide.timestamp;
+				timestamps[playlist.id][slide.id] = (
+					  time.getFullYear() + "-" 
+					+ (time.getMonth() + 1) + "-" 
+					+ leadingZero(time.getDate()) + " " 
+					+ leadingZero(time.getHours()) + ":" 
+					+ leadingZero(time.getMinutes()) + ":" 
+					+ leadingZero(time.getSeconds())
+				);
+			}
+		}
+		
+		params["timestamps"] = JSON.stringify(timestamps);
+		
+		apiCall(Call.CHECK_FOR_CHANGES, params, function(success, response) {
 			if (success) {
 				if (response.length > 0) {
 					// DEBUGGING:
@@ -138,7 +174,7 @@ function updateLoop() {
 					var slidesChanged = 0;
 					
 					console.log(response);
-					// END DEBUGGNG
+					// END DEBUGGING
 					
 					for (var i in response) {
 						var list = response[i];
@@ -177,7 +213,7 @@ function updateLoop() {
 									});
 								}
 							} else {
-								playlists.push(playlist);
+								playlists.push(newPlaylist);
 								
 								playlistsAdded++; // DEBUG
 							}
@@ -409,7 +445,7 @@ window.addEventListener("load", function() {
 		$("#setup").style.display = "none";
 		$("#presentation").style.display = "block";
 
-		apiCall(Call.GET_SCREEN_DATA, "screen", parseInt(screen.ID), function(success, response) {
+		apiCall(Call.GET_SCREEN_DATA, {"screen": parseInt(screen.ID)}, function(success, response) {
 			console.log(response);
 			if (success) {
 				processPlaylistResponse(response);
