@@ -3,17 +3,20 @@ $(document).ready(function () {
     /*Navigation initialization*/
     var navigation = $('#navigation');
     var navShown = false;
-    $('#nav-controller').on('click', function () {
-        if (navShown) {
-            navigation.removeClass('show-nav');
-            navigation.addClass('hide-nav');
-            navShown = false;
-        } else {
-            navigation.removeClass('hide-nav');
-            navigation.addClass('show-nav');
-            navShown = true;
-        }
-    });
+    var navController = $('#nav-controller');
+    if (navController) {
+        navController.on('click', function () {
+            if (navShown) {
+                navigation.removeClass('show-nav');
+                navigation.addClass('hide-nav');
+                navShown = false;
+            } else {
+                navigation.removeClass('hide-nav');
+                navigation.addClass('show-nav');
+                navShown = true;
+            }
+        });
+    }
 
     /*Bootstrap Popover initialization*/
     $(function () {
@@ -29,14 +32,17 @@ $(document).ready(function () {
             e.preventDefault();
         }
 
-        if (document.getElementById('horizontal-scrolling').addEventListener) {
-            // IE9, Chrome, Safari, Opera
-            document.getElementById('horizontal-scrolling').addEventListener("mousewheel", scrollHorizontally, false);
-            // Firefox
-            document.getElementById('horizontal-scrolling').addEventListener("DOMMouseScroll", scrollHorizontally, false);
-        } else {
-            // IE 6/7/8
-            document.getElementById('horizontal-scrolling').attachEvent("onmousewheel", scrollHorizontally);
+        var horizontalScrolling = document.getElementById('horizontal-scrolling');
+        if (horizontalScrolling) {
+            if (horizontalScrolling.addEventListener) {
+                // IE9, Chrome, Safari, Opera
+                horizontalScrolling.addEventListener("mousewheel", scrollHorizontally, false);
+                // Firefox
+                horizontalScrolling.addEventListener("DOMMouseScroll", scrollHorizontally, false);
+            } else {
+                // IE 6/7/8
+                horizontalScrolling.attachEvent("onmousewheel", scrollHorizontally);
+            }
         }
     });
 
