@@ -1,6 +1,7 @@
 /**
  * Created by Raphael Jenni on 21/10/2016.
  */
+'use strict';
 
 var vm = this;
 vm.activeElement = null;
@@ -62,7 +63,8 @@ vm.updatePreview = function () {
 
     var text = innerDoc.getElementById("text");
     if (text) {
-        var htmlText = converter.makeHtml(textValue);
+        var isMarkdownEnabled = document.getElementById("enableMarkdown").checked;
+        var htmlText = isMarkdownEnabled ? converter.makeHtml(textValue) : textValue;
         htmlText = htmlText.replace("<table", "<table class='table' ");
         text.innerHTML = htmlText;
     }
@@ -99,7 +101,7 @@ function updateImagePath() {
 
 $(document).ready(function () {
     var templateName = $("#templateName").val();
-    if(templateName == ""){
+    if (templateName == "") {
         templateName = "left_text-templ"
     }
     selectTemplate('../templates/', templateName);
