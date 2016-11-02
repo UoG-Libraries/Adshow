@@ -512,4 +512,3 @@ HTMLElement.prototype.setAttr = function setAttr(name, value) {
 	this.setAttribute(name, value);
 	return this;
 };
-
