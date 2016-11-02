@@ -1,0 +1,28 @@
+<head>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<div class="template container-fluid">
+    <div class="top-part">
+        <div class="col-md-offset-2 col-md-3" id="imageWrapper">
+            <img src="assets/default-placeholder.png" class="img-responsive img-circle">
+        </div>
+        <div class="content col-md-offset-1 col-md-6">
+            <h1 id="title">Hello</h1>
+        </div>
+    </div>
+
+    <div class="bottom-part">
+        <div class="content">
+            <div class="col-md-offset-1 col-md-10" id="text">www.glos.ac.uk - #thisisthetagoftheday</div>
+        </div>
+    </div>
+</div>
+<script>
+    window.onload = function () {
+        var images = document.getElementsByTagName("img");
+        for (var i = 0; i < images.length; i++) {
+            images[i].className += " img-thumbnail img-circle";
+        }
+    };
+</script>
