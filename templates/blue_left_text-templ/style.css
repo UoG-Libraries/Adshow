@@ -15,14 +15,13 @@
 
 .template6::after {
     content: "";
-    background: url("./assets/bg2.png");
+    background: url("./assets/bg.svg");
     opacity: 0.5;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
     position: absolute;
-    background-size: cover;
 	z-index: -1;
 }
 
@@ -36,29 +35,34 @@
 	background-color: #FFFFFF;
 	height: 60%;
 	width: 44%;
-	float: right;
+	float: left;
     z-index: 1;
     padding-left: 80px;
 	padding-top: 30;
     position: absolute;
-    right: 0;
+    left: 0;
     bottom: 20%;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
     font-size: 30px;
 }
 
 .col-md-offset-2 {
-    margin-left: 14.66666667%;
+    margin-right: 14.66666667%;
 }
 
 .template6 .text ul li{
  	padding: 10px 0;
 }
 
-.ellipsis {
+.template6 .ellipsis {
   overflow: hidden;
   white-space: normal;
   width: 200px;
   word-wrap: break-word;
 }
+
+/* .template6 footer { */
+	/* width: 80%; */
+	/* bottom: 0; */
+/* } */
