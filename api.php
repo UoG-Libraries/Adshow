@@ -11,7 +11,7 @@
 				PARAM	MEANING
 				1		This call returns all the screens available
 				2		Load the playlist data for a screen. Send an extra GET argument called "screen" with the ID of the screen.
-				3		Ask for any changes and return the changes, if there are some.
+				3		Ask for any changes and return the changes, if there are some. Receives all the timestamps.
 				
 			Every call will return a JSON object with the information requested.
 			If a call fails, an error will be returned. The error has the following structure:
@@ -161,47 +161,81 @@
 				complete(HTTPStatusCode::BadRequest, errObj('Screen param not valid', 'The screen ID is malformed', ErrorCodes::INVALID_ARGUMENT_TYPE));
 			}
 			
+			if (!isset($_GET['timestamps'])) {
+				complete(HTTPStatusCode::BadRequest, errObj('Missing timestamps param', 'Missing GET param "timestamps" with the current timestamps of the client', ErrorCodes::LACK_OF_ARGUMENTS));
+			}
+			
+			$timestamps = $_GET['timestamps'];
+			try {
+				$timestamps = json_decode($timestamps, true);
+				if ($timestamps === NULL) {
+					complete(HTTPStatusCode::BadRequest, errObj('Invalid timestamps param', 'The timestamps param has an invalid JSON encoding', ErrorCodes::INVALID_ARGUMENT_TYPE));
+				}
+			} catch (Exception $e) {
+				complete(HTTPStatusCode::BadRequest, errObj('Invalid timestamps param', 'The timestamps param has an invalid JSON encoding', ErrorCodes::INVALID_ARGUMENT_TYPE));
+			}
+			
 			$globalPlaylist = $db->getGlobalPlaylist();
 			$playlist = $db->getPlaylistForScreen($screenID);
-			if ($playlist != FALSE) {
+			
+			if ($playlist != FALSE) {				
 				$localPlaylist = null;
 				if (!empty($playlist)) {
-					$localPlaylist = $playlist[0];
-					
-					if ($localPlaylist['active'] == '0') {
-						$localPlaylist = NULL;
+					if ($playlist[0]['active'] == '1') {
+						$localPlaylist = $playlist[0];
 					}
 				}
 				
-				if (!$globalPlaylist || empty($globalPlaylist)) {
-					$globalPlaylist = null;
-				} else {
-					$globalPlaylist = $globalPlaylist[0];
-					
-					if ($globalPlaylist['active'] == '0') {
-						$globalPlaylist = NULL;
+				if (!empty($globalPlaylist)) {
+					if ($globalPlaylist[0]['active'] == '1') {
+						$globalPlaylist = $globalPlaylist[0];
 					}
 				}
-				
-				$localChanges = $db->getChangedSlidesForPlaylist($localPlaylist['ID']);
-				$globalChanges = $db->getChangedSlidesForPlaylist($globalPlaylist['ID']);
 				
 				$ret = array();
-				if ($localChanges && !empty($localChanges)) {
-					$localPlaylist['slides'] = $localChanges;
-					array_push($ret, $localPlaylist);
-					
-					$db->removeChangeFlagsForPlaylist($localPlaylist['ID']);
-				} 
 				
-				if ($globalChanges && !empty($globalChanges)) {
-					$globalPlaylist['slides'] = $globalChanges;
-					array_push($ret, $globalPlaylist);
-					
-					$db->removeChangeFlagsForPlaylist($globalPlaylist['ID']);
+				/// **** LOCAL CHANGES ****
+				if ($localPlaylist) {
+					if (!array_key_exists($localPlaylist['ID'], $timestamps)) {
+						// screen playlist changed
+						
+						$localChanges = $db->getSlidesFromPlaylist($localPlaylist['ID']);
+						$localPlaylist['slides'] = $localChanges;
+						
+						array_push($ret, $localPlaylist);
+					} else {
+						$localChanges = $db->getChangedSlidesForPlaylist($localPlaylist['ID'], $timestamps[$localPlaylist['ID']]);
+						
+						if ($localChanges && !empty($localChanges)) {
+							$localPlaylist['slides'] = $localChanges;
+							array_push($ret, $localPlaylist);
+						} 
+					}
+				}
+				
+				
+				/// **** GLOBAL CHANGES ****
+				if ($globalPlaylist) {
+					if (!array_key_exists($globalPlaylist['ID'], $timestamps)) {
+						// screen playlist changed
+						
+						$globalChanges = $db->getSlidesFromPlaylist($globalPlaylist['ID']);
+						$globalPlaylist['slides'] = $globalChanges;
+						
+						array_push($ret, $globalPlaylist);
+					} else {
+						$globalChanges = $db->getChangedSlidesForPlaylist($globalPlaylist['ID'], $timestamps[$globalPlaylist['ID']]);
+						
+						if ($globalChanges && !empty($globalChanges)) {
+							$globalPlaylist['slides'] = $globalChanges;
+							array_push($ret, $globalPlaylist);
+						}
+					}
 				}
 				
 				complete(HTTPStatusCode::Ok, $ret);
+			} else {
+				complete(HTTPStatusCode::InternalError, errObj('Can\'t get the new playlist/slides', 'The database returned an error', ErrorCodes::UNEXPECTED_ERROR));
 			}
 			break;
 		

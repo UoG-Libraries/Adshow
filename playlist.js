@@ -54,6 +54,7 @@
 		this.text = arr["text"] || "";
 		this.title = arr["title"] || "";
 		this.image = null;
+		this.timestamp = new Date(arr["timestamp"] || (new Date).toGMTString());
 		
 		var name = arr["templateName"];
 		if (!usedTemplates[name]) {

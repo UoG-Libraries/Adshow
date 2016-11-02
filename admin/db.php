@@ -214,10 +214,41 @@ class Database
         return $this->select_query($query);
     }
 
-    public function getChangedSlidesForPlaylist($playlistID)
+    public function getChangedSlidesForPlaylist($playlistID, $timestamps)
     {
-        $query = "SELECT * FROM slide WHERE `changed`=1 AND `playlistID`=$playlistID";
-        return $this->select_query($query);
+	    $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `changed`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\" FROM slide WHERE `timestamp`>'$timestamp' AND `playlistID`=$playlistID";
+	    $result = $this->select_query($query);
+	    $return = array();
+	    
+	    if (!empty($result)) {
+		    foreach ($result as $slide) {
+			    if (array_key_exists($slide['ID'], $timestamps)) {
+				    $timestamp = strtotime($timestamps[$slide['ID']]);
+				    $slideTimestamp = strtotime($slide['timestamp']);
+				    
+				    if ($slideTimestamp > $timestamp) {
+					    $return[] = $slide;
+				    }
+			    } else {
+				    $return[] = $slide;
+			    }
+		    }
+	    } else {
+		    return array();
+	    }
+	    
+	    return $return;
+	    
+	    /*$return = array();
+        foreach ($timestamps as $slideID => $timestamp) {
+	        $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `changed`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\" FROM slide WHERE `timestamp`>'$timestamp' AND `playlistID`=$playlistID AND `ID`=$slideID";
+	        $result = $this->select_query($query);
+	        if (!empty($result)) {
+		        $return[] = $result[0];
+	        }
+        }
+        
+        return $return;*/
     }
 
     public function removeChangeFlagsForPlaylist($playlistID)
@@ -228,13 +259,13 @@ class Database
 
     public function getSlidesFromPlaylist($playlistID)
     {
-        $query = "SELECT * FROM slide WHERE playlistID = " . $playlistID;
+        $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `changed`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\" FROM slide WHERE playlistID = $playlistID";
         return $this->select_query($query);
     }
 
     public function getSlide($id)
     {
-        $query = "SELECT * FROM slide WHERE ID = " . $id;
+        $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `changed`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\" FROM slide WHERE id=$id";
         return $this->select_query($query);
     }
 
