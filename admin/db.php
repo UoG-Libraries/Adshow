@@ -295,15 +295,15 @@ class Database
         return $this->query($query) === TRUE;
     }
 
-    public function addSlide($playlistID, $title, $text, $showTime, $imageURL, $templateName, $active)
+    public function addSlide($playlistID, $title, $text, $showTime, $imageURL, $templateName, $active, $markdownEnabled)
     {
         $showTime = $showTime == "" ? 5 : $showTime;
         $imageURL = str_replace(' ', '', $imageURL) == '' ? NULL : $imageURL;
 
         if ($imageURL == NULL) {
-            $query = "INSERT INTO slide VALUE (NULL,$active,'" . $title . "','" . $text . "'," . $showTime . ", '" . $templateName . "' ," . $playlistID . ", 1, NULL)";
+            $query = "INSERT INTO slide VALUE (NULL,$active,'$title','$text',$showTime,'$templateName' ,$playlistID, 1, NULL,NULL, $markdownEnabled)";
         } else {
-            $query = "INSERT INTO slide VALUE (NULL,$active,'" . $title . "','" . $text . "'," . $showTime . ", '" . $templateName . "' ," . $playlistID . ", 1, '$imageURL')";
+            $query = "INSERT INTO slide VALUE (NULL,$active,'$title','$text',$showTime,'$templateName' ,$playlistID, 1, '$imageURL',NULL, $markdownEnabled)";
         }
         $this->query($query);
         $this->cleanUpImageFolder();
@@ -479,12 +479,12 @@ class Database
         }
     */
 
-    public function editSlide($id, $title, $text, $showTime, $imageURL, $templateName, $active)
+    public function editSlide($id, $title, $text, $showTime, $imageURL, $templateName, $active, $markdownEnabled)
     {
         $showTime = $showTime == "" ? 5 : $showTime;
         $imageURL = str_replace(' ', '', $imageURL) == "" ? NULL : $imageURL;
 
-        $query = "UPDATE slide SET active = $active, title ='" . $title . "', text ='" . $text . "', playtime = " . $showTime . ",imageURL='" . $imageURL . "', templateName= '" . $templateName . "',changed=1 WHERE id = " . $id;
+        $query = "UPDATE slide SET active = $active, title ='$title', text ='$text', playtime = $showTime,imageURL='$imageURL', templateName= '$templateName',changed=1, markdownEnabled=$markdownEnabled WHERE id = " . $id;
         $this->query($query);
         $this->cleanUpImageFolder();
     }

@@ -14,7 +14,8 @@ if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
         $_POST["showTime"],
         $_POST["imageURL"],
         $_POST["templateName"],
-        (isset($_POST['active']) ? 1 : 0)
+        (isset($_POST['active']) ? 1 : 0),
+        (isset($_POST['enableMarkdown']) ? 1 : 0)
     );
     header('Location: editPlaylist.php?id=' . $_POST["playlistID"]);
 }
@@ -64,6 +65,18 @@ include "header.php";
                     <label for="inputText">Text</label>
                     <a target="_blank" href="https://github.com/showdownjs/showdown/wiki/Showdown's-Markdown-syntax">Markdown
                         Syntax</a>
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"
+                                           name="enableMarkdown"
+                                           id="enableMarkdown"
+                                           onclick="vm.updatePreview()"> Enable Markdown
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                     <textarea
                         rows="5"
                         class="form-control"
