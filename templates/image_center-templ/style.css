@@ -6,6 +6,7 @@
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     background-color: #005a63;
+    height: 100%;
 }
 
 .template .image-section img {
@@ -53,6 +54,6 @@
     font-weight: bold;
 }
 
-.template .text-container p {
+.template .text-container #text {
     font-size: 3.5em;
 }

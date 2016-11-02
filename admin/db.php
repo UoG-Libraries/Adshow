@@ -216,32 +216,32 @@ class Database
 
     public function getChangedSlidesForPlaylist($playlistID, $timestamps)
     {
-	    $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\", `markdownEnabled` as \"mdEnabled\" FROM slide WHERE `playlistID`=$playlistID";
-	    $result = $this->select_query($query);
-	    $return = array();
-	    
-	    if (!empty($result)) {
-		    foreach ($result as $slide) {
-			    if (array_key_exists($slide['ID'], $timestamps)) {
-				    $timestamp = strtotime($timestamps[$slide['ID']]);
-				    $slideTimestamp = strtotime($slide['timestamp']);
-				    
-				    if ($slideTimestamp > $timestamp && $slide['active']) {
-					    $return[] = $slide;
-				    }
-			    } else {
-				    if ($slide['active']) {
-				    	$return[] = $slide;
-				    }
-			    }
-		    }
-	    } else {
-		    return array();
-	    }
-	    
-	    return $return;
-	    
-	    /*$return = array();
+        $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\", `markdownEnabled` as \"mdEnabled\" FROM slide WHERE `playlistID`=$playlistID";
+        $result = $this->select_query($query);
+        $return = array();
+
+        if (!empty($result)) {
+            foreach ($result as $slide) {
+                if (array_key_exists($slide['ID'], $timestamps)) {
+                    $timestamp = strtotime($timestamps[$slide['ID']]);
+                    $slideTimestamp = strtotime($slide['timestamp']);
+
+                    if ($slideTimestamp > $timestamp && $slide['active']) {
+                        $return[] = $slide;
+                    }
+                } else {
+                    if ($slide['active']) {
+                        $return[] = $slide;
+                    }
+                }
+            }
+        } else {
+            return array();
+        }
+
+        return $return;
+
+        /*$return = array();
         foreach ($timestamps as $slideID => $timestamp) {
             $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `changed`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\" FROM slide WHERE `timestamp`>'$timestamp' AND `playlistID`=$playlistID AND `ID`=$slideID";
             $result = $this->select_query($query);
@@ -490,7 +490,7 @@ class Database
         }
         $text = mysqli_real_escape_string($this->link, $text);
 
-        $query = "UPDATE slide SET active = $active, title ='$title', text ='$text', playtime = $showTime,imageURL='$imageURL', templateName= '$templateName',markdownEnabled=$markdownEnabled WHERE id = " . $id;
+        $query = "UPDATE slide SET active = $active, title ='$title', text ='$text', playtime = $showTime,imageURL='$imageURL', templateName= '$templateName',markdownEnabled=$markdownEnabled, timestamp=NULL WHERE id = " . $id;
         $this->query($query);
         $this->cleanUpImageFolder();
     }
