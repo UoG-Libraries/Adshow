@@ -243,11 +243,11 @@ class Database
 	    
 	    /*$return = array();
         foreach ($timestamps as $slideID => $timestamp) {
-	        $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `changed`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\" FROM slide WHERE `timestamp`>'$timestamp' AND `playlistID`=$playlistID AND `ID`=$slideID";
-	        $result = $this->select_query($query);
-	        if (!empty($result)) {
-		        $return[] = $result[0];
-	        }
+            $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `changed`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\" FROM slide WHERE `timestamp`>'$timestamp' AND `playlistID`=$playlistID AND `ID`=$slideID";
+            $result = $this->select_query($query);
+            if (!empty($result)) {
+                $return[] = $result[0];
+            }
         }
         
         return $return;*/
@@ -261,13 +261,13 @@ class Database
 
     public function getSlidesFromPlaylist($playlistID)
     {
-        $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `changed`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\", `markdownEnabled` as \"mdEnabled\" FROM slide WHERE playlistID = $playlistID";
+        $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `markdownEnabled`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\", `markdownEnabled` as \"mdEnabled\" FROM slide WHERE playlistID = $playlistID";
         return $this->select_query($query);
     }
 
     public function getSlide($id)
     {
-        $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `changed`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\", `markdownEnabled` as \"mdEnabled\" FROM slide WHERE id=$id";
+        $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `markdownEnabled`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\", `markdownEnabled` as \"mdEnabled\" FROM slide WHERE id=$id";
         return $this->select_query($query);
     }
 
@@ -302,10 +302,15 @@ class Database
         $showTime = $showTime == "" ? 5 : $showTime;
         $imageURL = str_replace(' ', '', $imageURL) == '' ? NULL : $imageURL;
 
+        if (!$this->link) {
+            $this->connect();
+        }
+        $text = mysqli_real_escape_string($this->link, $text);
+
         if ($imageURL == NULL) {
-            $query = "INSERT INTO slide VALUE (NULL,$active,'$title','$text',$showTime,'$templateName' ,$playlistID, 1, NULL,NULL, $markdownEnabled)";
+            $query = "INSERT INTO slide VALUE (NULL,$active,'$title','$text',$showTime,'$templateName' ,$playlistID, NULL, NULL, $markdownEnabled)";
         } else {
-            $query = "INSERT INTO slide VALUE (NULL,$active,'$title','$text',$showTime,'$templateName' ,$playlistID, 1, '$imageURL',NULL, $markdownEnabled)";
+            $query = "INSERT INTO slide VALUE (NULL,$active,'$title','$text',$showTime,'$templateName' ,$playlistID,'$imageURL',NULL, $markdownEnabled)";
         }
         $this->query($query);
         $this->cleanUpImageFolder();
@@ -486,7 +491,12 @@ class Database
         $showTime = $showTime == "" ? 5 : $showTime;
         $imageURL = str_replace(' ', '', $imageURL) == "" ? NULL : $imageURL;
 
-        $query = "UPDATE slide SET active = $active, title ='$title', text ='$text', playtime = $showTime,imageURL='$imageURL', templateName= '$templateName',changed=1, markdownEnabled=$markdownEnabled WHERE id = " . $id;
+        if (!$this->link) {
+            $this->connect();
+        }
+        $text = mysqli_real_escape_string($this->link, $text);
+
+        $query = "UPDATE slide SET active = $active, title ='$title', text ='$text', playtime = $showTime,imageURL='$imageURL', templateName= '$templateName',markdownEnabled=$markdownEnabled WHERE id = " . $id;
         $this->query($query);
         $this->cleanUpImageFolder();
     }

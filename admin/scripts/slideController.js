@@ -101,9 +101,6 @@ function updateImagePath() {
 
 $(document).ready(function () {
     var templateName = $("#templateName").val();
-    if (templateName == "") {
-        templateName = "left_text-templ"
-    }
     selectTemplate('../templates/', templateName);
 
     var myIframe = document.getElementById('template-container');

@@ -46,7 +46,7 @@ include "header.php";
             <input type="hidden" name="formSent" value="yes"/>
             <input type="hidden" name="playlistID" value="<?php echo $_GET["playlistID"]; ?>"/>
             <input type="hidden" name="imageURL" id="imageURL"/>
-            <input type="hidden" name="templateName" id="templateName" value=""/>
+            <input type="hidden" name="templateName" id="templateName" value="<?php echo $templateDirs[0]; ?>"/>
             <div class="row">
                 <a href="editPlaylist.php?id=<?php echo $_GET["playlistID"] ?>" class="btn btn-primary pull-right">Cancel</a>
                 <input type="submit" class="btn btn-primary pull-right" value="Save"/>
@@ -72,6 +72,7 @@ include "header.php";
                                     <input type="checkbox"
                                            name="enableMarkdown"
                                            id="enableMarkdown"
+                                           checked
                                            onclick="vm.updatePreview()"> Enable Markdown
                                 </label>
                             </div>

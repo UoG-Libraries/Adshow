@@ -1,49 +1,58 @@
-.template6 body {
-	margin: 0;
+.template body {
+    margin: 0;
 }
 
-.template6 {
+.template {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
+    background-color: #005a63;
+}
+
+.template .image-section img {
+    width: 100%;
+    border: #a6ce39 solid 50px;
 }
 
 .template .main {
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
-.template6 #imageWrapper img {
-	width: 100%;
-	text-align: center;
-	border: #a6ce39 solid 50px;
-	margin-top: 16%;
+.template .image-section {
+    height: 60vh;
+    width: 60vh;
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    margin: -30vh 0 0 -30vh;
+    z-index: 1;
 }
 
-.template6 #titlecontainer {
-	text-align: center;
-	background-color: #a6ce39;
-	position: absolute;
-	width: 100%;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	height: 60%;
-	color: #0685bf;
-	padding-top: 200px;
-	z-index: -1;
+.template .bottom-background {
+    background-color: #a6ce39;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: 62vh;
+
 }
 
-.template6 #titlecontainer h1{
-	font-size: 48px;
+.template .text-container {
+    position: absolute;
+    bottom: 10%;
+
+    text-align: center;
+    color: #005a63;
+
+    width: 100%;
+
 }
 
-.template6 #titlecontainer p{
-	font-size: 30px;
+.template .text-container h1 {
+    font-size: 5em;
+    font-weight: bold;
 }
 
-.template6 .ellipsis {
-  overflow: hidden;
-  white-space: normal;
-  width: 200px;
-  word-wrap: break-word;
+.template .text-container p {
+    font-size: 3.5em;
 }
