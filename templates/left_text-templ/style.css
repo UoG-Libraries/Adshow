@@ -11,7 +11,7 @@
 }
 
 .template4 .header #head {
-	background-image: url(./assets/colourbarsheader.png);
+	background-image: url(../green_left_text-templ/assets/colourbarsheader.png);
 	background-repeat: repeat-x;
 	height: 8px;
 	width: 100%;
