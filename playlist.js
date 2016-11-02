@@ -55,6 +55,7 @@
 		this.title = arr["title"] || "";
 		this.image = null;
 		this.timestamp = new Date(arr["timestamp"] || (new Date).toGMTString());
+		this.hasMarkdown = (arr["mdEnabled"] || "1") == "1";
 		
 		var name = arr["templateName"];
 		if (!usedTemplates[name]) {

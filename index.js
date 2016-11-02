@@ -289,7 +289,7 @@ function presentationLoop() {
 		}
 		
 		try {
-			$("#presentation #"+id+" #text").innerHTML = converter.makeHtml(slide.text);
+			$("#presentation #"+id+" #text").innerHTML = slide.hasMarkdown ? converter.makeHtml(slide.text) : slide.text;
 		} catch (e) {
 			if (errMsgCount < 10) {
 				console.group("Can't fully display slide");
