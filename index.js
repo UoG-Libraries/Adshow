@@ -85,10 +85,17 @@ function addCss(fileName, id, load) {
 }
 
 function processPlaylistResponse(response) {
+	var hasAnySlides = false;
+	
 	for (var i in response) {
 		var list = response[i];
 		try {
 			var playlist = new Playlist(list);
+			
+			if (playlist.slides.length > 0) {
+				hasAnySlides = true;
+			}
+			
 			playlists.push(playlist);
 		} catch (e) {
 			displayPresentationError("Odd response", "The server returned a strange response", "Please contact IT");
@@ -96,9 +103,14 @@ function processPlaylistResponse(response) {
 		}
 	}
 	
+	if (!hasAnySlides)
+		return false;
+	
 	if (playlists.length > 0) {
 		playlists.unshift(splashScreen);
 	}
+	
+	return true;
 }
 
 function getPlaylistIndexWithPlaylistID(id) {
@@ -458,8 +470,13 @@ window.addEventListener("load", function() {
 		apiCall(Call.GET_SCREEN_DATA, {"screen": parseInt(screen.ID)}, function(success, response) {
 			console.log(response);
 			if (success) {
-				processPlaylistResponse(response);
-				startPresentation();
+				if (processPlaylistResponse(response)) { // Fill up the playlists variable with the response
+					startPresentation();
+				} else {
+					// There are no slides
+					
+					displayPresentationError("Nothing to display", "There are no slides for this screen specified", "Reload the screen after adding some slides");
+				}
 			} else {
 				displayPresentationError("Can't load slides.", response.error, response.desc);
 			}
