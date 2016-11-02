@@ -313,6 +313,16 @@ function presentationLoop() {
 					slide.image.height = rect.height;
 				}*/
 				
+				if (container.children.length > 0) {
+					var oldImgTag = container.getElementsByTagName("img");
+					if (oldImgTag.length > 0) {
+						oldImgTag = oldImgTag[0];
+						
+						slide.image.className = oldImgTag.className;
+						slide.image.alt = oldImgTag.alt;
+					}
+				}
+				
 				container.removeContent().append(slide.image);
 			} catch (e) {
 				
@@ -459,7 +469,13 @@ window.addEventListener("load", function() {
 
 // HELPERS
 function $(sel) {
-	return document.querySelector(sel);
+	if (document.querySelector)
+		return document.querySelector(sel);
+		
+	if (/^#\S+$/.test(sel))
+		return document.getElementById(sel);
+	else if (/^\.\S+$/.test(sel))
+		return document.getElementsByClassName(sel)[0];
 }
 
 function createElem(e) {
