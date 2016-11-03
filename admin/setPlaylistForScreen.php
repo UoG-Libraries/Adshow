@@ -14,7 +14,8 @@ if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
 
 $screenID = $_GET["id"];
 $selectedPlaylist = $objDB->getPlaylistForScreen($screenID)[0];
-$playlists = $objDB->getActivePlaylistsByDeptID($_GET["dept"]);
+$screen = $objDB->getScreen($screenID);
+$playlists = $objDB->getActivePlaylistsByDeptID($_GET["dept"], $screen[0]['orientation']);
 include 'header.php';
 include_once "user.php";
 ?>
@@ -22,7 +23,7 @@ include_once "user.php";
         <h2>Set playlist for screen</h2>
         <?php if (count($playlists) < 1) { ?>
             <div>
-                <span>No playlist available for this screen in this department. </span>
+                <span>No playlist available for this screen in this department. (Check the department, the orientation and if the playlist is active and not global) </span>
                 <a href="addPlaylist.php" class="btn btn-default">Add one</a>
             </div>
         <?php } else { ?>
@@ -46,6 +47,7 @@ include_once "user.php";
                     </div>
                 </div>
                 <div>
+                    <a href="screens.php" class="btn btn-primary">Cancel</a>
                     <input type="submit" value="Set" class="btn btn-primary">
                 </div>
             </form>

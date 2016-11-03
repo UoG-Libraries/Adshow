@@ -148,10 +148,22 @@ class Database
         return $rows;
     }
 
-    public function getActivePlaylistsByDeptID($deptId)
+    public function getActivePlaylistsByDeptID($deptId, $orientation)
     {
-        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, playlist.global AS global, department.department AS department, playlist.screenOrientation AS screenOrientation  FROM playlist, department
-	WHERE playlist.departmentIDfk = department.ID AND department.ID = $deptId AND playlist.active = 1 ORDER BY department ASC, playlist.global DESC, playlist.active DESC ,playlist.name ASC";
+        $query = "SELECT
+  playlist.ID                AS ID,
+  playlist.name              AS name,
+  playlist.active            AS active,
+  playlist.global            AS global,
+  department.department      AS department,
+  playlist.screenOrientation AS screenOrientation
+FROM playlist, department
+WHERE playlist.departmentIDfk = department.ID AND
+      department.ID = $deptId AND
+      playlist.active = 1 AND
+      playlist.global = 0 AND
+      playlist.screenOrientation = $orientation
+ORDER BY department ASC, playlist.global DESC, playlist.active DESC, playlist.name ASC;";
         $rows = $this->select_query($query);
 
         return $rows;
@@ -401,6 +413,8 @@ class Database
     {
         if ($global) {
             $query = "UPDATE playlist SET global=0 WHERE screenOrientation = $screenOrientation";
+            $this->query($query);
+            $query = "UPDATE screen SET playlistIDfk = NULL WHERE orientation = $screenOrientation AND playlistIDfk = $id";
             $this->query($query);
         }
 
