@@ -1,4 +1,4 @@
-var screen;
+var screen, oldTemplateName;
 var errMsgCount = 0;
 var playlists = [];
 var currentPlaylistIndex = 0;

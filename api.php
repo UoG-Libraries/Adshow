@@ -108,7 +108,7 @@
 				complete(HTTPStatusCode::BadRequest, errObj('Screen param not valid', 'The screen ID is malformed', ErrorCodes::INVALID_ARGUMENT_TYPE));
 			}
 			
-			$globalPlaylist = $db->getGlobalPlaylist();
+			$globalPlaylist = $db->getGlobalPlaylistForScreen($screenID);
 			if (!$globalPlaylist || empty($globalPlaylist)) {
 				$globalPlaylist = null;
 			} else {
@@ -189,7 +189,7 @@
 				complete(HTTPStatusCode::BadRequest, errObj('Invalid timestamps param', 'The timestamps param has an invalid JSON encoding', ErrorCodes::INVALID_ARGUMENT_TYPE));
 			}
 			
-			$globalPlaylist = $db->getGlobalPlaylist();
+			$globalPlaylist = $db->getGlobalPlaylistForScreen($screenID);
 			$playlist = $db->getPlaylistForScreen($screenID);
 			
 			$localPlaylist = null;

@@ -76,9 +76,9 @@ class Database
         return $rows;
     }
     
-    public function getGlobalPlaylist()
+    public function getGlobalPlaylistForScreen($screenID)
     {
-        $query = 'SELECT * FROM playlist WHERE `global`=1';
+        $query = "SELECT * FROM playlist WHERE `global`=1 AND screenOrientation=(SELECT orientation FROM screen WHERE ID=$screenID)";
         return $this->select_query($query);
     }
     
