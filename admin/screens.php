@@ -14,8 +14,8 @@ $screensList = $objDB->getScreensList();
 include 'header.php';
 ?>
 <div class="head">
-    <h2 class="col-md-11">Screens</h2>
-    <a href="addScreen.php" class="btn btn-default pull-right">
+    <h2>Screens</h2>
+    <a href="addScreen.php" class="btn btn-default">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
     </a>
 </div>

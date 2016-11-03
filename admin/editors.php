@@ -19,7 +19,7 @@
     <div>
 	    <div class="head">
 		    <h2>Editors (<?php if (!empty($users)) { echo $summary; } else { echo 'No users yet'; } ?>)</h2>
-		    <a href="addEditor.php" class="btn btn-default pull-right">
+		    <a href="addEditor.php" class="btn btn-default">
 				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
 			</a>
 	    </div>
