@@ -73,7 +73,7 @@
 	            if ($user->hasAdminPrivileges()) {
 		            ?>
 		            	<div class="form-group">
-            			    <label for="active" class="col-sm-2 control-label">Permission</label>
+            			    <label for="permissionSelector" class="col-sm-2 control-label">Permission</label>
             			    <div class="col-sm-10">
             			        <select name="permission" id="permissionSelector" class="form-control">
             			            <option value="0" selected="selected">Editor</option>
@@ -92,9 +92,9 @@
 			        if ($user->isSuperadmin()) {		        		
 		        		?>
 		        			<div class="form-group">
-            				    <label for="active" class="col-sm-2 control-label">Department</label>
+            				    <label for="department" class="col-sm-2 control-label">Department</label>
             				    <div class="col-sm-10">
-            				        <select name="dept" class="form-control">
+            				        <select name="dept" id="department" class="form-control">
             				            <?php
 											$depts = $user->db->getDepartments();
 											print_r($depts);

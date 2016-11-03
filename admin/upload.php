@@ -36,5 +36,3 @@ if (isset($_POST['submitbtn']) && $_POST['submitbtn'] == "Upload") {
     }
     exit();
 }
-
-?>

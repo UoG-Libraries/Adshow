@@ -361,5 +361,3 @@
 			complete(HTTPStatusCode::BadRequest, errObj('Unknown call', 'The call param given doesn\'t exist', ErrorCodes::CALL_DOESNT_EXIST));
 			break;
 	}
-	
-?>

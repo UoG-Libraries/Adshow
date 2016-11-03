@@ -1,8 +1,10 @@
 /**
- * Created by Raphael Jenni on 21/10/2016.
+ * Created by Raphael Jenni
+ * 21/10/2016.
  */
 'use strict';
 
+//noinspection ThisExpressionReferencesGlobalObjectJS
 var vm = this;
 vm.activeElement = null;
 var converter = new showdown.Converter({tables: true, headerLevelStart: 2, strikethrough: true});
@@ -92,6 +94,7 @@ vm.updateImage = function () {
     }
 };
 
+//noinspection JSUnusedGlobalSymbols
 function updateImagePath() {
     var image = $("#imageURL");
     image.val($("#uploaded_image_name").val());
