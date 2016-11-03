@@ -14,7 +14,7 @@
 			}
 		};
 		request.send();
-	}
+	};
 	
 	var Template = function Template(name) {
 		if (name != "_delete") {
@@ -174,12 +174,10 @@
 			});
 		}
 	};
-	
-	var getUsedTemplates = function getUsedTemplates() {
+
+	window.getUsedTemplates = function getUsedTemplates() {
 		return usedTemplates;
 	};
-	
-	window.getUsedTemplates = getUsedTemplates;
 	window.loadAllTemplates = loadAllTemplates;
 	window.preloadAllPlaylists = preloadAllPlaylists;
 	window.Playlist = playlist;

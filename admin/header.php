@@ -27,8 +27,11 @@ $_SESSION["nav"]["callingpage"] = $page;
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
 
+    <!--suppress HtmlUnknownTarget -->
     <script src="/js/bootstrap.min.js"></script>
+    <!--suppress HtmlUnknownTarget -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!--suppress HtmlUnknownTarget -->
     <link href="/css/uog.css" rel="stylesheet">
 
     <!--Local-->
@@ -37,13 +40,13 @@ $_SESSION["nav"]["callingpage"] = $page;
     <link rel="stylesheet" type="text/css" href="styles/style.css"/>
 
     <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="//oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
 
 <body>
-<?php include $_SERVER[DOCUMENT_ROOT] . '/profile.php'; ?>
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/profile.php'; ?>
 
 <div class="uog-header-jewel"></div>
 <nav class="navbar navbar-default uog-header">
@@ -57,7 +60,8 @@ $_SESSION["nav"]["callingpage"] = $page;
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/"><img src="/images/header-title.png" alt="LIS"></a>
+            <a class="navbar-brand" href="/"><!--suppress HtmlUnknownTarget -->
+                <img src="/images/header-title.png" alt="LIS"></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -68,7 +72,8 @@ $_SESSION["nav"]["callingpage"] = $page;
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">Enquiries<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/tally/tally.php">Digital tally</a></li>
+                        <li><!--suppress HtmlUnknownTarget -->
+                            <a href="/tally/tally.php">Digital tally</a></li>
                         <li><a href="https://helpdesk.glos.ac.uk/Sostenuto/SUsers/" target="_blank">Enquiry
                                 tracker</a></li>
                         <li><a href="https://helpdeskapps.glos.ac.uk/hub/index.aspx" target="_blank">Knowledge
@@ -81,9 +86,12 @@ $_SESSION["nav"]["callingpage"] = $page;
                     <ul class="dropdown-menu">
                         <li><a href="http://elisit.glos.ac.uk">View dashboard</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="/statistics/head-count.php">Add head count</a></li>
-                        <li><a href="/statistics/gate-count.php">Add gate count</a></li>
-                        <li><a href="/statistics/training.php">Add training</a></li>
+                        <li><!--suppress HtmlUnknownTarget -->
+                            <a href="/statistics/head-count.php">Add head count</a></li>
+                        <li><!--suppress HtmlUnknownTarget -->
+                            <a href="/statistics/gate-count.php">Add gate count</a></li>
+                        <li><!--suppress HtmlUnknownTarget -->
+                            <a href="/statistics/training.php">Add training</a></li>
                     </ul>
                 </li>
             </ul>
@@ -94,7 +102,8 @@ $_SESSION["nav"]["callingpage"] = $page;
                             class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#" data-toggle="modal" data-target="#profileModal">Profile</a></li>
-                        <li><a href="/logout.php">Log out</a></li>
+                        <li><!--suppress HtmlUnknownTarget -->
+                            <a href="/logout.php">Log out</a></li>
                     </ul>
                 </li>
             </ul>

@@ -9,7 +9,8 @@
 	 */
 	 
 	include_once 'db.php';
-	include_once $_SERVER['DOCUMENT_ROOT'] . '/classes/ldap.php';
+/** @noinspection PhpIncludeInspection */
+include_once $_SERVER['DOCUMENT_ROOT'] . '/classes/ldap.php';
 	
 	class Permission {
 		const Editor = 0;
@@ -28,6 +29,8 @@
 				case 2:
 					return 'Super-Administrator';
 				break;
+                default:
+                    return null;
 			}
 		}
 	}
@@ -154,7 +157,7 @@
     	
     	public function commitChanges() {
 	    	if (empty($this->changes)) {
-		    	return;
+		    	return null;
 	    	}
 	    	
 	    	$valueString = '';
@@ -174,7 +177,7 @@
 			    		$valueString .= 'global='.($this->canEditGlobalPlaylists ? 1 : 0);
 			    		break;
 			    	default:
-			    		break;
+			    		return null;
 		    	}
 		    	
 		    	if ($i++ < sizeof($this->changes) - 1) {
@@ -227,4 +230,3 @@
 			// intentionally left blank. Do not change.
 		}
 	}
-?>

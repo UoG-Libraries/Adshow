@@ -27,30 +27,6 @@ body {
     cursor: pointer;
 }
 
-.fileUpload {
-    position: relative;
-    overflow: hidden;
-    margin: 10px;
-}
-
-.fileUpload input.upload {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-    cursor: pointer;
-    opacity: 0;
-    filter: alpha(opacity=0);
-}
-
-.preview {
-    zoom: 0.4;
-    border: solid 2px lightgray;
-    border-radius: 5px;
-}
-
 .templates {
     opacity: 0.7;
 }
@@ -59,6 +35,7 @@ body {
     opacity: 1;
 }
 
+/*noinspection CssUnusedSymbol*/
 .active-template {
     opacity: 1;
     border: solid 3px gray;
@@ -96,6 +73,7 @@ body {
     border: none;
 }
 
+/*noinspection CssUnusedSymbol*/
 .embed-responsive-9by16 {
     -moz-transform: scale(0.6);
     -moz-transform-origin: 0 0;
@@ -148,6 +126,7 @@ body {
         background: white;
     }
 
+    /*noinspection CssUnusedSymbol*/
     #navigation.show-nav {
         animation: moveOut ease-in-out 1s;
         animation-iteration-count: 1;
@@ -155,6 +134,7 @@ body {
         animation-fill-mode: forwards; /*when the spec is finished*/
     }
 
+    /*noinspection CssUnusedSymbol*/
     #navigation.hide-nav {
         animation: moveIn ease-in-out 1s;
         animation-iteration-count: 1;

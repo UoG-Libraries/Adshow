@@ -33,14 +33,12 @@
 
 #setup #container select {
 	display: block;
-	margin: 0 auto;
-	margin-top: 32px;
+    margin: 32px auto 0;
 }
 
 #setup #container button {
 	display: block;
-	margin: 0 auto;
-	margin-top: 30px
+	margin: 30px auto 0;
 }
 
 #presentation {
@@ -56,23 +54,14 @@
 #presentation #loading {
 	width: 300px;
 	height: 200px;
-	margin: auto;
 	text-align: center;
-	margin-top: 120px;
+	margin: 120px auto auto;
 	font-size: 30px;
 	color: darkgray;
 }
 
 .spacer {
 	margin-top: 31px;
-}
-
-.smallFont {
-	font-size: 20px;
-}
-
-.smallerFont {
-	font-size: 15px;
 }
 
 .slide {
@@ -88,10 +77,6 @@
 	/*-webkit-transition: 1s left cubic-bezier(0.01, 0.01, 0.26, 0.84);
 	transition: 1s left cubic-bezier(0.01, 0.01, 0.26, 0.84);*/
 	-webkit-animation: 1s slide;
-}
-
-.slideOut {
-	-webkit-animation: 1s slideOut;
 }
 
 @-webkit-keyframes slide {
