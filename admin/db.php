@@ -23,7 +23,7 @@ class Database
     ******************/
     function __construct()
     {
-        $this->ini = parse_ini_file('app.ini');
+        $this->ini = parse_ini_file('../app.ini');
     }
 
 
@@ -182,7 +182,7 @@ ORDER BY department ASC, playlist.global DESC, playlist.active DESC, playlist.na
             throw new Exception("Invalid S-Number");
         }
 
-        $query = "SELECT * FROM adshow.user WHERE `sNumber`=\"$sNumber\"";
+        $query = "SELECT * FROM adshow.user WHERE `sNumber`='$sNumber'";
         $result = $this->select_query($query);
 
         return $result;
@@ -489,5 +489,3 @@ ORDER BY department ASC, playlist.global DESC, playlist.active DESC, playlist.na
         $this->query($query);
     }
 }
-
-?>
