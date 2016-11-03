@@ -31,6 +31,7 @@ include 'header.php';
                 <th scope="col"></th>
                 <th scope="col">Name</th>
                 <th scope="col">Active</th>
+                <th scope="col">Orientation</th>
                 <th scope="col">Department</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
@@ -55,7 +56,13 @@ include 'header.php';
                             <?php } ?>
                         </a>
                     </td>
-                    <td><?php echo $playlist['department'] ?></td>
+                    <td><?php if ($playlist['screenOrientation'] == '0') { ?>
+                            <span class="badge">Landscape</span>
+                        <?php } else { ?>
+                            <span class="badge">Portrait</span>
+                        <?php } ?>
+                    </td>
+                    <td><?php echo $playlist["department"] ?></td>
                     <td>
                         <a href="editPlaylist.php?id=<?php echo $playlist['ID'] ?>">
                             <span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Edit playlist"></span>
