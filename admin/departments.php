@@ -12,8 +12,8 @@ include 'header.php';
 ?>
     <div>
         <div class="head">
-            <h2 class="col-md-11">Departments</h2>
-            <a href="addDepartment.php" class="btn btn-default pull-right">
+            <h2>Departments</h2>
+            <a href="addDepartment.php" class="btn btn-default">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
             </a>
         </div>

@@ -134,6 +134,11 @@
 		};
 		
 		this.preload = function preload(callback) {
+			if (this.slides.length == 0) {
+				callback();
+				return;
+			}
+			
 			var loadedCount = 0;
 			
 			for (var i in this.slides) {
