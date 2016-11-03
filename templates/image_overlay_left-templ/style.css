@@ -1,4 +1,4 @@
-.overlay-template {
+.overlay-left-template {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -8,17 +8,17 @@
 	font-family: sans-serif;
 }
 
-.overlay-template * {
+.overlay-left-template * {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
-.overlay-template #imageWrapper img {
+.overlay-left-template #imageWrapper img {
 	width: 100%;
 }
 
-.overlay-template #textContainer {
+.overlay-left-template #textContainer {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -29,23 +29,23 @@
 	-webkit-backdrop-filter: blur(10px);
 }
 
-.overlay-template #textContainer h2 {
+.overlay-left-template #textContainer h2 {
 	margin-top: 100px;
 	font-size: 90px;
 }
 
-.overlay-template #textContainer #text {
+.overlay-left-template #textContainer #text {
 	font-size: 30px;
 }
 
-.overlay-template .colorContainer {
+.overlay-left-template .colorContainer {
 	position: absolute;
 	top: 0;
 	left: 600px;
 	height: 100%;
 }
 
-.overlay-template #color1 {
+.overlay-left-template #color1 {
 	background-color: rgba(255, 255, 255, 0.3);
 	width: 50px;
 	-webkit-animation: 1s expand1;
@@ -53,7 +53,7 @@
 	-webkit-backdrop-filter: blur(5px);
 }
 
-.overlay-template #color2 {
+.overlay-left-template #color2 {
 	background-color: rgba(255, 255, 255, 0.3);
 	width: 75px;
 	left: 600px;
@@ -62,7 +62,7 @@
 	-webkit-backdrop-filter: blur(2px);
 }
 
-.overlay-template #color3 {
+.overlay-left-template #color3 {
 	background-color: rgba(255, 255, 255, 0.3);
 	width: 92px;
 	left: 600px;
