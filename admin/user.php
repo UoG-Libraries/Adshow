@@ -9,8 +9,8 @@
 	 */
 	 
 	include_once 'db.php';
-/** @noinspection PhpIncludeInspection */
-include_once $_SERVER['DOCUMENT_ROOT'] . '/classes/ldap.php';
+	/** @noinspection PhpIncludeInspection */
+	include_once $_SERVER['DOCUMENT_ROOT'] . '/classes/ldap.php';
 	
 	class Permission {
 		const Editor = 0;

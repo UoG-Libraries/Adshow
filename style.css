@@ -64,6 +64,14 @@
 	margin-top: 31px;
 }
 
+.smallFont {		
+	font-size: 20px;		
+}		
+		
+.smallerFont {		
+	font-size: 15px;		
+}
+
 .slide {
 	position: absolute;
 	top: 0;
