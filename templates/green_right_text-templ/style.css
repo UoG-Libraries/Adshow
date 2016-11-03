@@ -1,14 +1,10 @@
-body {
-    overflow: hidden;
-}
-
-.template.container-fluid {
+.green-right-text-template.container-fluid {
     margin: 0;
     padding: 0;
     border-radius: 0;
 }
 
-.template .header-section {
+.green-right-text-template .header-section {
     height: 15vh;
 
     background: #009baa;
@@ -16,12 +12,12 @@ body {
     border-bottom: solid 5px #005a63;
 }
 
-.template .header-section .content .icon {
+.green-right-text-template .header-section .content .icon {
     height: 15vh;
     padding: 3vh 0;
 }
 
-.template .header-section .content h1 {
+.green-right-text-template .header-section .content h1 {
     line-height: 15vh;
     margin-top: 0;
     margin-bottom: 0;
@@ -30,41 +26,41 @@ body {
     font-size: 4em;
 }
 
-.template .header-section .content .logo {
+.green-right-text-template .header-section .content .logo {
     height: 15vh;
     padding: 3vh;
 }
 
-.template .colour-bar-header {
+.green-right-text-template .colour-bar-header {
     height: 10px;
     background: url("assets/colourbarsheader.png");
 }
 
-.template .main-section {
+.green-right-text-template .main-section {
     height: 85vh;
 }
 
-.template .main-section .content {
+.green-right-text-template .main-section .content {
     height: inherit;
     padding-top: 5%;
     padding-bottom: 5%;
     font-size: 2em;
 }
 
-.template .main-section .divider {
+.green-right-text-template .main-section .divider {
     height: inherit;
     border-image: url("assets/colourbarsdivider.png") 5 round;
     border-left: solid 2vw;
 }
 
-.template .main-section .image-section {
+.green-right-text-template .main-section .image-section {
     height: inherit;
     border-image: url("assets/colourbarsdivider.png") 5 round;
     border-right: solid 2vw;
     padding: 0;
 }
 
-.template .main-section .image-section img {
+.green-right-text-template .main-section .image-section img {
     width: 100%;
     height: 100%;
 }

@@ -1,28 +1,15 @@
-.template {
+.color-title-banner-template {
     background-color: rgb(250, 166, 26);
     height: 100vh;
 }
 
-.template.container-fluid {
+.color-title-banner-template.container-fluid {
     margin: 0;
     padding: 0;
     border-radius: 0;
 }
 
-/* .template .main { */
-/* width: 100%; */
-/* left: 0; */
-/* right: 0; */
-/* height: 20%; */
-/* background-color: rgb(0, 90, 99); */
-/* color: rgb(250, 166, 26); */
-/* top: 50%; */
-/* position: absolute; */
-/* text-align: center; */
-
-/* } */
-
-.template .main {
+.color-title-banner-template .main {
     width: 100%;
     background-color: rgb(0, 90, 99);
     color: rgb(250, 166, 26);
@@ -32,17 +19,17 @@
 
 }
 
-.template h1 {
+.color-title-banner-template h1 {
     margin: 0;
     padding-top: 10px;
     font-size: 100px;
 }
 
-.template p {
+.color-title-banner-template p {
     font-size: 30px;
 }
 
-.template .ellipsis {
+.color-title-banner-template .ellipsis {
     overflow: hidden;
     white-space: normal;
     word-wrap: break-word;

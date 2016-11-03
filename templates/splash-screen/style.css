@@ -1,4 +1,4 @@
-.splashTempl {
+.splash-screen-template {
 	margin: 0;
 	padding: 0;
 	background-color: black;
@@ -12,7 +12,7 @@
 	-webkit-user-select: none;
 }
 
-.splashTempl h1, .splashTempl h2, .splashTempl p {
+.splash-screen-template h1, .splash-screen-template h2, .splash-screen-template p {
 	text-align: center;
 }
 
@@ -20,18 +20,18 @@ footer{
 	font-size: 2em;
 }
 
-.splashTempl h1 {
+.splash-screen-template h1 {
 	margin-top: 200px;
 	font-size: 95px;
 	font-weight: normal;
 	margin-bottom: 0;
 }
 
-.splashTempl h2 {
+.splash-screen-template h2 {
 	font-size: 30px;
 }
 
-.splashTempl footer {
+.splash-screen-template footer {
 	position: absolute;
 	width: 100%;
 	text-align: center;
