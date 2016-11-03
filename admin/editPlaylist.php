@@ -12,7 +12,7 @@ if (isset($_GET["action"]) && $_GET["action"] == "del") {
 }
 
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
-    $objDB->editPlaylist($_POST["id"], $_POST["name"], $_POST["active"], $_POST["global"]);
+    $objDB->editPlaylist($_POST["id"], $_POST["name"], $_POST["active"], $_POST["global"], $_POST["orientation"]);
     header('Location: playlists.php');
 }
 
@@ -62,6 +62,18 @@ include 'header.php';
                     </div>
                 </div>
             <?php } ?>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <label class="radio-inline">
+                        <input type="radio" name="orientation" id="inlineRadio1"
+                               value="0" <?php echo $playlist["screenOrientation"] == '0' ? 'CHECKED' : '' ?>> Landscape
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="orientation" id="inlineRadio2"
+                               value="1" <?php echo $playlist["screenOrientation"] == '1' ? 'CHECKED' : '' ?>> Portrait
+                    </label>
+                </div>
+            </div>
 
             <div>
                 <a href="playlists.php" class="btn btn-primary">Cancel</a>

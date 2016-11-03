@@ -3,10 +3,11 @@
  * User: Raphael Jenni
  * Date: 20/10/2016
  */
+include "db.php";
+$objDB = new Database();
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
     echo $_POST['active'];
-    include "db.php";
-    $objDB = new Database();
+
     $objDB->addSlide(
         $_POST["playlistID"],
         $_POST["title"],
@@ -28,13 +29,14 @@ while (false !== ($filename = readdir($dh))) {
         $templateDirs[] = $filename;
     }
 }
-
+$playlist = $objDB->getPlaylist($_GET["playlistID"]);
 include "header.php";
 ?>
 <script src="scripts/slideController.js"></script>
 <div class="row">
     <div class="col-md-5">
-        <div class="embed-responsive embed-responsive-16by9">
+        <div
+            class="embed-responsive <?php echo $playlist[0]['screenOrientation'] == '0' ? 'embed-responsive-16by9' : 'embed-responsive-9by16' ?>">
             <iframe class="embed-responsive-item" src=""
                     id="template-container" name="template-container"></iframe>
         </div>

@@ -123,7 +123,7 @@ class Database
 
     public function getPlaylist($id)
     {
-        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, playlist.global AS global, department.department AS department FROM playlist, department
+        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, playlist.global AS global, department.department AS department, playlist.screenOrientation AS screenOrientation FROM playlist, department
 	WHERE playlist.departmentIDfk = department.ID AND playlist.ID = " . $id;
         $rows = $this->select_query($query);
 
@@ -132,7 +132,7 @@ class Database
 
     public function getPlaylists()
     {
-        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, playlist.global AS global, department.department AS department FROM playlist, department
+        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, playlist.global AS global, department.department AS department, playlist.screenOrientation AS screenOrientation FROM playlist, department
 	WHERE playlist.departmentIDfk = department.ID ORDER BY department ASC, playlist.global DESC, playlist.active DESC ,playlist.name ASC ";
         $rows = $this->select_query($query);
 
@@ -141,7 +141,7 @@ class Database
 
     public function getPlaylistsByDeptID($deptId)
     {
-        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, playlist.global AS global, department.department AS department FROM playlist, department
+        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, playlist.global AS global, department.department AS department, playlist.screenOrientation AS screenOrientation FROM playlist, department
 	WHERE playlist.departmentIDfk = department.ID AND department.ID = $deptId  ORDER BY department ASC, playlist.global DESC, playlist.active DESC ,playlist.name ASC";
         $rows = $this->select_query($query);
 
@@ -150,7 +150,7 @@ class Database
 
     public function getActivePlaylistsByDeptID($deptId)
     {
-        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, playlist.global AS global, department.department AS department FROM playlist, department
+        $query = "SELECT playlist.ID AS ID, playlist.name AS name, playlist.active AS active, playlist.global AS global, department.department AS department, playlist.screenOrientation AS screenOrientation  FROM playlist, department
 	WHERE playlist.departmentIDfk = department.ID AND department.ID = $deptId AND playlist.active = 1 ORDER BY department ASC, playlist.global DESC, playlist.active DESC ,playlist.name ASC";
         $rows = $this->select_query($query);
 
@@ -278,9 +278,9 @@ class Database
         $this->query($query);
     }
 
-    public function addPlaylist($name, $active, $departmentID)
+    public function addPlaylist($name, $active, $departmentID, $screenOrientation)
     {
-        $query = "INSERT INTO playlist(ID, name, active, global, departmentIDfk) VALUE (NULL, '$name', $active , 0, $departmentID)";
+        $query = "INSERT INTO playlist(ID, name, active, global, departmentIDfk, screenOrientation) VALUE (NULL, '$name', $active , 0, $departmentID, $screenOrientation)";
         $this->query($query);
         return mysqli_insert_id($this->link);
     }
@@ -397,88 +397,16 @@ class Database
         $this->query($query);
     }
 
-    public function editPlaylist($id, $name, $active, $global)
+    public function editPlaylist($id, $name, $active, $global, $screenOrientation)
     {
         if ($global) {
-            $query = "UPDATE playlist SET global=0";
+            $query = "UPDATE playlist SET global=0 WHERE screenOrientation = $screenOrientation";
             $this->query($query);
         }
 
-        $query = "UPDATE playlist SET name = '$name', active = $active, global=$global WHERE ID = $id";
+        $query = "UPDATE playlist SET name = '$name', active = $active, global=$global, screenOrientation = $screenOrientation WHERE ID = $id";
         $this->query($query);
     }
-
-
-    /*
-        public function getFiledQuestions() {
-          $query = "SELECT questions.* FROM questions,types WHERE questions.typeIDfk=types.id AND types.name!='New' AND types.name!='Testing' ORDER BY date DESC";
-          $rows = $this->select_query($query);
-          return $rows;
-        }
-
-        public function getTestingQuestions() {
-          $query = "SELECT questions.* FROM questions,types WHERE questions.typeIDfk=types.id AND types.name='Testing' ORDER BY date DESC";
-          $rows = $this->select_query($query);
-          return $rows;
-        }
-
-        public function getSubjects() {
-          $query = "SELECT * FROM subjects,email WHERE subjects.emailIDfk=email.id ORDER BY subject";
-          $rows = $this->select_query($query);
-          return $rows;
-        }
-
-        public function getTypes() {
-          $query = "SELECT * FROM types ORDER BY name";
-          $rows = $this->select_query($query);
-          foreach ($rows as $row) {
-            $types[$row["id"]] = $row["name"];
-          }
-          return $types;
-        }
-
-        public function getTypeSummary() {
-          $query = "SELECT types.name, count(question) as number FROM questions,types WHERE questions.typeIDfk=types.id GROUP BY types.name";
-          $rows = $this->select_query($query);
-          foreach ($rows as $row) {
-            $summary[$row["name"]] = $row["number"];
-          }
-          return $summary;
-        }
-
-        public function getEmailList() {
-          $query = "SELECT * FROM email";
-          $rows = $this->select_query($query);
-          return $rows;
-        }
-
-        public function getAutocomplete($box,$value) {
-          if ($box == 'cat1') {
-            $box = 'category1';
-          }
-          $value .= '%';
-          $query = "SELECT name FROM $box WHERE name LIKE '$value'";
-          $rows = $this->select_query($query);
-          foreach($rows as $entry) {
-            $entries[] = $entry["name"];
-          }
-          return $entries;
-          //return $query;
-        }
-
-        // setter methods
-        public function catagorise($field,$questionID,$value) {
-          switch ($field) {
-            case 'type' : $query = "UPDATE questions SET typeIDfk = $value WHERE id = $questionID";
-                          break;
-            case 'cat1' : $query = "UPDATE questions SET cat1IDfk = $value WHERE id = $questionID";
-                          break;
-            case 'cat2' :
-                          break;
-          }
-          return $this->query($query);
-        }
-    */
 
     public function editSlide($id, $title, $text, $showTime, $imageURL, $templateName, $active, $markdownEnabled)
     {

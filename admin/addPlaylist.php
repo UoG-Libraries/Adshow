@@ -3,7 +3,7 @@ include 'db.php';
 $objDB = new Database();
 
 if (isset($_POST["formSent"]) && $_POST["formSent"] == 'yes') {
-    $playlistID = $objDB->addPlaylist($_POST["name"], $_POST["active"], $_POST["department"]);
+    $playlistID = $objDB->addPlaylist($_POST["name"], $_POST["active"], $_POST["department"], $_POST["orientation"]);
     print_r($_POST);
     if (isset($_POST['addSlide'])) {
         header("Location: addSlide.php?playlistID=$playlistID");
@@ -54,6 +54,16 @@ include 'header.php';
                         <option value="0" selected="selected">No</option>
                         <option value="1">Yes</option>
                     </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <label class="radio-inline">
+                        <input type="radio" name="orientation" id="inlineRadio1" value="0" CHECKED> Landscape
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="orientation" id="inlineRadio2" value="1"> Portrait
+                    </label>
                 </div>
             </div>
 

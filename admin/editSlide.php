@@ -29,13 +29,13 @@ while (false !== ($filename = readdir($dh))) {
 }
 $id = $_GET["id"];
 $slide = $objDB->getSlide($id)[0];
-
+$playlist = $objDB->getPlaylist($slide["playlistID"]);
 include "header.php";
 ?>
 <script src="scripts/slideController.js"></script>
 <div class="row">
     <div class="col-md-5">
-        <div class="embed-responsive embed-responsive-16by9">
+        <div class="embed-responsive <?php echo $playlist[0]['screenOrientation'] == '0' ? 'embed-responsive-16by9' : 'embed-responsive-9by16' ?>">
             <iframe class="embed-responsive-item" src=""
                     id="template-container" name="template-container"></iframe>
         </div>
