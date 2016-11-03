@@ -17,25 +17,39 @@
 	}
 	
 	var Template = function Template(name) {
-		this.name = name;
-		this.htmlUrl = "templates/?name=" + this.name;
-		this.cssUrl = "templates/" + this.name + "/style.css";
-		this.htmlContent = null;
-		this.hasLoaded = false;
-		
-		this.load = function(callback) {
-			req(this.htmlUrl, true, (function(t, c) {
-				return function(response, status) {
-					if (status == 200) {
-						t.htmlContent = response;
-						t.hasLoaded = true;
-						c();
-					} else {
-						throw new Error("Couldn't load the template HTML");
-					}
-				};
-			})(this, callback || new Function()));
-		};
+		if (name != "_delete") {
+			this.name = name;
+			this.htmlUrl = "templates/?name=" + this.name;
+			this.cssUrl = "templates/" + this.name + "/style.css";
+			this.htmlContent = null;
+			this.hasLoaded = false;
+			
+			this.load = function(callback) {
+				if (this.hasLoaded) {
+					callback();
+					return;
+				}
+				
+				req(this.htmlUrl, true, (function(t, c) {
+					return function(response, status) {
+						if (status == 200) {
+							t.htmlContent = response;
+							t.hasLoaded = true;
+							c();
+						} else {
+							throw new Error("Couldn't load the template HTML");
+						}
+					};
+				})(this, callback || new Function()));
+			};
+		} else {
+			this.name = null;
+			this.htmlUrl = null;
+			this.cssUrl = null;
+			this.htmlContent = null;
+			this.hasLoaded = true;
+			this.load = function(c) { c(); };
+		}
 	};
 	
 	var usedTemplatesCount = 0;
@@ -75,9 +89,18 @@
 		} catch (_) {  }
 		
 		this.load = function load(callback) {
-			if (imageURL && !imageURL.empty()) {
+			if (imageURL && !imageURL.empty() && imageURL !== "upload_files/") {
 				this.image = new Image();
-				this.image.onload = callback;
+				this.image.onload = (function(callback) {
+					return function() {
+						callback(true, event);
+					};
+				})(callback);
+				this.image.onerror = (function(callback) {
+					return function() {
+						callback(false, event);
+					};
+				})(callback);
 				this.image.src = imageURL;
 			} else 
 				callback();

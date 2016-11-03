@@ -11,7 +11,21 @@
 				PARAM	MEANING
 				1		This call returns all the screens available
 				2		Load the playlist data for a screen. Send an extra GET argument called "screen" with the ID of the screen.
-				3		Ask for any changes and return the changes, if there are some. Receives all the timestamps.
+				3		Ask for any changes and return the changes, if there are some. Receives all the timestamps, which have to have the following JSON structure:
+						{
+							<playlist ID>: {
+								<slide ID>: <slide timestamp>,
+								<...>
+							}
+						}
+						
+						Response structure:
+						[
+							[<Any changes / additions>],
+							[<Any deletions>]
+						]
+						
+						If the deletion array contains a playlist with no slides then the client should remove the whole playlist and all its slides
 				
 			Every call will return a JSON object with the information requested.
 			If a call fails, an error will be returned. The error has the following structure:
@@ -178,65 +192,169 @@
 			$globalPlaylist = $db->getGlobalPlaylist();
 			$playlist = $db->getPlaylistForScreen($screenID);
 			
-			if ($playlist != FALSE) {				
-				$localPlaylist = null;
-				if (!empty($playlist)) {
-					if ($playlist[0]['active'] == '1') {
-						$localPlaylist = $playlist[0];
-					}
+			$localPlaylist = null;
+			if (!empty($playlist)) {
+				if ($playlist[0]['active'] == '1') {
+					$localPlaylist = $playlist[0];
 				}
-				
-				if (!empty($globalPlaylist)) {
-					if ($globalPlaylist[0]['active'] == '1') {
-						$globalPlaylist = $globalPlaylist[0];
-					}
+			}
+			
+			if (!empty($globalPlaylist)) {
+				if ($globalPlaylist[0]['active'] == '1') {
+					$globalPlaylist = $globalPlaylist[0];
+				} else {
+					$globalPlaylist = NULL;
 				}
-				
-				$ret = array();
-				
-				/// **** LOCAL CHANGES ****
-				if ($localPlaylist) {
-					if (!array_key_exists($localPlaylist['ID'], $timestamps)) {
-						// screen playlist changed
-						
-						$localChanges = $db->getSlidesFromPlaylist($localPlaylist['ID']);
+			}
+			
+			$deletions = array();
+			$changes = array();
+			
+			// ******* CHANGES / ADDITIONS *******
+			
+			/// **** LOCAL CHANGES ****
+			if ($localPlaylist) {
+				if (!array_key_exists($localPlaylist['ID'], $timestamps)) {
+					// screen playlist changed
+					
+					$localChanges = $db->getSlidesFromPlaylist($localPlaylist['ID']);
+					$localPlaylist['slides'] = $localChanges;
+					
+					array_push($changes, $localPlaylist);
+				} else {
+					$localChanges = $db->getChangedSlidesForPlaylist($localPlaylist['ID'], $timestamps[$localPlaylist['ID']]);
+					
+					if ($localChanges && !empty($localChanges)) {
 						$localPlaylist['slides'] = $localChanges;
-						
-						array_push($ret, $localPlaylist);
-					} else {
-						$localChanges = $db->getChangedSlidesForPlaylist($localPlaylist['ID'], $timestamps[$localPlaylist['ID']]);
-						
-						if ($localChanges && !empty($localChanges)) {
-							$localPlaylist['slides'] = $localChanges;
-							array_push($ret, $localPlaylist);
-						} 
+						array_push($changes, $localPlaylist);
+					} 
+				}
+			}
+			
+			
+			/// **** GLOBAL CHANGES ****
+			if ($globalPlaylist) {
+				if (!array_key_exists($globalPlaylist['ID'], $timestamps)) {
+					// screen playlist changed
+					
+					$globalChanges = $db->getSlidesFromPlaylist($globalPlaylist['ID']);
+					$globalPlaylist['slides'] = $globalChanges;
+					
+					array_push($changes, $globalPlaylist);
+				} else {
+					$globalChanges = $db->getChangedSlidesForPlaylist($globalPlaylist['ID'], $timestamps[$globalPlaylist['ID']]);
+					
+					if ($globalChanges && !empty($globalChanges)) {
+						$globalPlaylist['slides'] = $globalChanges;
+						array_push($changes, $globalPlaylist);
 					}
 				}
+			}
+			
+			
+			
+			/// ******* DELETIONS *******
+			$localPlaylistHasChanged = $localPlaylist && !array_key_exists($localPlaylist['ID'], $timestamps);
+			$globalPlaylistHasChanged = $globalPlaylist && !array_key_exists($globalPlaylist['ID'], $timestamps);
+			
+			if (sizeof($timestamps) == 2) {
+				// *** REMOVE CHANGED PLAYLISTS ***
+				if ($localPlaylistHasChanged && $globalPlaylistHasChanged) {
+					// both playlist have changed => remove the old ones on the client side
+					
+					$keys = array_keys($timestamps);
+					array_push($deletions, array('ID' => $keys[0]));
+					array_push($deletions, array('ID' => $keys[1]));
+				} else if ($localPlaylistHasChanged) {
+					// The global playlist is still the same => remove the old local playlist
+					
+					array_push($deletions, array('ID' => array_keys($timestamps)[0])); // Index 0 = local playlist
+				} else if ($globalPlaylistHasChanged) {
+					// The local playlist hasn't changed => remove just the old global playlist
+					
+					array_push($deletions, array('ID' => array_keys($timestamps)[1])); // Index 1 = global playlist
+				} // else: No changes have been made so there's nothing to delete
 				
+				// *** REMOVE REMOVED PLAYLISTS ***
+				if ($localPlaylist && !$globalPlaylist) {
+					// The client still has both playlists, but the global playlist has been removed
+					
+					array_push($deletions, array('ID' => array_keys($timestamps)[1]));
+				} else if (!$localPlaylist && $globalPlaylist) {
+					// The client still has both playlists, but the local playlist has been removed
+					
+					array_push($deletions, array('ID' => array_keys($timestamps)[0]));
+				} else if (!$localPlaylist && !$globalPlaylist) {
+					// The client still has both playlists, but both have been removed
+					
+					array_push($deletions, array('ID' => array_keys($timestamps)[0]));
+					array_push($deletions, array('ID' => array_keys($timestamps)[1]));
+				}
+			} else if (sizeof($timestamps) == 1) {
+				if ($localPlaylistHasChanged && !$globalPlaylistHasChanged) {
+					// There's currently just a local playlist and it has changed => remove the old one
+					
+					if (!$globalPlaylist || array_keys($timestamps)[0] != $globalPlaylist['ID']) {
+						array_push($deletions, array('ID' => array_keys($timestamps)[0]));
+					}
+				} else if ($globalPlaylistHasChanged && !$localPlaylistHasChanged) {
+					// There's currently just a global playlist and it has changed => remove the old one
+					
+					if (!$localPlaylist || array_keys($timestamps)[0] != $localPlaylist['ID']) {
+						array_push($deletions, array('ID' => array_keys($timestamps)[0]));
+					}
+				} else if ($globalPlaylistHasChanged && $localPlaylistHasChanged) {
+					// Two new playlists have been added => remove the single one the client has
+					
+					array_push($deletions, array('ID' => array_keys($timestamps)[0]));
+				}
+			}
+			
+			if ($localPlaylist && !$localPlaylistHasChanged) {
+				// There's still the same local playlist on the server and client => check for deleted slides
 				
-				/// **** GLOBAL CHANGES ****
-				if ($globalPlaylist) {
-					if (!array_key_exists($globalPlaylist['ID'], $timestamps)) {
-						// screen playlist changed
-						
-						$globalChanges = $db->getSlidesFromPlaylist($globalPlaylist['ID']);
-						$globalPlaylist['slides'] = $globalChanges;
-						
-						array_push($ret, $globalPlaylist);
-					} else {
-						$globalChanges = $db->getChangedSlidesForPlaylist($globalPlaylist['ID'], $timestamps[$globalPlaylist['ID']]);
-						
-						if ($globalChanges && !empty($globalChanges)) {
-							$globalPlaylist['slides'] = $globalChanges;
-							array_push($ret, $globalPlaylist);
+				$slideDeletions = $db->getRemovedSlidesForPlaylist($localPlaylist['ID'], $timestamps[$localPlaylist['ID']]);
+				if (!empty($slideDeletions)) {
+					$playlist = array('ID' => $localPlaylist['ID'], 'slides' => $slideDeletions);
+					array_push($deletions, $playlist);
+				}
+			} 
+			if ($globalPlaylist && !$globalPlaylistHasChanged) {
+				$slideDeletions = $db->getRemovedSlidesForPlaylist($globalPlaylist['ID'], $timestamps[$globalPlaylist['ID']]);
+				if (!empty($slideDeletions)) {
+					$playlist = array('ID' => $globalPlaylist['ID'], 'slides' => $slideDeletions);
+					array_push($deletions, $playlist);
+				}
+			}
+			
+			
+			/*if ($localPlaylist) {
+				if (!array_key_exists($localPlaylist['ID'], $timestamps)) {
+					// Current local playlist has changed => remove old one
+					
+					$globalPlaylistHasChanged = $globalPlaylist && !array_key_exists($globalPlaylist['ID'], $timestamps);
+					
+					if (sizeof($timestamps) == 2) {
+						if ($globalPlaylistHasChanged) {
+							// remove both playlists, because the new ones will be added
+							
+							$keys = array_keys($timestamps);
+							array_push($deletions, array('ID' => $keys[0]));
+							array_push($deletions, array('ID' => $keys[1]));
+						} else {
+							// Just the local playlist has changed
+							
+							array_push($deletions, array('ID' => array_keys($timestamps)[0])); // Index 0 = local playlist
 						}
 					}
 				}
-				
-				complete(HTTPStatusCode::Ok, $ret);
-			} else {
-				complete(HTTPStatusCode::InternalError, errObj('Can\'t get the new playlist/slides', 'The database returned an error', ErrorCodes::UNEXPECTED_ERROR));
 			}
+			
+			if ($globalPlaylist) {
+				
+			}*/
+			
+			complete(HTTPStatusCode::Ok, array($changes, $deletions));
 			break;
 		
 		default:

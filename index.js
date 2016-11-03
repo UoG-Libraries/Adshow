@@ -159,12 +159,12 @@ function updateLoop() {
 				continue; // Don't send the splash screen timestamp to the API
 				
 			var playlist = playlists[i];
-			timestamps[playlist.id] = {};
+			timestamps[playlist.id.toString()] = {};
 			
 			for (var j in playlist.slides) {
 				var slide = playlist.slides[j];
 				var time = slide.timestamp;
-				timestamps[playlist.id][slide.id] = (
+				timestamps[playlist.id.toString()][slide.id.toString()] = (
 					  time.getFullYear() + "-" 
 					+ (time.getMonth() + 1) + "-" 
 					+ leadingZero(time.getDate()) + " " 
@@ -184,12 +184,84 @@ function updateLoop() {
 					var playlistsAdded = 0;
 					var slidesAdded = 0;
 					var slidesChanged = 0;
-					
-					console.log(response);
+					var playlistsDeleted = 0;
+					var slidesDeleted = 0;
 					// END DEBUGGING
 					
-					for (var i in response) {
-						var list = response[i];
+					var changes = response[0];
+					var deletions = response[1];
+					
+					var executionContinued = false;
+					var continueExecution = function() {
+						if (executionContinued)
+							return;
+						
+						executionContinued = true;
+						for (var i in deletions) {
+							var list = deletions[i];
+							try {
+								var removingPlaylist = new Playlist(list);
+								var index = getPlaylistIndexWithPlaylistID(removingPlaylist.id);
+								if (index < 0) {
+									console.error("Can't remove content of the playlist '" + removingPlaylist.id + "', because the client isn't displaying a playlist with this id");
+									continue;
+								}
+								
+								var currentPlaylist = playlists[index];							
+								if (removingPlaylist.slides.length == 0) {
+									// If the playlist in the remove array contains no slides, it means that the client has to remove the whole playlist
+									
+									playlists.splice(index, 1);
+									playlistsDeleted++;
+								} else {
+									// Remove some slides of playlist
+									
+									for (var j in removingPlaylist.slides) {
+										var removingSlide = removingPlaylist.slides[j];
+										var slideIndex = getSlideIndexOfPlaylistWithSlideID(currentPlaylist, removingSlide.id);
+										
+										if (slideIndex < 0) {
+											console.error("Can't remove slide because there was an attempt to remove a slide which the slide doesn't event display");
+											console.log("Slide that would have been removed:");
+											console.log(removingSlide);
+											continue;
+										}
+										
+										currentPlaylist.slides.splice(slideIndex, 1);
+										slidesDeleted++;
+									}
+								}
+							} catch (e) {
+								console.error("Can't delete some content");
+								console.dir(e);
+							}
+						}
+						
+						// DEBUGGING:
+						var summary = "";
+						if (playlistsAdded > 0) {
+							summary += playlistsAdded + " playlist" + (playlistsAdded == 1 ? "" : "s") + " added, ";
+						} 
+						if (slidesAdded > 0) {
+							summary += slidesAdded + " slide" + (slidesAdded == 1 ? "" : "s") + " added, ";
+						}
+						if (slidesChanged > 0) {
+							summary += slidesChanged + " slide" + (slidesChanged == 1 ? "" : "s") + " changed, ";
+						}
+						if (playlistsDeleted > 0) {
+							summary += playlistsDeleted + " playlist" + (playlistsDeleted == 1 ? "" : "s") + " deleted, ";
+						}
+						if (slidesDeleted > 0) {
+							summary += slidesDeleted + " slide" + (slidesDeleted == 1 ? "" : "s") + " deleted, ";
+						}
+						if (summary.length > 0) {
+							console.info(summary.substr(0, summary.length - 2));
+						}
+						// END DEBUG
+					};
+					
+					for (var i in changes) {
+						var list = changes[i];
 						try {
 							var newPlaylist = new Playlist(list);
 							var index = getPlaylistIndexWithPlaylistID(newPlaylist.id);
@@ -200,7 +272,7 @@ function updateLoop() {
 									var newSlide = newPlaylist.slides[j];
 									var slideIndex = getSlideIndexOfPlaylistWithSlideID(oldPlaylist, newSlide.id);
 																		
-									newSlide.load(function() {
+									newSlide.load(function(didWork, event) {
 										if (slideIndex >= 0) {
 											if (!newSlide.template.hasLoaded) {
 												newSlide.template.load(function() {
@@ -224,8 +296,16 @@ function updateLoop() {
 										}
 									});
 								}
+								
+								continueExecution();
 							} else {
 								playlists.push(newPlaylist);
+								
+								newPlaylist.preload(function() {
+									loadAllTemplates(function() {
+										continueExecution();
+									});
+								});
 								
 								playlistsAdded++; // DEBUG
 							}
@@ -235,21 +315,8 @@ function updateLoop() {
 						}
 					}
 					
-					// DEBUGGING:
-					var summary = "";
-					if (playlistsAdded > 0) {
-						summary += playlistsAdded + " playlist" + (playlistsAdded == 1 ? "" : "s") + " added, ";
-					} 
-					if (slidesAdded > 0) {
-						summary += slidesAdded + " slide" + (slidesAdded == 1 ? "" : "s") + " added, ";
-					}
-					if (slidesChanged > 0) {
-						summary += slidesChanged + " slide" + (slidesChanged == 1 ? "" : "s") + " changed, ";
-					}
-					if (summary.length > 0) {
-						console.info(summary.substr(0, summary.length - 2));
-					}
-					// END DEBUG
+					if (!executionContinued)
+						continueExecution();
 				}
 			} else {
 				console.group("Can't update changed playlists");
