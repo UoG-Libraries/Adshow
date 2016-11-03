@@ -21,7 +21,7 @@
 	}
 		
 	// NORMAL EDIT FORM
-	$requiredValues = array('sNumb', 'dept', 'permission');
+	$requiredValues = array('sNumb', 'dept', 'permission', 'global');
 	$complete = TRUE;
 	foreach ($requiredValues as $value) {
 		if (!isset($_POST[$value])) {
@@ -33,6 +33,7 @@
 		$sNumb = $_POST['sNumb'];
 		$dept = $_POST['dept'];
 		$permission = $_POST['permission'];
+		$global = $_POST['global'];
 		
 		if (!$currentUser->isSuperadmin()) {
 			if ($dept != $currentUser->getDepartmentID()) {
@@ -42,27 +43,19 @@
 			}
 		}
 		
-		$sNumb = $_POST['sNumb'];
-		$dept = $_POST['dept'];
-		$permission = $_POST['permission'];
-		
 		$user = User::getUserWithSNumber($sNumb);
 		$user->updateDepartment($dept);
 		$user->updatePermission($permission);
+		
+		if ($currentUser->isSuperadmin()) {
+			$user->updateCanEditGlobalPlaylists($global === '1');
+		}
 		
 		if ($user->commitChanges()) {
 			header('Location: editors.php');
 			die('Successfully updated user');
 		} else {
-			include_once 'header.php';
-			?>
-				<div>
-					<h2>An error occurred</h2>
-					<p>We're sorry, but your request couldn't be performed</p>
-					<p>Please try again later and if the error still occurs, feel free to inform IT about it.</p>
-				</div>
-			<?php
-			include_once 'footer.php';
+			displayError("An error occurred", "We're sorry, but your request couldn't be performed", "Please try again later and if the error still occurs, feel free to inform IT about it.");
 		}
 	}
 		
@@ -93,7 +86,7 @@
 		echo "<p>$msg</p>";
 		echo "<p>$msg2</p>";
 		echo "</div>";*/
-		echo <<<'EOT'
+		echo <<<EOT
 <div>
 	<h2>$title</h2>
 	<p>$msg</p>
@@ -129,7 +122,7 @@ $userSNumb = $_GET['sNumb'];
 			"use strict";
 			
 			window.addEventListener("load", function() {
-				var ids = ["dept", "permission"];
+				var ids = ["dept", "permission", "global"];
 				var changed = false;
 				
 				ids.forEach(function(itm) {
@@ -182,9 +175,20 @@ $userSNumb = $_GET['sNumb'];
 				        </select>
 				    </div>
 				</div>
+				
+				<div class="form-group">
+				    <label for="global" class="col-sm-2 control-label">Global Editor</label>
+				    <div class="col-sm-10">
+				        <select name="global" id="global" class="form-control">
+				            <option value="1">Yes</option>
+				            <option value="0" <?php echo !$user->canEditGlobalPlaylists ? 'selected' : ''; ?>>No</option> 
+				        </select>
+				    </div>
+				</div>
             <?php
 	            } else {
 		            echo "<input type='hidden' name='dept' value='".$currentUser->getDepartmentID()."' />";
+		            echo "<input type='hidden' name='global' value='".($currentUser->canEditGlobalPlaylists ? '1' : '0')."' />";
 	            }
 	        ?>
 

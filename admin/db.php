@@ -210,7 +210,7 @@ ORDER BY department ASC, playlist.global DESC, playlist.active DESC, playlist.na
             $addition = " AND user.departmentIDfk=$filterByDeptID";
         }
 
-        $query = "SELECT user.ID, user.sNumber, user.firstname, user.lastname, user.owner, department.department, user.permission FROM user JOIN department WHERE user.departmentIDfk=department.ID$addition ORDER BY user.permission DESC, department.department ASC, user.firstname ASC ";
+        $query = "SELECT user.ID, user.sNumber, user.firstname, user.lastname, user.owner, department.department, user.permission, user.global FROM user JOIN department WHERE user.departmentIDfk=department.ID$addition ORDER BY user.permission DESC, department.department ASC, user.firstname ASC ";
         return $this->select_query($query);
     }
 
