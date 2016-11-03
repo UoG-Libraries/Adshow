@@ -36,7 +36,7 @@
 				}
 	*/
 	
-	include_once 'admin/db.php';
+	include_once 'db.php';
 	include_once 'httpCodes.php';
 	
 	class HTTPStatusCode {
