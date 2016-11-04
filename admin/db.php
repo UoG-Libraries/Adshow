@@ -485,7 +485,7 @@ ORDER BY department ASC, playlist.global DESC, playlist.active DESC, playlist.na
 
     public function setActiveStatusOfSlide($id, $active)
     {
-        $query = "UPDATE slide SET active = $active WHERE ID = $id";
+        $query = "UPDATE slide SET active = $active, timestamp = NULL WHERE ID = $id";
         $this->query($query);
     }
 }
