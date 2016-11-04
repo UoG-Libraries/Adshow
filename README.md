@@ -15,8 +15,10 @@ app_name = REPLACE
 [database]
 db_host = REPLACE
 db_name = adshow
-db_user = REPLACE
+db_user = REPLACE (read & write access)
 db_pwd = REPLACE
+db_user_ro = REPLACE (read access)
+db_pwd_ro = REPLACE
 ```
 
 ### Database
@@ -27,4 +29,4 @@ Create the database from the `adshow-sql-structure.sql` located in the documenta
 TODO
 
 ## Credits
-Version 1.0.0 done by: **The Swiss guys**
+Version 1.0.0 done by: **The Swiss guys** (Laura Belsanti, Lukas Bischof, Raphael Jenni)

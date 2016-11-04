@@ -44,7 +44,11 @@
     height: inherit;
     padding-top: 5%;
     padding-bottom: 5%;
-    font-size: 2em;
+    font-size: 3em;
+}
+
+.green-right-text-template .main-section li {
+    padding: 10px 0;
 }
 
 .green-right-text-template .main-section .divider {

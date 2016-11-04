@@ -37,19 +37,14 @@ class Database
         }
     }
 
-    private function query($query)
+    public function getScreensList()
     {
-        if (!$this->link) {
-            $this->connect();
-        }
-        return mysqli_query($this->link, $query);
+        $query = "SELECT screen.ID, screen.location, screen.departmentIDfk AS departmentID, department.department, playlist.name AS playlistName FROM (screen, department) LEFT JOIN playlist ON playlist.ID = screen.playlistIDfk WHERE screen.departmentIDfk = department.ID ORDER BY department.department ASC, screen.location ASC";
+        $rows = $this->select_query($query);
+
+        return $rows;
     }
 
-    private function connect()
-    {
-        $this->link = mysqli_connect($this->ini["db_host"], $this->ini["db_user_ro"], $this->ini["db_pwd_ro"], $this->ini["db_name"]);
-    }
-    
     private function select_query($query)
     {
         if (!$this->link) {
@@ -63,58 +58,56 @@ class Database
         return $rows;
     }
 
+    private function connect()
+    {
+        $this->link = mysqli_connect($this->ini["db_host"], $this->ini["db_user_ro"], $this->ini["db_pwd_ro"], $this->ini["db_name"]);
+    }
+
 
     /* public methods
      *****************/
 
     // getter methods
-    public function getScreensList()
-    {
-        $query = "SELECT screen.ID, screen.location, screen.departmentIDfk AS departmentID, department.department, playlist.name AS playlistName FROM (screen, department) LEFT JOIN playlist ON playlist.ID = screen.playlistIDfk WHERE screen.departmentIDfk = department.ID ORDER BY department.department ASC, screen.location ASC";
-        $rows = $this->select_query($query);
 
-        return $rows;
-    }
-    
     public function getGlobalPlaylistForScreen($screenID)
     {
         $query = "SELECT * FROM playlist WHERE `global`=1 AND screenOrientation=(SELECT orientation FROM screen WHERE ID=$screenID)";
         return $this->select_query($query);
     }
-    
+
     public function getPlaylistForScreen($id)
     {
         $query = "SELECT * FROM playlist WHERE ID=(SELECT playlistIDfk FROM screen WHERE ID=$id)";
         return $this->select_query($query);
     }
-    
+
     public function getSlidesFromPlaylist($playlistID)
     {
         $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `markdownEnabled`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\", `markdownEnabled` as \"mdEnabled\" FROM slide WHERE playlistID = $playlistID";
         return $this->select_query($query);
     }
-    
+
     public function getRemovedSlidesForPlaylist($playlistID, $timestamps)
     {
         $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\", `markdownEnabled` as \"mdEnabled\" FROM slide WHERE `playlistID`=$playlistID";
         $result = $this->select_query($query);
-		$return = array();
-		
-		$currentSlideIDs = array();
+        $return = array();
+
+        $currentSlideIDs = array();
         if (!empty($result)) {
-	        foreach ($result as $slide) {
-		        $currentSlideIDs[] = $slide['ID'];
-	        }
-	        
-	        foreach ($timestamps as $slideId => $timestamp) {
-		        if (!in_array($slideId, $currentSlideIDs)) {
-			        $return[] = array('ID' => $slideId, 'timestamp' => $timestamp, 'templateName' => '_delete');
-		        }
-	        }
-	    }
-	    
-	    return $return;
-	}
+            foreach ($result as $slide) {
+                $currentSlideIDs[] = $slide['ID'];
+            }
+
+            foreach ($timestamps as $slideId => $timestamp) {
+                if (!in_array($slideId, $currentSlideIDs)) {
+                    $return[] = array('ID' => $slideId, 'timestamp' => $timestamp, 'templateName' => '_delete');
+                }
+            }
+        }
+
+        return $return;
+    }
 
     public function getChangedSlidesForPlaylist($playlistID, $timestamps)
     {
@@ -151,11 +144,9 @@ class Database
                 $return[] = $result[0];
             }
         }
-        
+
         return $return;*/
     }
-    
-    
 
     public function getPlaylist($id)
     {
@@ -182,6 +173,14 @@ class Database
     public function execSQL($sql)
     {
         return $this->query($sql);
+    }
+
+    private function query($query)
+    {
+        if (!$this->link) {
+            $this->connect();
+        }
+        return mysqli_query($this->link, $query);
     }
 }
 

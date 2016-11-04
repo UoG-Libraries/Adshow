@@ -46,7 +46,11 @@
     border-right: solid 2vw;
     padding-top: 5%;
     padding-bottom: 5%;
-    font-size: 2em;
+    font-size: 3em;
+}
+
+.green-left-text-template .main-section li {
+    padding: 10px 0;
 }
 
 .green-left-text-template .main-section .image-section {

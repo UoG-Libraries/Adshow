@@ -111,12 +111,12 @@ $_SESSION["nav"]["callingpage"] = $page;
     </div><!-- /.container-fluid -->
 </nav>
 <?php
-	include_once 'user.php';
-	if (!User::userExists($_SESSION['sNumber'])) {
-		include_once 'notAnEditor.php';
-		include_once 'footer.php';
-		die();
-	}
+include_once 'user.php';
+if (!User::userExists($_SESSION['sNumber'])) {
+    include_once 'notAnEditor.php';
+    include_once 'footer.php';
+    die();
+}
 ?>
 <div class="container-fluid">
     <?php include 'navigation.php'; ?>

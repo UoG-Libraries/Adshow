@@ -40,7 +40,7 @@ include 'header.php';
                 </a>
             </td>
             <td class="col-md-1 hidden-xs">
-                <a href="setPlaylistForScreen.php?id=<?php echo $screen["ID"] ?>&dept=<?php echo $screen["departmentID"]?>">
+                <a href="setPlaylistForScreen.php?id=<?php echo $screen["ID"] ?>&dept=<?php echo $screen["departmentID"] ?>">
                                 <span class="glyphicon glyphicon-th-list" aria-hidden="true"
                                       title="View playlists for this screen"></span>
                 </a>
@@ -67,7 +67,7 @@ include 'header.php';
                    </a>
                    </li>
                    <li class='list-group-item'>
-                       <a href='setPlaylistForScreen.php?id=<?php echo $screen["ID"] ?>&dept=<?php echo $screen["departmentID"]?>'>
+                       <a href='setPlaylistForScreen.php?id=<?php echo $screen["ID"] ?>&dept=<?php echo $screen["departmentID"] ?>'>
                                    <span class='glyphicon glyphicon-th-list' aria-hidden='true'
                                          title='View playlists for this screen'></span>
                        </a>

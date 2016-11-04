@@ -2,19 +2,19 @@
     font-family: Arial, sans-serif;
 }
 
-.fullscreen-banner-template .fullscreen{
+.fullscreen-banner-template .fullscreen {
     width: 100%;
     height: 100%;
 }
 
-.fullscreen-banner-template .fullscreen img{
+.fullscreen-banner-template .fullscreen img {
     display: block;
     margin: 0 auto;
     height: 100vh;
     width: 100vw;
 }
 
-.fullscreen-banner-template .banner{
+.fullscreen-banner-template .banner {
     position: absolute;
     bottom: 5%;
     padding: 20px 0;
@@ -22,7 +22,7 @@
     width: 100%;
 }
 
-.fullscreen-banner-template .banner h1{
+.fullscreen-banner-template .banner h1 {
     text-align: center;
     font-weight: bold;
 }

@@ -7,7 +7,7 @@ include 'header.php';
 ?>
 
 <div>
-  <h2>Adshow Summary</h2>
+    <h2>Adshow Summary</h2>
     <ul class="list-group">
         <li class="list-group-item">
             <span class="badge"><?php echo $summary["Department"] ?></span>
@@ -27,7 +27,7 @@ include 'header.php';
         </li>
     </ul>
 
-<!--    <h2>Current slide</h2>-->
+    <!--    <h2>Current slide</h2>-->
 </div>
 <?php
 include 'footer.php';

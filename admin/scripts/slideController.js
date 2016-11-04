@@ -67,7 +67,7 @@ vm.updatePreview = function () {
     if (text) {
         var isMarkdownEnabled = document.getElementById("enableMarkdown").checked;
         var htmlText = isMarkdownEnabled ? converter.makeHtml(textValue) : textValue;
-        htmlText = htmlText.replace("<table", "<table class='table' ");
+        htmlText = htmlText.replace(/\<table/mg, "<table class='table' ");
         text.innerHTML = htmlText;
     }
 

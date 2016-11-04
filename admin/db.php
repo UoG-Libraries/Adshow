@@ -225,28 +225,28 @@ ORDER BY department ASC, playlist.global DESC, playlist.active DESC, playlist.na
         $query = 'SELECT * FROM playlist WHERE `global`=1';
         return $this->select_query($query);
     }
-    
+
     public function getRemovedSlidesForPlaylist($playlistID, $timestamps)
     {
         $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\", `markdownEnabled` as \"mdEnabled\" FROM slide WHERE `playlistID`=$playlistID";
         $result = $this->select_query($query);
-		$return = array();
-		
-		$currentSlideIDs = array();
+        $return = array();
+
+        $currentSlideIDs = array();
         if (!empty($result)) {
-	        foreach ($result as $slide) {
-		        $currentSlideIDs[] = $slide['ID'];
-	        }
-	        
-	        foreach ($timestamps as $slideId => $timestamp) {
-		        if (!in_array($slideId, $currentSlideIDs)) {
-			        $return[] = array('ID' => $slideId, 'timestamp' => $timestamp, 'templateName' => '_delete');
-		        }
-	        }
-	    }
-	    
-	    return $return;
-	}
+            foreach ($result as $slide) {
+                $currentSlideIDs[] = $slide['ID'];
+            }
+
+            foreach ($timestamps as $slideId => $timestamp) {
+                if (!in_array($slideId, $currentSlideIDs)) {
+                    $return[] = array('ID' => $slideId, 'timestamp' => $timestamp, 'templateName' => '_delete');
+                }
+            }
+        }
+
+        return $return;
+    }
 
     public function getChangedSlidesForPlaylist($playlistID, $timestamps)
     {

@@ -4,7 +4,7 @@
  * Date: 26/10/2016
  */
 
-ini_set('display_errors',1);
+ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 $file_formats = array("jpg", "png", "gif", "bmp"); // Set File format
@@ -20,7 +20,7 @@ if (isset($_POST['submitbtn']) && $_POST['submitbtn'] == "Upload") {
                 $imagename = md5(uniqid() . time()) . "." . $extension;
                 $tmp = $_FILES['imagefile']['tmp_name'];
                 if (move_uploaded_file($tmp, $filepath . $imagename)) {
-                    echo '<input type="hidden" id="uploaded_image_name" value="'.$imagename . '" />';
+                    echo '<input type="hidden" id="uploaded_image_name" value="' . $imagename . '" />';
                     echo '<script>updateImagePath();</script>';
                 } else {
                     echo "Could not move the file.";
