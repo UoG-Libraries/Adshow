@@ -95,8 +95,8 @@
             if (imageURL && !imageURL.empty() && imageURL !== "upload_files/") {
                 this.image = new Image();
                 this.image.onload = (function (callback) {
-                    return function () {
-                        callback(true, event);
+                    return function (e) {
+                        callback(true, e);
                     };
                 })(callback);
                 this.image.onerror = (function (callback) {
