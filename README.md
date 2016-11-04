@@ -29,4 +29,5 @@ Open an issue to suggest improvements or report bugs.  You can also fork the pro
 
 ## Credits
 Vesion 0.1.0 Prototype created by [Paul Griffiths](https://github.com/alleycat58uk)
+
 Version 1.0.0 done by: **The Swiss guys** ([Laura Belsanti](https://github.com/lbelsanti), [Lukas Bischof](https://github.com/lukasbischof), [Raphael Jenni](https://github.com/RaphaelJenni))
