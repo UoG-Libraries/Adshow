@@ -68,32 +68,6 @@ $_SESSION["nav"]["callingpage"] = $page;
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="/">Home</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Enquiries<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><!--suppress HtmlUnknownTarget -->
-                            <a href="/tally/tally.php">Digital tally</a></li>
-                        <li><a href="https://helpdesk.glos.ac.uk/Sostenuto/SUsers/" target="_blank">Enquiry
-                                tracker</a></li>
-                        <li><a href="https://helpdeskapps.glos.ac.uk/hub/index.aspx" target="_blank">Knowledge
-                                base</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Statistics<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="http://elisit.glos.ac.uk">View dashboard</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><!--suppress HtmlUnknownTarget -->
-                            <a href="/statistics/head-count.php">Add head count</a></li>
-                        <li><!--suppress HtmlUnknownTarget -->
-                            <a href="/statistics/gate-count.php">Add gate count</a></li>
-                        <li><!--suppress HtmlUnknownTarget -->
-                            <a href="/statistics/training.php">Add training</a></li>
-                    </ul>
-                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -102,8 +76,9 @@ $_SESSION["nav"]["callingpage"] = $page;
                             class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#" data-toggle="modal" data-target="#profileModal">Profile</a></li>
-                        <li><!--suppress HtmlUnknownTarget -->
-                            <a href="/logout.php">Log out</a></li>
+                        <li>
+                            <a href="/logout.php">Log out</a>
+			</li>
                     </ul>
                 </li>
             </ul>
