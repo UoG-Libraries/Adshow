@@ -7,7 +7,7 @@ Primarily designed for our in-house needs at the University of Gloucestershire, 
 ## Setup
 
 ### app.ini
-Add the `app.ini` file to the root of the project. The file have to contain this fields: 
+Add the `app.ini` file to the root of the project and complete the following fields: 
 ```
 [application]
 app_name = REPLACE
@@ -25,8 +25,8 @@ db_pwd_ro = REPLACE
 Create the database from the `adshow-sql-structure.sql` located in the documentation folder.
 
 ## Contribute
-
-TODO
+Open an issue to suggest improvements or report bugs.  You can also fork the project, amend the code and submit a pull request related to an issue.
 
 ## Credits
-Version 1.0.0 done by: **The Swiss guys** (Laura Belsanti, Lukas Bischof, Raphael Jenni)
+Vesion 0.1.0 Prototype created by [Paul Griffiths](https://github.com/alleycat58uk)
+Version 1.0.0 done by: **The Swiss guys** ([Laura Belsanti](https://github.com/lbelsanti), [Lukas Bischof](https://github.com/lukasbischof), [Raphael Jenni](https://github.com/RaphaelJenni))
