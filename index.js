@@ -357,26 +357,10 @@ function presentationLoop() {
         try {
             $("#presentation #" + id + " #title").innerHTML = slide.title;
         } catch (e) {
-            if (errMsgCount < 10) {
-                console.group("Can't display slide");
-                console.error("Can't replace the title of the slide");
-                console.error(e);
-                console.groupEnd();
-            }
-
-            errMsgCount++;
         }
         try {
             $("#presentation #" + id + " #text").innerHTML = slide.hasMarkdown ? converter.makeHtml(slide.text).replace(/\<table/mg, "<table class='table' ") : slide.text;
         } catch (e) {
-            if (errMsgCount < 10) {
-                console.group("Can't fully display slide");
-                console.info("Can't replace the content of the slide");
-                console.log(e);
-                console.groupEnd();
-            }
-
-            errMsgCount++;
         }
 
         if (slide.image) {
