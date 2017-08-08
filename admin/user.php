@@ -52,10 +52,10 @@ class User
     public $sNumber;
     public $department;
     public $permission;
-        public $isOwner; // For reuse
-public $db;
-        public $canEditGlobalPlaylists; // Tracking changes for MySQL Query
-private $changes = array();
+	public $isOwner; // For reuse
+	public $db;
+	public $canEditGlobalPlaylists; // Tracking changes for MySQL Query
+	private $changes = array();
 
     public function __construct()
     {
