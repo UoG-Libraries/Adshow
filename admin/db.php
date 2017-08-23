@@ -24,6 +24,9 @@ class Database
     function __construct()
     {
         $this->ini = parse_ini_file('../app.ini');
+	    if (!$this->link) {
+		    $this->connect();
+	    }
     }
 
 
@@ -314,7 +317,8 @@ ORDER BY department ASC, playlist.global DESC, playlist.active DESC, playlist.na
 
     public function addPlaylist($name, $active, $departmentID, $screenOrientation)
     {
-        $query = "INSERT INTO playlist(ID, name, active, global, departmentIDfk, screenOrientation) VALUE (NULL, '$name', $active , 0, $departmentID, $screenOrientation)";
+    	$name_clean = mysqli_real_escape_string($this->link,$name);
+        $query = "INSERT INTO playlist(ID, name, active, global, departmentIDfk, screenOrientation) VALUE (NULL, '$name_clean', $active , 0, $departmentID, $screenOrientation)";
         $this->query($query);
         return mysqli_insert_id($this->link);
     }
@@ -441,8 +445,8 @@ ORDER BY department ASC, playlist.global DESC, playlist.active DESC, playlist.na
             $query = "UPDATE screen SET playlistIDfk = NULL WHERE orientation = $screenOrientation AND playlistIDfk = $id";
             $this->query($query);
         }
-
-        $query = "UPDATE playlist SET name = '$name', active = $active, global=$global, screenOrientation = $screenOrientation WHERE ID = $id";
+		$name_clean = mysqli_real_escape_string($this->link,$name);
+        $query = "UPDATE playlist SET name = '$name_clean', active = $active, global=$global, screenOrientation = $screenOrientation WHERE ID = $id";
         $this->query($query);
     }
 
