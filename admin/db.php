@@ -321,7 +321,9 @@ ORDER BY department ASC, playlist.global DESC, playlist.active DESC, playlist.na
 
     public function addUser($sNumber, $isOwner, $deptIDfk, $permission, $firstname, $lastname)
     {
-        $query = "INSERT INTO user (sNumber, owner, departmentIDfk, permission, firstname, lastname) VALUES ('$sNumber', $isOwner, $deptIDfk, $permission, '$firstname', '$lastname')";
+    	$firstname_clean = mysqli_real_escape_string($this->link,$firstname);
+    	$lastname_clean = mysqli_real_escape_string($this->link,$lastname);
+        $query = "INSERT INTO user (sNumber, owner, departmentIDfk, permission, firstname, lastname) VALUES ('$sNumber', $isOwner, $deptIDfk, $permission, '$firstname_clean', '$lastname_clean')";
         return $this->query($query) === TRUE;
     }
 
