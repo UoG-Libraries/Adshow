@@ -4,7 +4,7 @@
  * author:        lukas bischof
  *
  * created:       03.11.16
- * last modified: 
+ * last modified: 23.08.17
  *
  * description:   class to handle database connection and interaction.
  */
@@ -111,42 +111,27 @@ class Database
 
     public function getChangedSlidesForPlaylist($playlistID, $timestamps)
     {
-        $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\", `markdownEnabled` as \"mdEnabled\" FROM slide WHERE `playlistID`=$playlistID";
-        $result = $this->select_query($query);
-        $return = array();
+	    $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\", `markdownEnabled` as \"mdEnabled\" FROM slide WHERE `playlistID`=$playlistID";
+	    $result = $this->select_query($query);
+	    $return = array();
 
-        if (!empty($result)) {
-            foreach ($result as $slide) {
-                if (array_key_exists($slide['ID'], $timestamps)) {
-                    $timestamp = strtotime($timestamps[$slide['ID']]);
-                    $slideTimestamp = strtotime($slide['timestamp']);
+	    if (!empty($result)) {
+		    foreach ($result as $slide) {
+			    if (array_key_exists($slide['ID'], $timestamps)) {
+				    $timestamp = strtotime($timestamps[$slide['ID']]);
+				    $slideTimestamp = strtotime($slide['timestamp']);
+				    if ($slideTimestamp > $timestamp) {
+					    $return[] = $slide;
+				    }
+			    }
+		    }
+	    } else {
+		    return array();
+	    }
 
-                    if ($slideTimestamp > $timestamp && $slide['active']) {
-                        $return[] = $slide;
-                    }
-                } else {
-                    if ($slide['active']) {
-                        $return[] = $slide;
-                    }
-                }
-            }
-        } else {
-            return array();
-        }
-
-        return $return;
-
-        /*$return = array();
-        foreach ($timestamps as $slideID => $timestamp) {
-            $query = "SELECT `ID`, `active`, `title`, `text`, `playtime`, `templateName`, `playlistID`, `changed`, `imageURL`, DATE_FORMAT(`timestamp`, '%Y-%m-%dT%H:%i:%s.000') as \"timestamp\" FROM slide WHERE `timestamp`>'$timestamp' AND `playlistID`=$playlistID AND `ID`=$slideID";
-            $result = $this->select_query($query);
-            if (!empty($result)) {
-                $return[] = $result[0];
-            }
-        }
-
-        return $return;*/
+	    return $return;
     }
+
 
     public function getPlaylist($id)
     {
