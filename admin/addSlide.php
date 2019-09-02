@@ -29,6 +29,7 @@ while (false !== ($filename = readdir($dh))) {
         $templateDirs[] = $filename;
     }
 }
+sort($templateDirs);
 $playlist = $objDB->getPlaylist($_GET["playlistID"]);
 include "header.php";
 ?>

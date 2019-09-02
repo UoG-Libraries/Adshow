@@ -27,6 +27,7 @@ while (false !== ($filename = readdir($dh))) {
         $templateDirs[] = $filename;
     }
 }
+sort($templateDirs);
 $id = $_GET["id"];
 $slide = $objDB->getSlide($id)[0];
 $playlist = $objDB->getPlaylist($slide["playlistID"]);
